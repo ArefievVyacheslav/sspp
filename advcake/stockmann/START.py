@@ -15,19 +15,19 @@ def start():
         'first': f'Начало сбора в {start_date.hour}:{start_date.minute}:{start_date.second}'
     }
     db_write('products')
+    db_write('status', status, 'create')
     product_links_data = get_product_links()
     product_links = product_links_data['product_links']
-    status['second'] = product_links_data['status']
+    db_write('status', [ 'second', product_links_data['status'] ], 'update')
     products_data = get_products(product_links)
     products = products_data['products']
-    status['third'] = products_data['status']
+    db_write('status', [ 'third', products_data['status'] ], 'update')
     print(len(products), 'ТОВАРОВ СОБРАНО!!!')
     products_with_deeplink_data = get_deeplinks(products)
     products_with_deeplink = products_with_deeplink_data['products_with_deeplink']
-    status['fourth'] = products_with_deeplink_data['status']
+    db_write('status', [ 'fourth', products_with_deeplink_data['status'] ], 'update')
     print(len(products_with_deeplink), 'ТОВАРОВ С ДИПЛИНКАМИ!!!')
     db_write('products', products_with_deeplink)
-    status['total'] = f'{len(products_with_deeplink)} товаров собрано за {get_time(round(time.time() - start_time))}'
-    db_write('status', status)
+    db_write('status', [ 'total', f'{len(products_with_deeplink)} товаров собрано за {get_time(round(time.time() - start_time))}' ], 'update')
 
 start()

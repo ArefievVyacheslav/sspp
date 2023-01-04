@@ -11,6 +11,7 @@ def db_write_products(products=False):
         if len(shoes): ss['shoes'].insert_many(shoes)
         if len(accessories): ss['accessories'].insert_many(accessories)
     else:
+        ss['processing'].delete_one({ 'name': 'stockmann' })
         ss['clothes'].delete_many({ 'shop': 'stockmann' })
         ss['shoes'].delete_many({ 'shop': 'stockmann' })
         ss['accessories'].delete_many({ 'shop': 'stockmann' })

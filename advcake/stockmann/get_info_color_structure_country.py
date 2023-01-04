@@ -22,7 +22,7 @@ def get_info_color_structure_country(soup):
         elif '; ' in info['Состав']: structure = info['Состав'].split('; ')
         elif ';' in info['Состав']: structure = info['Состав'].split(';')
         elif '|' in info['Состав']: structure = info['Состав'].split('|')
-        else: structure = info['Состав']
+        else: structure = [info['Состав']]
         del info['Состав']
     return {
         'info': info,

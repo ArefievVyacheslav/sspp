@@ -13,12 +13,9 @@ start_time = time.time()
 async def get_product_link(session, product):
     # , proxy = f'http://{get_proxies(page % 50)}'
     link = product['link']
-    async with session.post('http://localhost:3002/deeplink', json={
-        'deeplink': link,
-        'pp': 'advcake'
-    }, headers=get_headers()) as response:
+    async with session.get(f'https://cakelink.ru/link?dl={link}&pass=heiI0Lb6K0szpYk8', headers = get_headers()) as response:
         try:
-            product['link'] = await response.text()
+            product['link'] = json.loads(await response.text())['data']['url']
             products.append(product)
         except: print('deeplink - FAIL!!!')
 
@@ -37,7 +34,9 @@ async def gather_data(products):
 
 def get_deeplinks(products):
     asyncio.run(gather_data(products))
+    d_products = products.copy()
+    products.clear()
     return {
-        'products_with_deeplink': products,
+        'products_with_deeplink': d_products,
         'status': f'Диплинки собраны через {get_time(round(time.time() - start_time))} от начала'
     }

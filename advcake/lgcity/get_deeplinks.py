@@ -13,9 +13,12 @@ start_time = time.time()
 async def get_product_link(session, product):
     # , proxy = f'http://{get_proxies(page % 50)}'
     link = product['link']
-    async with session.get(f'https://cakelink.ru/link?dl={link}&pass=heiI0Lb6K0szpYk8', headers = get_headers()) as response:
+    async with session.post('http://localhost:3002/deeplink', json={
+        'deeplink': link,
+        'pp': 'advcake'
+    }, headers=get_headers()) as response:
         try:
-            product['link'] = json.loads(await response.text())['data']['url']
+            product['link'] = await response.text()
             products.append(product)
         except: print('deeplink - FAIL!!!')
 

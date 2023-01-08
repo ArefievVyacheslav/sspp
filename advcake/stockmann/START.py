@@ -14,7 +14,6 @@ def start():
         'name': 'stockmann',
         'first': f'Начало сбора в {start_date.hour}:{start_date.minute}:{start_date.second}'
     }
-    db_write('products')
     db_write('status', status, 'create')
     product_links_data = get_product_links()
     product_links = product_links_data['product_links']

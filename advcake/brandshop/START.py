@@ -1,6 +1,7 @@
 import time
 import datetime
 from get_product_links import get_product_links
+from update_products import update_products
 from get_deeplinks import get_deeplinks
 from get_products import get_products
 from db_write import db_write
@@ -17,8 +18,7 @@ def start_gender(option):
     product_links = product_links_data['product_links']
     print(len(product_links), 'ССЫЛОК НА ТОВАРЫ!')
     if option['gender'] == 'women': db_write('status', [ 'second', product_links_data['status'] ], 'update')
-    products_data = get_products(product_links[0:6], option['gender'])
-    # products_data = get_products(product_links, option['gender'])
+    products_data = get_products(product_links, option['gender'])
     products = products_data['products']
     if option['gender'] == 'women': db_write('status', [ 'third', products_data['status'] ], 'update')
     print(len(products), 'ТОВАРОВ обработано!!!')
@@ -35,7 +35,6 @@ def start():
         'name': 'brandshop',
         'first': f'Начало сбора в {start_date.hour}:{start_date.minute}:{start_date.second}'
     }
-    db_write('products')
     db_write('status', status, 'create')
     catalog_data = [
         {
@@ -49,6 +48,7 @@ def start():
     ]
     p = Pool(processes=2)
     p.map(start_gender, catalog_data)
+    update_products()
     db_write('status', [ 'total', f'Товары собраны за {get_time(round(time.time() - start_time))}' ], 'update')
 
 

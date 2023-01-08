@@ -1,7 +1,7 @@
 import time
 import datetime
+import requests
 from get_product_links import get_product_links
-from update_products import update_products
 from get_deeplinks import get_deeplinks
 from get_products import get_products
 from db_write import db_write
@@ -42,7 +42,6 @@ def start():
         db_write('products', products_with_deeplink)
         products_count += len(products_with_deeplink)
         if option['gender'] == 'women': db_write('status', [ 'total', f'{products_count} товаров собрано за {get_time(round(time.time() - start_time))}' ], 'update')
-    update_products()
-
+    requests.post('http://localhost:3002/update-products', json={ 'shop': 'lgcity' })
 
 start()

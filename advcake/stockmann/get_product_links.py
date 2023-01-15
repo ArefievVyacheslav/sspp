@@ -27,7 +27,7 @@ async def gather_data():
             print(f'Найдено {products_count} товаров на {page_count} страницах')
             tasks = []
             for page in range(1, page_count + 1):
-            # for page in range(1, 3):
+            # for page in range(1, 2):
                 await asyncio.sleep(0.1)
                 task = asyncio.create_task(get_page_data(session, page))
                 tasks.append(task)

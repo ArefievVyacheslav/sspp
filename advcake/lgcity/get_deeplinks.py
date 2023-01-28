@@ -32,7 +32,7 @@ async def gather_data(products):
                 tasks.append(task)
             await asyncio.gather(*tasks)
         except:
-            print(f'Диплинки на ТОВАРЫ с пагинации НЕ собраны!')
+            print(f'Diplinki na TOVARY s paginacii NE sobrany!')
             return
 
 def get_deeplinks(products):
@@ -41,5 +41,5 @@ def get_deeplinks(products):
     products.clear()
     return {
         'products_with_deeplink': d_products,
-        'status': f'Диплинки собраны через {get_time(round(time.time() - start_time))} от начала'
+        'status': f'Diplinki sobrani cherez {get_time(round(time.time() - start_time))} ot nachala'
     }

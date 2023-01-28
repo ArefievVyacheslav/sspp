@@ -43,10 +43,10 @@ async def gather_data(link, gender):
 
 def get_product_links(link, gender):
     asyncio.run(gather_data(link, gender))
-    print('Ссылки на товары собраны за', f'{get_time(round(time.time() - start_time))}')
+    print('Ssilki na tovary sobrani za', f'{get_time(round(time.time() - start_time))}')
     links = product_links.copy()
     product_links.clear()
     return {
         'product_links': links,
-        'status': f'Ссылки на товары собраны через {get_time(round(time.time() - start_time))} от начала'
+        'status': f'Ssilki na tovary sobrani cherez {get_time(round(time.time() - start_time))} ot nachala'
     }

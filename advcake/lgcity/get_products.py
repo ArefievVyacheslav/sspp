@@ -32,10 +32,10 @@ async def gather_data(links_arr, gender):
 
 def get_products(links_arr, gender):
     asyncio.run(gather_data(links_arr, gender))
-    print('Товары собраны за', f'{get_time(round(time.time() - start_time))}')
+    print('Tovary sobrani za', f'{get_time(round(time.time() - start_time))}')
     goods = products.copy()
     products.clear()
     return {
         'products': goods,
-        'status': f'Информация по товарам собрана через {get_time(round(time.time() - start_time))} от начала'
+        'status': f'Informacia po tovaram sobrana cherez {get_time(round(time.time() - start_time))} ot nachala'
     }

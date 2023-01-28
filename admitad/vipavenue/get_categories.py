@@ -11,7 +11,7 @@ def get_categories(soup):
     breadcrumbs = soup.find('ol', class_=re.compile('breadcrumb')).find_all('a')
     category = breadcrumbs[2].text
     subcategory = breadcrumbs[-1].text
-    if 'ые' in subcategory: subcategory = breadcrumbs[-2].text
+    if 'ые' in subcategory or 'ие' in subcategory: subcategory = breadcrumbs[-2].text
     return {
         'brand': brand,
         'name': name,

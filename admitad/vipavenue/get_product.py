@@ -1,5 +1,6 @@
 import re
 import random
+import requests
 from bs4 import BeautifulSoup
 from get_sizes import get_sizes
 from get_images import get_images
@@ -83,3 +84,7 @@ def get_product(html, link, gender):
         print(ex)
         print(f'{link} НЕ собран!')
         return
+
+res = requests.get('https://vipavenue.ru/product/1201115-platye-odnotonnoe-dsquared2/?admitad_uid=5ae55b7d70155bdbc7461f0f1594dc52&utm_campaign=1392094&utm_content=closer&utm_medium=cpa&utm_source=admitad')
+
+print(get_product(res.text, 'https://vipavenue.ru/product/', 'women'))

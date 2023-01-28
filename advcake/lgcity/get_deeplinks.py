@@ -13,7 +13,7 @@ start_time = time.time()
 async def get_product_link(session, product):
     # , proxy = f'http://{get_proxies(page % 50)}'
     link = product['link']
-    async with session.post('http://localhost:3002/deeplink', json={
+    async with session.post('http://api-parser.sales-search.store/deeplink', json={
         'deeplink': link,
         'pp': 'advcake'
     }, headers=get_headers()) as response:

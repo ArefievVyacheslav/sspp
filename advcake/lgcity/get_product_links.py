@@ -28,7 +28,7 @@ async def gather_data(link, gender):
             res = await session.get(link)
             soup = BeautifulSoup(await res.text(), 'lxml')
             page_count = int(soup.find('a', class_=re.compile('catalog__pagination-last')).text.strip())
-            print(f'Naydeno {page_count} stranic!'.encode('utf-8'))
+            print(f'Найдено {page_count} страниц!'.decode('utf-8'))
             tasks = []
             for page in range(1, page_count + 1):
             # for page in range(1, 3):

@@ -20,7 +20,7 @@ async def get_product_link(session, product):
         try:
             product['link'] = await response.text()
             products.append(product)
-        except: print('deeplink - FAIL!!!')
+        except: print('deeplink - FAIL!!!'.encode('utf-8'))
 
 async def gather_data(products):
     async with aiohttp.ClientSession() as session:
@@ -32,7 +32,7 @@ async def gather_data(products):
                 tasks.append(task)
             await asyncio.gather(*tasks)
         except:
-            print(f'Diplinki na TOVARY s paginacii NE sobrany!')
+            print(f'Диплинки на ТОВАРЫ с пагинации НЕ собраны!'.encode('utf-8'))
             return
 
 def get_deeplinks(products):
@@ -41,5 +41,5 @@ def get_deeplinks(products):
     products.clear()
     return {
         'products_with_deeplink': d_products,
-        'status': f'Diplinki sobrani cherez {get_time(round(time.time() - start_time))} ot nachala'
+        'status': f'Диплинки собраны через {get_time(round(time.time() - start_time))} от начала'.encode('utf-8')
     }

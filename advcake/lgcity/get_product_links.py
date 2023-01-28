@@ -28,7 +28,7 @@ async def gather_data(link, gender):
             res = await session.get(link)
             soup = BeautifulSoup(await res.text(), 'lxml')
             page_count = int(soup.find('a', class_=re.compile('catalog__pagination-last')).text.strip())
-            print(f'Найдено {page_count} страниц!')
+            print(f'Naydeno {page_count} stranic!')
             tasks = []
             for page in range(1, page_count + 1):
             # for page in range(1, 3):
@@ -37,7 +37,7 @@ async def gather_data(link, gender):
                 tasks.append(task)
             await asyncio.gather(*tasks)
         except:
-            print(f'Ссылки на ТОВАРЫ с пагинации НЕ собраны!')
+            print(f'Ssilki na TOVARY s paginacii NE SOBRANY!')
             return
 
 

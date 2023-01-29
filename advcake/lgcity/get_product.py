@@ -56,7 +56,7 @@ def get_product(html, link, gender):
         images = get_images(soup)
         if len(sizes) == 0 or len(sizes) == 0: return
         if category == 'Верхняя одежда ': category = 'Одежда'
-        return {
+        print({
             'id': round(random.uniform(1000000000, 9999999999)),
             'age': 'Взрослый',
             'benefit': oldprice - price,
@@ -86,6 +86,37 @@ def get_product(html, link, gender):
             'structure': structure,
             'subcategory': subcategory,
             'subcategoryT': get_transliterate(subcategory)
+        })
+        return {
+            'id': round(random.uniform(1000000000, 9999999999)),
+            'age': 'Взрослый',
+            'benefit': oldprice - price,
+            'brand': brand,
+            'brandCountry': brand_country,
+            'category': category,
+            'category_t': get_transliterate(category),
+            'color': color,
+            'country': country,
+            'delivery': ['ru'],
+            'deliveryPrice': False,
+            'description': False,
+            'gender': gender,
+            'name': name,
+            'info': info,
+            'installment': False,
+            'images': images,
+            'link': link,
+            'oldprice': oldprice,
+            'pp': 'advcake',
+            'price': price,
+            'sale': sale,
+            'season': season,
+            'shop': 'lgcity',
+            'sizes': sizes,
+            'style': style,
+            'structure': structure,
+            'subcategory': subcategory,
+            'subcategory_t': get_transliterate(subcategory)
         }
     except:
         print(f'{link} НЕ собран!')

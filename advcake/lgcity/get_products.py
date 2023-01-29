@@ -15,7 +15,7 @@ async def get_page_data(session, link, idx, gender):
     async with session.get(link, headers = get_headers()) as response:
         product = get_product(await response.text(), link, gender)
         if product: products.append(product)
-        print(idx, 'product - OK!!!'.encode('utf-8'))
+        print(idx, 'product - OK!!!')
 
 async def gather_data(links_arr, gender):
     async with aiohttp.ClientSession() as session:
@@ -27,15 +27,15 @@ async def gather_data(links_arr, gender):
                 tasks.append(task)
             await asyncio.gather(*tasks)
         except:
-            print(f'ТОВАРЫ НЕ собраны!'.encode('utf-8'))
+            print(f'ТОВАРЫ НЕ собраны!')
             return
 
 def get_products(links_arr, gender):
     asyncio.run(gather_data(links_arr, gender))
-    print('Товары собраны за'.encode('utf-8'), f'{get_time(round(time.time() - start_time))}'.encode('utf-8'))
+    print('Товары собраны за', f'{get_time(round(time.time() - start_time))}')
     goods = products.copy()
     products.clear()
     return {
         'products': goods,
-        'status': f'Информация по товарам собрана через {get_time(round(time.time() - start_time))} от начала'.encode('utf-8')
+        'status': f'Информация по товарам собрана через {get_time(round(time.time() - start_time))} от начала'
     }

@@ -32,7 +32,7 @@ def get_product(html, link, gender):
             oldprice = int([s for s in scriptDataArr if 'metric3' in s][0].replace('"metric3":', ''))
             sale = int([s for s in scriptDataArr if 'coupon' in s][0].replace('"coupon":"', '').replace('%"', ''))
         except:
-            print('Проблема при получении цены у товара'.encode('utf-8'), link)
+            print('Проблема при получении цены у товара', link)
             return
         # # получаю инфо, цвет, состав и страну
         try:
@@ -45,7 +45,7 @@ def get_product(html, link, gender):
             structure = info_data['structure']
             style = info_data['style']
         except:
-            print('Проблема при получении информации у товара'.encode('utf-8'), link)
+            print('Проблема при получении информации у товара', link)
             return
         # получаю бренд
         brand = get_brand(soup)
@@ -88,5 +88,5 @@ def get_product(html, link, gender):
             'subcategoryT': get_transliterate(subcategory)
         }
     except:
-        print(f'{link} НЕ собран!'.encode('utf-8'))
+        print(f'{link} НЕ собран!')
         return

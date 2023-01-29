@@ -34,14 +34,14 @@ def start():
         products_data = get_products(product_links, option['gender'])
         products = products_data['products']
         if option['gender'] == 'women': db_write('status', [ 'third', products_data['status'] ], 'update')
-        print(len(products), 'ТОВАРОВ СОБРАНО!!!'.encode('utf-8'))
+        print(len(products), 'ТОВАРОВ СОБРАНО!!!')
         products_with_deeplink_data = get_deeplinks(products)
         products_with_deeplink = products_with_deeplink_data['products_with_deeplink']
         if option['gender'] == 'women': db_write('status', [ 'fourth', products_with_deeplink_data['status'] ], 'update')
-        print(len(products_with_deeplink), 'ТОВАРОВ С ДИПЛИНКАМИ!!!'.encode('utf-8'))
+        print(len(products_with_deeplink), 'ТОВАРОВ С ДИПЛИНКАМИ!!!')
         db_write('products', products_with_deeplink)
         products_count += len(products_with_deeplink)
-        if option['gender'] == 'women': db_write('status', [ 'total', f'{products_count} товаров собрано за {get_time(round(time.time() - start_time))}'.encode('utf-8') ], 'update')
+        if option['gender'] == 'women': db_write('status', [ 'total', f'{products_count} товаров собрано за {get_time(round(time.time() - start_time))}' ], 'update')
     requests.post('http://api-parser.sales-search.store/update-products', json={ 'shop': 'lgcity' })
 
 start()

@@ -28,7 +28,7 @@ def start_gender(option):
     print(len(products_with_deeplink), 'ТОВАРОВ с диплинками!!!')
     db_write('products', products_with_deeplink)
     if option['gender'] == 'women': db_write('status', [ 'total', f'~ {len(products_with_deeplink) * 2} товаров собрано за {get_time(round(time.time() - start_time))}' ], 'update')
-    requests.post('http://localhost:3002/update-products', json={ 'shop': 'brandshop' })
+    requests.post('http://api-parser.sales-search.store/update-products', json={ 'shop': 'brandshop' })
 
 
 def start():

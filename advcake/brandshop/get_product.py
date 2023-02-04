@@ -55,7 +55,7 @@ def get_product(link, gender, idx):
             'brand': brand,
             'brandCountry': False,
             'category': category,
-            'categoryT': get_transliterate(category),
+            'category_t': get_transliterate(category),
             'color': color,
             'country': country,
             'delivery': ['ru', 'rb', 'kz'],
@@ -77,7 +77,7 @@ def get_product(link, gender, idx):
             "style": False,
             'structure': structure,
             'subcategory': subcategory,
-            'subcategoryT': get_transliterate(subcategory)
+            'subcategory_t': get_transliterate(subcategory)
         }
     except:
         print(f'{link} НЕ собран!')

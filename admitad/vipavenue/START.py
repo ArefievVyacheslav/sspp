@@ -31,7 +31,7 @@ def start():
         product_links_data = get_product_links(option['link'], option['gender'])
         product_links = product_links_data['product_links']
         if option['gender'] == 'women': db_write('status', [ 'second', product_links_data['status'] ], 'update')
-        products_data = get_products(product_links, option['gender'])
+        products_data = get_products(product_links[1:10], option['gender'])
         products = products_data['products']
         if option['gender'] == 'women': db_write('status', [ 'third', products_data['status'] ], 'update')
         print(len(products), 'ТОВАРОВ СОБРАНО!!!')

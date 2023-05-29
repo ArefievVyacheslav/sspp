@@ -58,7 +58,7 @@ def get_product(html, link, gender):
             'brandCountry': False,
             'brandCountry_t': False,
             'category': category,
-            'categoryT': get_transliterate(category),
+            'category_t': get_transliterate(category),
             'color': color,
             'color_t': get_transliterate(color),
             'country': country,

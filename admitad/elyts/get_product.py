@@ -62,7 +62,7 @@ def get_product(html, link, gender):
             'brandCountry': False,
             'brandCountry_t': False,
             'category': category,
-            'categoryT': get_transliterate(category),
+            'category_t': get_transliterate(category),
             'color': color,
             'color_t': get_transliterate(color) if color else False,
             'country': country,
@@ -88,7 +88,7 @@ def get_product(html, link, gender):
             'style_t': False,
             'structure': structure,
             'subcategory': subcategory,
-            'subcategoryT': get_transliterate(subcategory)
+            'subcategory_t': get_transliterate(subcategory)
         }
     except Exception as ex:
         print(ex)

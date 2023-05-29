@@ -31,7 +31,7 @@ def start():
         product_links_data = get_product_links(option['link'], option['gender'])
         product_links = product_links_data['product_links']
         if option['gender'] == 'women': db_write('status', [ 'second', product_links_data['status'] ], 'update')
-        products_data = get_products(product_links[1:11], option['gender'])
+        products_data = get_products(product_links[1:15], option['gender'])
         products = products_data['products']
         if option['gender'] == 'women': db_write('status', [ 'third', products_data['status'] ], 'update')
         print(len(products), 'ТОВАРОВ СОБРАНО!!!')
@@ -42,7 +42,7 @@ def start():
         db_write('products', products_with_deeplink)
         products_count += len(products_with_deeplink)
         if option['gender'] == 'women': db_write('status', [ 'total', f'{products_count} товаров собрано за {get_time(round(time.time() - start_time))}' ], 'update')
-    requests.post('https://api-parser.do-2000.store/update-products', json={ 'shop': 'elyts' })
-    # requests.post('http://localhost:3005/update-products', json={ 'shop': 'elyts' })
+    # requests.post('https://api-parser.do-2000.store/update-products', json={ 'shop': 'elyts' })
+    requests.post('http://localhost:3005/update-products', json={ 'shop': 'elyts' })
 
 start()

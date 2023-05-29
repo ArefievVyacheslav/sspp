@@ -7,7 +7,10 @@ def get_categories(soup):
     if brand == 'MICHAEL MICHAEL KORS': brand = 'MICHAEL KORS'
     if brand == 'BOGNER FIRE + ICE': brand = 'BOGNER'
     if brand == 'CK PERFORMANCE': brand = 'CALVIN KLEIN PERFORMANCE'
-    breadcrumbs = soup.find('nav', class_=re.compile('col-12 breadcrumbs')).find_all('a', class_='current')
+    try:
+        breadcrumbs = soup.find('nav', class_=re.compile('col-12 breadcrumbs')).find_all('a', class_='current')
+    except:
+        breadcrumbs = soup.find('nav', class_=re.compile('col-12 breadcrumbs')).find_all('a')
     category = 'Аксессуары'
     for bread in breadcrumbs:
         if bread.text == 'Одежда': category = 'Одежда'

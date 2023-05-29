@@ -11,8 +11,10 @@ from get_info import get_info
 def get_product(html, link, gender):
     try:
         soup = BeautifulSoup(html, 'lxml')
-        if gender == 'men': gender = 'Мужской'
-        else: gender = 'Женский'
+        if gender == 'men':
+            gender = 'Мужской'
+        else:
+            gender = 'Женский'
         # получаю крошки для распаршивания категорий и имени
         breadcrumbs_data = get_categories(soup)
         if breadcrumbs_data:
@@ -26,7 +28,9 @@ def get_product(html, link, gender):
         try:
             price = int(soup.find('div', class_=re.compile('final-price')).text.replace(' ', '').replace('руб.', ''))
             oldprice = int(soup.find('div', class_=re.compile('price-item')).text.replace(' ', '').replace('руб.', ''))
-            sale = int(soup.find('span', class_=re.compile('discount-percent')).text.replace('-', '').replace('%', '').replace(')', '').replace('(', ''))
+            sale = int(
+                soup.find('span', class_=re.compile('discount-percent')).text.replace('-', '').replace('%', '').replace(
+                    ')', '').replace('(', ''))
         except:
             print('Проблема при получении цены у товара', link)
             return
@@ -42,8 +46,10 @@ def get_product(html, link, gender):
             print('Проблема при получении информации у товара', link)
             return
         # получаю размеры в наличии
-        if category == 'Аксессуары': sizes = ['one size']
-        else: sizes = get_sizes(soup)
+        if category == 'Аксессуары':
+            sizes = ['one size']
+        else:
+            sizes = get_sizes(soup)
         # получаю пикчи
         images = get_images(soup)
         if len(sizes) == 0 or len(sizes) == 0: return
@@ -54,10 +60,13 @@ def get_product(html, link, gender):
             'benefit': oldprice - price,
             'brand': brand,
             'brandCountry': False,
+            'brandCountry_t': False,
             'category': category,
             'categoryT': get_transliterate(category),
             'color': color,
+            'color_t': get_transliterate(color) if color else False,
             'country': country,
+            'country_t': get_transliterate(country) if country else False,
             'delivery': ['ru'],
             'deliveryPrice': 500,
             'description': description,
@@ -72,9 +81,11 @@ def get_product(html, link, gender):
             'price': price,
             'sale': sale,
             'season': False,
+            'season_t': False,
             'shop': 'elyts',
             'sizes': sizes,
             'style': False,
+            'style_t': False,
             'structure': structure,
             'subcategory': subcategory,
             'subcategoryT': get_transliterate(subcategory)

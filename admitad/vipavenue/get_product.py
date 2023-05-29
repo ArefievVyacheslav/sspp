@@ -79,7 +79,7 @@ def get_product(html, link, gender):
             'style': False,
             'structure': structure,
             'subcategory': subcategory,
-            'subcategoryT': get_transliterate(subcategory)
+            'subcategory_t': get_transliterate(subcategory)
         }
     except Exception as ex:
         print(ex)

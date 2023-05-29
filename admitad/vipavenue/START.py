@@ -42,7 +42,7 @@ def start():
         db_write('products', products_with_deeplink)
         products_count += len(products_with_deeplink)
         if option['gender'] == 'women': db_write('status', [ 'total', f'{products_count} товаров собрано за {get_time(round(time.time() - start_time))}' ], 'update')
-    requests.post('https://api-parser.do-2000.store/update-products', json={ 'shop': 'vipavenue' })
-    # requests.post('http://localhost:3005/update-products', json={ 'shop': 'vipavenue' })
+    # requests.post('https://api-parser.do-2000.store/update-products', json={ 'shop': 'vipavenue' })
+    requests.post('http://localhost:3005/update-products', json={ 'shop': 'vipavenue' })
 
 start()

@@ -1,4 +1,5 @@
 import re
+import requests
 import random
 from bs4 import BeautifulSoup
 from get_sale import get_sale
@@ -23,8 +24,8 @@ def get_product(html, link):
             subcategory = age_cat_subcat['subcategory']
         else: return
         # получаю цены
-        price = get_prices(soup.find('span', class_=re.compile('product-card-main__price-current')))
-        oldprice = get_prices(soup.find('span', class_=re.compile('product-card-main__price-old')))
+        price = get_prices(soup.find('li', class_=re.compile('prices_discount__')))
+        oldprice = get_prices(soup.find('li', class_=re.compile('prices_price__')))
         sale = get_sale(soup)
         # получаю инфо, цвет, состав и страну
         info_color_structure_country = get_info_color_structure_country(soup)
@@ -33,7 +34,8 @@ def get_product(html, link):
         country = info_color_structure_country['country']
         structure = info_color_structure_country['structure']
         # получаю бренд
-        brand = get_brand(soup)
+        brand = get_brand(soup)['brand']
+        name = get_brand(soup)['name']
         # получаю размеры в наличии
         if category == 'Аксессуары': sizes = ['one size']
         else: sizes = get_sizes(soup, brand, category)
@@ -47,31 +49,41 @@ def get_product(html, link):
             'benefit': oldprice - price,
             'brand': brand,
             "brandCountry": False,
+            'brandCountry_t': False,
             'category': category,
-            'categoryT': get_transliterate(category),
+            'category_t': get_transliterate(category),
             'color': color,
+            'color_t': get_transliterate(color) if color else color,
             'country': country,
+            'country_t': get_transliterate(country) if country else country,
             'delivery': ['ru'],
             'deliveryPrice': 199,
             'description': False,
             'gender': gender,
-            'name': soup.find('span', class_='breadcrumbs__last').text.strip(),
+            'name': name,
             'info': info,
             'installment': False,
             'images': images,
+            'like': 0,
             'link': link,
-            'oldprice': oldprice,
+            'oldprice': int(oldprice),
             'pp': 'advcake',
-            'price': price,
+            'price': int(price),
             'sale': sale,
             "season": False,
+            'season_t': False,
             'shop': 'stockmann',
             'sizes': sizes,
             "style": False,
+            'style_t': False,
             'structure': structure,
             'subcategory': subcategory,
-            'subcategoryT': get_transliterate(subcategory)
+            'subcategory_t': get_transliterate(subcategory)
         }
     except:
         print(f'{link} НЕ собран!')
         return
+
+
+# res = requests.get('https://stockmann.ru/product/5205032-khlopkovaya-futbolka-s-logotipom-brenda-marc-o-polo/')
+# print(get_product(res.text, 'link'))

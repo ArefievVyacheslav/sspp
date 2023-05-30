@@ -2,7 +2,7 @@ import re
 
 
 def get_categories(soup):
-    breadcrumbs = soup.find_all('a', class_=re.compile('breadcrumbs__link'))
+    breadcrumbs = soup.find_all('a', class_=re.compile('breadcrumb_link__'))
     if breadcrumbs[1].text.strip() != 'Детям':
         if len(breadcrumbs) >= 4:
             age = 'Взрослый'

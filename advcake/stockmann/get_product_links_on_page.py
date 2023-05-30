@@ -5,8 +5,8 @@ from bs4 import BeautifulSoup
 def get_product_links_on_page(html, page):
     try:
         soup = BeautifulSoup(html, 'lxml')
-        catalog = soup.find('ul', class_=re.compile('category-products_products__'))
-        products_links = catalog.find_all('a', class_=re.compile('card_link__'))
+        catalog = soup.find('div', class_=re.compile('grid_grid__'))
+        products_links = catalog.find_all('a', class_=re.compile('spa_link'))
         links_arr = []
         for link in products_links:
             links_arr.append('https://stockmann.ru' + link.get('href'))

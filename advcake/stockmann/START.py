@@ -19,7 +19,7 @@ def start():
     product_links_data = get_product_links()
     product_links = product_links_data['product_links']
     db_write('status', [ 'second', product_links_data['status'] ], 'update')
-    products_data = get_products(product_links)
+    products_data = get_products(product_links[1:3])
     products = products_data['products']
     db_write('status', [ 'third', products_data['status'] ], 'update')
     print(len(products), 'ТОВАРОВ СОБРАНО!!!')

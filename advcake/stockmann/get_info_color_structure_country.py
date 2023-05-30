@@ -2,8 +2,8 @@ import re
 
 
 def get_info_color_structure_country(soup):
-    info_params = soup.find_all('div', class_=re.compile('about-product__name'))
-    info_values = soup.find_all('div', class_=re.compile('about-product__val'))
+    info_params = soup.find_all('span', class_=re.compile('params_name__'))
+    info_values = soup.find_all('span', class_=re.compile('params_value__'))
     info = {}
     color = False
     structure = False

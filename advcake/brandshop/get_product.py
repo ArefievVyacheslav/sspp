@@ -12,8 +12,8 @@ def get_product(link, gender, idx):
     try:
         option = Options()
         option.headless = True
-	options.add_argument("--headless=new")
-	driver = undetected_chromedriver.Chrome(options=option)
+        option.add_argument("--headless=new")
+        driver = undetected_chromedriver.Chrome(options=option)
         driver.get(link)
         try:
             if gender != 'women': gender = 'Мужской'

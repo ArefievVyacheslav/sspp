@@ -1,7 +1,9 @@
+import re
 import time
 import json
 import asyncio
 import aiohttp
+from bs4 import BeautifulSoup
 from get_time import get_time
 from get_headers import get_headers
 # from get_proxies import get_proxies
@@ -21,10 +23,9 @@ async def get_page_data(session, page):
 async def gather_data():
     async with aiohttp.ClientSession() as session:
         try:
-            res = await session.get('https://stockmann.ru/catalog-api/sale/filter/brand-boss-or-tommy_hilfiger-or-guess-or-hugo-or-marc_o_polo-or-guess_jeans-or-calvin_klein-or-karl_lagerfeld-or-emporio_armani-or-geox-or-levi_s-or-gerry_weber-or-tommy_jeans-or-marc_o_polo_denim-or-liu_jo-or-antony_morato-or-lauren_ralph_lauren-or-gerry_weber_edition-or-ea7-or-mavi-or-pepe_jeans-or-versace_jeans_couture-or-coccinelle-or-lacoste-or-furla-or-ecco-or-tom_tailor-or-moschino-or-love_moschino-or-polaroid-or-michael_michael_kors-or-gerry_weber_casual-or-dkny-or-icepeak-or-champion-or-incanto-or-valentino-or-bikkembergs-or-polo_ralph_lauren-or-gant-or-dr_martens-or-napapijri-or-jimmy_choo-or-adidas-or-crocs-or-ugg-or-converse-or-ck_performance-or-diesel-or-puma-or-vogue-or-tamaris-or-dsquared2-or-dirk_bikkembergs-or-moschino_boutique-or-jordan-or-the_kooples-or-nike-or-reebok-or-lego-or-fila-or-tommy_hilfiger_tailored-or-lee-or-trussardi_jeans-or-guess_by_marciano-or-keds/available_online-online/?outmode=json&filters[0][id]=sort&filters[0][values][0]=recommended')
-            page_count = json.loads(await res.text())['payload']['pagination']['total']
-            products_count = json.loads(await res.text())['payload']['productsCount']
-            print(f'Найдено {products_count} товаров на {page_count} страницах')
+            res = await session.get('https://stockmann.ru/sale/filter/brand-boss-or-tommy_hilfiger-or-guess-or-hugo-or-marc_o_polo-or-guess_jeans-or-calvin_klein-or-karl_lagerfeld-or-emporio_armani-or-geox-or-levi_s-or-gerry_weber-or-tommy_jeans-or-marc_o_polo_denim-or-liu_jo-or-antony_morato-or-lauren_ralph_lauren-or-gerry_weber_edition-or-ea7-or-mavi-or-pepe_jeans-or-versace_jeans_couture-or-coccinelle-or-lacoste-or-furla-or-ecco-or-tom_tailor-or-moschino-or-love_moschino-or-polaroid-or-michael_michael_kors-or-gerry_weber_casual-or-dkny-or-icepeak-or-champion-or-incanto-or-valentino-or-bikkembergs-or-polo_ralph_lauren-or-gant-or-dr_martens-or-napapijri-or-jimmy_choo-or-adidas-or-crocs-or-ugg-or-converse-or-ck_performance-or-diesel-or-puma-or-vogue-or-tamaris-or-dsquared2-or-dirk_bikkembergs-or-moschino_boutique-or-jordan-or-the_kooples-or-nike-or-reebok-or-lego-or-fila-or-tommy_hilfiger_tailored-or-lee-or-trussardi_jeans-or-guess_by_marciano-or-keds/available_online-online/?page=1')
+            page_count = BeautifulSoup(res.text, 'lxml').find_all('a', re.compile('pagination_link__'))[-1]
+            print(f'Найдено {page_count} страниц')
             tasks = []
             for page in range(1, page_count + 1):
             # for page in range(1, 3):

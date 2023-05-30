@@ -29,6 +29,6 @@ def start():
     print(len(products_with_deeplink), 'ТОВАРОВ С ДИПЛИНКАМИ!!!')
     db_write('products', products_with_deeplink)
     db_write('status', [ 'total', f'{len(products_with_deeplink)} товаров собрано за {get_time(round(time.time() - start_time))}' ], 'update')
-    requests.post('http://localhost:3002/update-products', json={ 'shop': 'stockmann' })
+    requests.post('http://localhost:3005/update-products', json={ 'shop': 'stockmann' })
 
 start()

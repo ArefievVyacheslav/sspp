@@ -17,7 +17,7 @@ def start_gender(option):
     product_links = product_links_data['product_links']
     print(len(product_links), 'ССЫЛОК НА ТОВАРЫ!')
     if option['gender'] == 'women': db_write('status', ['second', product_links_data['status']], 'update')
-    products_data = get_products(product_links[1:3], option['gender'])
+    products_data = get_products(product_links, option['gender'])
     products = products_data['products']
     if option['gender'] == 'women': db_write('status', ['third', products_data['status']], 'update')
     print(len(products), 'ТОВАРОВ обработано!!!')

@@ -89,3 +89,8 @@ def get_product(link, gender, idx):
     except:
         print(f'{link} НЕ собран!')
         return
+
+
+# print(get_product(
+#     'https://brandshop.ru/goods/357068/533463-01/?utm_source=advcake&utm_medium=cpa&utm_campaign=affiliate&utm_content=74dd8cb9&advcake_params=176bb9d8976f4a80eb40d454c59e3e4e&utm_term=176bb9d8976f4a80eb40d454c59e3e4e',
+#     'Женский', 1))

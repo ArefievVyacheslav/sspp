@@ -28,4 +28,4 @@ def get_product_links(link):
         }
     except Exception as ex:
         print(ex)
-        return []
+        return {}

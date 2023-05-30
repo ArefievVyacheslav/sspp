@@ -75,6 +75,7 @@ def get_product(html, link, gender):
             'info': info,
             'installment': False,
             'images': images,
+            'like': 0,
             'link': link,
             'oldprice': oldprice,
             'pp': 'admitad',

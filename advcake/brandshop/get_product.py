@@ -22,8 +22,8 @@ def get_product(link, gender, idx):
             sale = get_sale(driver.find_element(By.CLASS_NAME, 'product-order__price-discount'))
             brand = driver.find_element(By.CLASS_NAME, 'product-page__header').text.upper()
             name = driver.find_element(By.CLASS_NAME, 'product-page__subheader').text.strip() + ' ' + brand
-            category = driver.find_elements(By.CLASS_NAME, 'breadcrumbs__item')[2].text.strip()
-            subcategory = driver.find_elements(By.CLASS_NAME, 'breadcrumbs__item')[3].text.strip()
+            category = driver.find_elements(By.CLASS_NAME, 'breadcrumbs__item')[2].get_attribute('textContent').strip()
+            subcategory = driver.find_elements(By.CLASS_NAME, 'breadcrumbs__item')[3].get_attribute('textContent').strip()
             color = driver.find_elements(By.CLASS_NAME, 'tooltip')[0].get_attribute('textContent').lower().replace('ё', 'е').replace('в наличии: онлайн, офлайн', '').replace('в наличии: онлайн', '')
             if color == '': color = driver.find_elements(By.CLASS_NAME, 'tooltip')[1].get_attribute('textContent').lower().replace('ё', 'е').replace('в наличии: онлайн, офлайн', '').replace('в наличии: онлайн', '')
             if color == '': color = driver.find_elements(By.CLASS_NAME, 'tooltip')[2].get_attribute('textContent').lower().replace('ё', 'е').replace('в наличии: онлайн, офлайн', '').replace('в наличии: онлайн', '')
@@ -54,10 +54,13 @@ def get_product(link, gender, idx):
             'benefit': oldprice - price,
             'brand': brand,
             'brandCountry': False,
+            'brandCountry_t': False,
             'category': category,
             'category_t': get_transliterate(category),
             'color': color,
+            'color_t': get_transliterate(color),
             'country': country,
+            'country_t': get_transliterate(country),
             'delivery': ['ru', 'rb', 'kz'],
             'deliveryPrice': 350,
             'description': False,
@@ -66,15 +69,18 @@ def get_product(link, gender, idx):
             'info': info,
             'installment': True,
             'images': images,
+            'like': 0,
             'link': link,
             'oldprice': oldprice,
             'pp': 'advcake',
             'price': price,
             'sale': sale,
             "season": False,
+            'season_t': False,
             'shop': 'brandshop',
             'sizes': sizes,
             "style": False,
+            'style_t': False,
             'structure': structure,
             'subcategory': subcategory,
             'subcategory_t': get_transliterate(subcategory)

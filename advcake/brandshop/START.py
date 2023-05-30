@@ -18,7 +18,7 @@ def start_gender(option):
     product_links = product_links_data['product_links']
     print(len(product_links), 'ССЫЛОК НА ТОВАРЫ!')
     if option['gender'] == 'women': db_write('status', [ 'second', product_links_data['status'] ], 'update')
-    products_data = get_products(product_links, option['gender'])
+    products_data = get_products(product_links[1:3], option['gender'])
     products = products_data['products']
     if option['gender'] == 'women': db_write('status', [ 'third', products_data['status'] ], 'update')
     print(len(products), 'ТОВАРОВ обработано!!!')
@@ -28,8 +28,8 @@ def start_gender(option):
     print(len(products_with_deeplink), 'ТОВАРОВ с диплинками!!!')
     db_write('products', products_with_deeplink)
     if option['gender'] == 'women': db_write('status', [ 'total', f'~ {len(products_with_deeplink) * 2} товаров собрано за {get_time(round(time.time() - start_time))}' ], 'update')
-    requests.post('http://api-parser.sales-search.store/update-products', json={ 'shop': 'brandshop' })
-    # requests.post('http://localhost:3005/update-products', json={ 'shop': 'brandshop' })
+    # requests.post('http://api-parser.sales-search.store/update-products', json={ 'shop': 'brandshop' })
+    requests.post('http://localhost:3005/update-products', json={ 'shop': 'brandshop' })
 
 
 def start():

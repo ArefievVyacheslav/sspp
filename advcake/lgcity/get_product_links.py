@@ -30,8 +30,8 @@ async def gather_data(link, gender):
             page_count = int(soup.find('a', class_=re.compile('catalog__pagination-last')).text.strip())
             print(f'Найдено {page_count} страниц!')
             tasks = []
-            for page in range(1, page_count + 1):
-            # for page in range(1, 3):
+            # for page in range(1, page_count + 1):
+            for page in range(1, 3):
                 await asyncio.sleep(0.1)
                 task = asyncio.create_task(get_page_data(session, page, gender))
                 tasks.append(task)

@@ -5,15 +5,17 @@ from bs4 import BeautifulSoup
 def get_product_links_on_page(html, page):
     try:
         soup = BeautifulSoup(html, 'lxml')
-        catalog = soup.find('div', class_=re.compile('grid_grid__'))
-        products_links = catalog.find_all('a', class_='spa_link')
+        catalog = soup.find_all('div', class_=re.compile('card_section__'))
         links_arr = []
-        for link in products_links:
-            links_arr.append('https://stockmann.ru' + link.get('href'))
+        for card in catalog:
+            links_arr.append('https://stockmann.ru' + card.find('a', class_='spa_link')['href'])
         return links_arr
     except:
         print(f'Ссылки на {page} странице НЕ собраны!')
         return
+
+# res = requests.get('https://stockmann.ru/sale/filter/brand-antony_morato-or-adidas-or-boss-or-bugatti-or-calvin_klein-or-ck_jeans-or-champion-or-converse-or-crocs-or-coccinelle-or-ck_performance-or-diesel-or-dkny-or-dr_martens-or-dsquared2-or-dirk_bikkembergs-or-emporio_armani-or-ea7-or-ecco-or-furla-or-fila-or-guess-or-geox-or-gerry_weber-or-gerry_weber_edition-or-gerry_weber_casual-or-hugo-or-icepeak-or-incanto-or-jack_jones-or-john_richmond-or-karl_lagerfeld-or-levi_s-or-lauren_ralph_lauren-or-liu_jo-or-lacoste-or-love_moschino-or-liujo_milano-or-marc_o_polo-or-marc_o_polo_denim-or-mavi-or-moschino-or-michael_michael_kors-or-moschino_boutique-or-nike-or-napapijri-or-pepe_jeans-or-paul_shark-or-polo_ralph_lauren-or-polaroid-or-puma-or-roxy-or-stella_mccartney-or-tommy_hilfiger-or-tommy_jeans-or-tom_tailor-or-trussardi-or-tamaris-or-urban_tiger-or-ugg-or-versace_jeans_couture-or-vogue-or-valentino/available_online-online/has_discount-y/')
+# print(get_product_links_on_page(res.text, 1))
 
 # def get_product_links_on_page(page, proxy):
 #     try:

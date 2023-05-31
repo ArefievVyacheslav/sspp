@@ -85,5 +85,5 @@ def get_product(html, link):
         return
 
 
-# res = requests.get('https://stockmann.ru/product/5205032-khlopkovaya-futbolka-s-logotipom-brenda-marc-o-polo/')
+# res = requests.get('https://stockmann.ru/product/5160000-tekstilnye-krossovki-response-super-2-0-adidas/?oid=ctl2etk3u&utm_source=partners&utm_medium=cpa&utm_campaign=335&utm_content=gc9g7&wid=gc9g7&statid=351_e60b06c05e483096&sub5=48832&clickId=e60b06c05e4830967dc4796a04afe8c3&sub1=e60b06c05e483096&sub2=7dc4796a04afe8c3&sub=e60b06c05e483096')
 # print(get_product(res.text, 'link'))

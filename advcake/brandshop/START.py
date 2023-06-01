@@ -29,33 +29,42 @@ def start_gender(option):
     if option['gender'] == 'women': db_write('status', ['total',
                                                         f'~ {len(products_with_deeplink) * 2} товаров собрано за {get_time(round(time.time() - start_time))}'],
                                              'update')
-    # requests.post('http://api-parser.sales-search.store/update-products', json={ 'shop': 'brandshop' })
     requests.post('http://localhost:3005/update-products', json={'shop': 'brandshop'})
 
 
-# start_gender({
-#     'gender': 'men',
-#     'link': 'https://brandshop.ru/sale/?mfp=17-pol%5B%D0%9C%D1%83%D0%B6%D1%81%D0%BA%D0%BE%D0%B9%5D,manufacturers%5Badidas%20Originals,ASICS,Lacoste,adidas%20Performance,adidas%20Skateboarding,Alpha%20Industries,Converse,Diadora,Dr.%20Martens,Helly%20Hansen,Lacoste,Napapijri,New%20Balance,Nike,Premiata,Polo%20Ralph%20Lauren,Reebok,Puma,Saucony,Stone%20Island%20Shadow%20Project,Timberland,Umbro,Vans,Y-3%5D&limit=240'
-# })
-
-def start():
-    status = {
-        'name': 'brandshop',
-        'first': f'Начало сбора в {start_date.hour}:{start_date.minute}:{start_date.second}'
+start_gender(
+    {
+        'gender': 'men',
+        'link': 'https://brandshop.ru/sale/?mfp=17-pol%5B%D0%9C%D1%83%D0%B6%D1%81%D0%BA%D0%BE%D0%B9%5D,manufacturers%5Badidas%20Originals,ASICS,Lacoste,adidas%20Performance,adidas%20Skateboarding,Alpha%20Industries,Converse,Diadora,Dr.%20Martens,Helly%20Hansen,Lacoste,Napapijri,New%20Balance,Nike,Premiata,Polo%20Ralph%20Lauren,Reebok,Puma,Saucony,Stone%20Island%20Shadow%20Project,Timberland,Umbro,Vans,Y-3%5D&limit=240'
     }
-    db_write('status', status, 'create')
-    catalog_data = [
-        {
-            'gender': 'men',
-            'link': 'https://brandshop.ru/sale/?mfp=17-pol%5B%D0%9C%D1%83%D0%B6%D1%81%D0%BA%D0%BE%D0%B9%5D,manufacturers%5Badidas%20Originals,ASICS,Lacoste,adidas%20Performance,adidas%20Skateboarding,Alpha%20Industries,Converse,Diadora,Dr.%20Martens,Helly%20Hansen,Lacoste,Napapijri,New%20Balance,Nike,Premiata,Polo%20Ralph%20Lauren,Reebok,Puma,Saucony,Stone%20Island%20Shadow%20Project,Timberland,Umbro,Vans,Y-3%5D&limit=240'
-        },
-        {
-            'gender': 'women',
-            'link': 'https://brandshop.ru/sale/?mfp=17-pol%5B%D0%96%D0%B5%D0%BD%D1%81%D0%BA%D0%B8%D0%B9%5D,manufacturers%5Badidas%20Originals,adidas%20Performance,adidas%20Skateboarding,Alpha%20Industries,Converse,Diadora,Dr.%20Martens,Helly%20Hansen,Lacoste,Napapijri,New%20Balance,Nike,Premiata,Polo%20Ralph%20Lauren,Reebok,Puma,Saucony,Lacoste,Stone%20Island%20Shadow%20Project,Timberland,Umbro,Vans,Y-3,ASICS%5D&limit=240'
-        }
-    ]
-    p = Pool(processes=2)
-    p.map(start_gender, catalog_data)
-    db_write('status', [ 'total', f'Товары собраны за {get_time(round(time.time() - start_time))}' ], 'update')
+)
 
-start()
+start_gender(
+    {
+        'gender': 'women',
+        'link': 'https://brandshop.ru/sale/?mfp=17-pol%5B%D0%96%D0%B5%D0%BD%D1%81%D0%BA%D0%B8%D0%B9%5D,manufacturers%5Badidas%20Originals,adidas%20Performance,adidas%20Skateboarding,Alpha%20Industries,Converse,Diadora,Dr.%20Martens,Helly%20Hansen,Lacoste,Napapijri,New%20Balance,Nike,Premiata,Polo%20Ralph%20Lauren,Reebok,Puma,Saucony,Lacoste,Stone%20Island%20Shadow%20Project,Timberland,Umbro,Vans,Y-3,ASICS%5D&limit=240'
+    }
+)
+
+
+# def start():
+#     status = {
+#         'name': 'brandshop',
+#         'first': f'Начало сбора в {start_date.hour}:{start_date.minute}:{start_date.second}'
+#     }
+#     db_write('status', status, 'create')
+#     catalog_data = [
+#         {
+#             'gender': 'men',
+#             'link': 'https://brandshop.ru/sale/?mfp=17-pol%5B%D0%9C%D1%83%D0%B6%D1%81%D0%BA%D0%BE%D0%B9%5D,manufacturers%5Badidas%20Originals,ASICS,Lacoste,adidas%20Performance,adidas%20Skateboarding,Alpha%20Industries,Converse,Diadora,Dr.%20Martens,Helly%20Hansen,Lacoste,Napapijri,New%20Balance,Nike,Premiata,Polo%20Ralph%20Lauren,Reebok,Puma,Saucony,Stone%20Island%20Shadow%20Project,Timberland,Umbro,Vans,Y-3%5D&limit=240'
+#         },
+#         {
+#             'gender': 'women',
+#             'link': 'https://brandshop.ru/sale/?mfp=17-pol%5B%D0%96%D0%B5%D0%BD%D1%81%D0%BA%D0%B8%D0%B9%5D,manufacturers%5Badidas%20Originals,adidas%20Performance,adidas%20Skateboarding,Alpha%20Industries,Converse,Diadora,Dr.%20Martens,Helly%20Hansen,Lacoste,Napapijri,New%20Balance,Nike,Premiata,Polo%20Ralph%20Lauren,Reebok,Puma,Saucony,Lacoste,Stone%20Island%20Shadow%20Project,Timberland,Umbro,Vans,Y-3,ASICS%5D&limit=240'
+#         }
+#     ]
+#     p = Pool(processes=2)
+#     p.map(start_gender, catalog_data)
+#     db_write('status', [ 'total', f'Товары собраны за {get_time(round(time.time() - start_time))}' ], 'update')
+#
+# start()

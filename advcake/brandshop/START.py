@@ -57,3 +57,5 @@ def start():
     p = Pool(processes=2)
     p.map(start_gender, catalog_data)
     db_write('status', [ 'total', f'Товары собраны за {get_time(round(time.time() - start_time))}' ], 'update')
+
+start()

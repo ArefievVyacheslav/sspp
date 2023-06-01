@@ -7,12 +7,12 @@ def get_sizes(soup):
         for size_proto in sizes_proto:
             size = size_proto.find_all('div', 'size-row')[1].find_all('div', 'size-col')[0].text
             if size in sizes_arr: continue
-            else: sizes_arr.append(size)
+            else: sizes_arr.append(size.replace(' RU (в резерве)', '').replace(' RU', ''))
 
     except:
         sizes_proto = soup.find('div', class_=re.compile('b-size-select__pane')).find_all('option')
         for size_proto in sizes_proto:
-            sizes_arr.append(size_proto.text.split(' / ')[1])
+            sizes_arr.append(size_proto.text.split(' / ')[1].replace(' RU (в резерве)', '').replace(' RU', ''))
 
     return sizes_arr
 

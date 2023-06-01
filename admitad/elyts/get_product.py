@@ -1,4 +1,5 @@
 import re
+import requests
 import random
 from bs4 import BeautifulSoup
 from get_sizes import get_sizes
@@ -95,3 +96,7 @@ def get_product(html, link, gender):
         print(ex)
         print(f'{link} НЕ собран!')
         return
+
+
+# res = requests.get('https://elyts.ru/product/derbi-emporio-armani-275894-black/')
+# print(get_product(res.text, 'link', 'gender'))

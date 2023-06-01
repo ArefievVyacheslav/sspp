@@ -46,9 +46,9 @@ def get_product(html, link, gender):
         # получаю размеры в наличии
         if category == 'Аксессуары': sizes = ['one size']
         else: sizes = get_sizes(soup)
+        if len(sizes) == 0: return
         # получаю пикчи
         images = get_images(soup)
-        if len(sizes) == 0 or len(sizes) == 0: return
         if category == 'Нижнее белье': category = 'Одежда'
         return {
             'id': round(random.uniform(1000000000, 9999999999)),
@@ -91,3 +91,6 @@ def get_product(html, link, gender):
         print(ex)
         print(f'{link} НЕ собран!')
         return
+
+# res = requests.get('https://vipavenue.ru/product/1114272-rubashka-regular-fit-hlopkovaya-stile-latino/')
+# print(get_product(res.text, 'link', 'gender'))

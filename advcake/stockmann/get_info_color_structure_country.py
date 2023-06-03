@@ -6,8 +6,9 @@ def get_info_color_structure_country(soup):
     info_values = soup.find_all('span', class_=re.compile('params_value__'))
     info = {}
     color = False
-    structure = False
     country = False
+    season = False
+    structure = False
     for idx in range(len(info_params)):
         try:
             info[info_params[idx].text.strip()] = info_values[idx].text.strip()
@@ -15,6 +16,7 @@ def get_info_color_structure_country(soup):
         except: info = False
     if 'Цвет' in info: country = info['Цвет'].split(', ')[0]
     if 'Страна' in info: country = info['Страна'].title()
+    if 'Сезон' in info: season = info['Сезон']
     if 'Состав' in info:
         if ' - ' in info['Состав']: structure = info['Состав'].split(' - ')
         elif ', ' in info['Состав']: structure = info['Состав'].split(', ')
@@ -28,5 +30,6 @@ def get_info_color_structure_country(soup):
         'info': info,
         'color': color,
         'country': country,
+        'season': season,
         'structure': structure
     }

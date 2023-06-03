@@ -27,11 +27,12 @@ def get_product(html, link):
         price = get_prices(soup.find('li', class_=re.compile('prices_discount__')))
         oldprice = get_prices(soup.find('li', class_=re.compile('prices_price__')))
         sale = get_sale(soup)
-        # получаю инфо, цвет, состав и страну
+        # получаю инфо, цвет, состав и страну & season
         info_color_structure_country = get_info_color_structure_country(soup)
         info = info_color_structure_country['info']
         color = info_color_structure_country['color']
         country = info_color_structure_country['country']
+        season = info_color_structure_country['season']
         structure = info_color_structure_country['structure']
         # получаю бренд
         brand = get_brand(soup)['brand']
@@ -70,8 +71,8 @@ def get_product(html, link):
             'pp': 'advcake',
             'price': int(price),
             'sale': sale,
-            "season": False,
-            'season_t': False,
+            'season': season,
+            'season_t': get_transliterate(season) if season else season,
             'shop': 'stockmann',
             'sizes': sizes,
             "style": False,
@@ -85,5 +86,5 @@ def get_product(html, link):
         return
 
 
-# res = requests.get('https://stockmann.ru/product/5160000-tekstilnye-krossovki-response-super-2-0-adidas/?oid=ctl2etk3u&utm_source=partners&utm_medium=cpa&utm_campaign=335&utm_content=gc9g7&wid=gc9g7&statid=351_e60b06c05e483096&sub5=48832&clickId=e60b06c05e4830967dc4796a04afe8c3&sub1=e60b06c05e483096&sub2=7dc4796a04afe8c3&sub=e60b06c05e483096')
+# res = requests.get('https://stockmann.ru/product/5122489-bryuki-s-karmanami-boss/')
 # print(get_product(res.text, 'link'))

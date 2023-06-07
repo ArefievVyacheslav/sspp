@@ -59,7 +59,7 @@ def get_product(link, gender, idx):
             for size in driver.find_elements(By.CLASS_NAME, 'select__drop-list-text--right'):
                 sizes.append(size.get_attribute('textContent'))
             images = []
-            for img in driver.find_elements(By.CLASS_NAME, 'card__slider-img'):
+            for img in driver.find_elements(By.CLASS_NAME, 'zoomImg'):
                 images.append(img.get_attribute('src'))
             print(idx, 'PRODUCT - DONE!!!')
         except Exception as ex:
@@ -107,6 +107,6 @@ def get_product(link, gender, idx):
         return
 
 
-# print(get_product(
-#     'https://lgcity.ru/product/bryuki_3887.html',
-#     'Женский', 1))
+print(get_product(
+    'https://lgcity.ru/product/bryuki_3887.html',
+    'Женский', 1))

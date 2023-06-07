@@ -18,14 +18,24 @@ def get_product(link, gender, idx):
         try:
             if gender != 'women': gender = 'Мужской'
             else: gender = 'Женский'
-            name = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'breadcrumbs-last-item'))).get_attribute('textContent')
-            price = int(driver.find_element(By.CLASS_NAME, 'card__info-price-text--new').get_attribute('content'))
+            try: name = WebDriverWait(driver, 100).until(EC.presence_of_element_located((By.ID, 'breadcrumbs-last-item'))).get_attribute('textContent')
+            except: return
+            try: price = int(driver.find_element(By.CLASS_NAME, 'card__info-price-text--new').get_attribute('content'))
+            except: return
             oldprice = int(driver.find_element(By.CLASS_NAME, 'card__info-price-text--old').get_attribute('textContent')
                            .replace('\n', '').replace('\t', '').replace('\xa0', ' ').replace(' ', '').replace('₽', ''))
             sale = int(driver.find_element(By.CLASS_NAME, 'card__info-price-text--percent').get_attribute('textContent').replace('%', ''))
             brand = driver.find_element(By.CLASS_NAME, 'card__info-link').text.upper()
-            category = driver.find_elements(By.CLASS_NAME, 'breadcrumbs__item')[2].get_attribute('textContent').strip()
-            subcategory = driver.find_elements(By.CLASS_NAME, 'breadcrumbs__item')[4].get_attribute('textContent').strip()
+            category = driver.find_elements(By.CLASS_NAME, 'breadcrumbs__item')[1].get_attribute('textContent').strip()
+            subcategory = driver.find_elements(By.CLASS_NAME, 'breadcrumbs__item')[2].get_attribute('textContent').strip()
+            if subcategory == 'Одежда' or subcategory == 'Обувь' or subcategory == 'Аксессуары': subcategory = driver.find_elements(By.CLASS_NAME, 'breadcrumbs__item')[3].get_attribute('textContent').strip()
+            if category == 'Главная':
+                category = driver.find_elements(By.CLASS_NAME, 'breadcrumbs__item')[2].get_attribute('textContent').strip()
+                subcategory = driver.find_elements(By.CLASS_NAME, 'breadcrumbs__item')[3].get_attribute('textContent').strip()
+                if subcategory == 'Одежда' or subcategory == 'Обувь' or subcategory == 'Аксессуары': subcategory = driver.find_elements(By.CLASS_NAME, 'breadcrumbs__item')[4].get_attribute('textContent').strip()
+            if category == 'Нижнее белье':
+                subcategory = category
+                category = 'Одежда'
             color = driver.find_element(By.CLASS_NAME, 'card__color-value').get_attribute('textContent').lower().replace('ё', 'е').replace('в наличии: онлайн, офлайн', '').replace('в наличии: онлайн', '')
             if color == '': color = False
             brand_country = False

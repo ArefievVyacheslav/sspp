@@ -1,52 +1,1 @@
-import re
-import time
-import asyncio
-import aiohttp
-from bs4 import BeautifulSoup
-from get_time import get_time
-from get_headers import get_headers
-# from get_proxies import get_proxies
-from get_product_links_on_page import get_product_links_on_page
-
-product_links = []
-start_time = time.time()
-
-
-async def get_page_data(session, page, gender):
-    # , proxy = f'http://{get_proxies(page % 50)}'
-    async with session.get(
-            f'https://lgcity.ru/{gender}/boss-or-armani_exchange-or-hugo-or-emporio_armani-or-karl_lagerfeld-or-bikkembergs-or-ea7_emporio_armani-or-trussardi-or-guess-or-marc_opolo/sale_ok/order_price-asc/page_{page}/',
-            headers=get_headers()) as response:
-        links_arr = get_product_links_on_page(await response.text(), page)
-        for link in links_arr:
-            product_links.append(link)
-
-
-async def gather_data(link, gender):
-    async with aiohttp.ClientSession() as session:
-        try:
-            res = await session.get(link)
-            soup = BeautifulSoup(await res.text(), 'lxml')
-            page_count = int(soup.find('a', class_=re.compile('catalog__pagination-last')).text.strip())
-            print(f'Найдено {page_count} страниц!')
-            tasks = []
-            # for page in range(1, page_count + 1):
-            for page in range(1, 3):
-                await asyncio.sleep(0.1)
-                task = asyncio.create_task(get_page_data(session, page, gender))
-                tasks.append(task)
-            await asyncio.gather(*tasks)
-        except:
-            print(f'Ссылки на ТОВАРЫ с пагинации НЕ собраны!')
-            return
-
-
-def get_product_links(link, gender):
-    asyncio.run(gather_data(link, gender))
-    print('Ссылки на товары собраны за', f'{get_time(round(time.time() - start_time))}')
-    links = product_links.copy()
-    product_links.clear()
-    return {
-        'product_links': links,
-        'status': f'Ссылки на товары собраны через {get_time(round(time.time() - start_time))} от начала'
-    }
+import timefrom get_time import get_timefrom selenium.webdriver.common.by import Byfrom selenium.webdriver.support.wait import WebDriverWaitfrom selenium.webdriver.support import expected_conditions as ECfrom selenium.webdriver.chrome.options import Optionsimport undetected_chromedriverproduct_links = []start_time = time.time()def get_product_links(link):    product_links.clear()    option = Options()    option.headless = True    driver = undetected_chromedriver.Chrome(options=option)    try:        driver.get(link)        page_count = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'catalog__pagination-last'))).get_attribute('textContent')        product_links_proto = driver.find_elements(By.CLASS_NAME, 'catalog__item')        for link_one_page in product_links_proto:            product_links.append(link_one_page.get_attribute('href'))        # # for product_link in range(2, int(page_count) + 1):        # for product_link in range(2, 4):        #     driver.get(f'https://lgcity.ru/men/boss-or-armani_exchange-or-hugo-or-emporio_armani-or-karl_lagerfeld-or-bikkembergs-or-ea7_emporio_armani-or-bugatti-or-trussardi-or-guess-or-marc_opolo/sale_ok/order_price-asc/page_{product_link}/')        #     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, 'catalog__pagination-last')))        #     product_links_on_page = driver.find_elements(By.CLASS_NAME, 'catalog__item')        #     for link_other_page in product_links_on_page:        #         product_links.append(link_other_page.get_attribute('href'))        driver.close()        driver.quit()        print('Ссылки на товары собраны за', f'{get_time(round(time.time() - start_time))}')        return {            'product_links': product_links,            'status': f'Ссылки на товары собраны через {get_time(round(time.time() - start_time))} от начала'        }    except Exception as ex:        print(ex)        return {}# async def get_page_data(session, page, gender):#     # , proxy = f'http://{get_proxies(page % 50)}'#     async with session.get(#             f'https://lgcity.ru/{gender}/boss-or-armani_exchange-or-hugo-or-emporio_armani-or-karl_lagerfeld-or-bikkembergs-or-ea7_emporio_armani-or-trussardi-or-guess-or-marc_opolo/sale_ok/order_price-asc/page_{page}/',#             headers=get_headers()) as response:#         links_arr = get_product_links_on_page(await response.text(), page)#         for link in links_arr:#             product_links.append(link)# async def gather_data(link, gender):#     async with aiohttp.ClientSession() as session:#         try:#             res = await session.get(link)#             soup = BeautifulSoup(await res.text(), 'lxml')#             page_count = int(soup.find('a', class_=re.compile('catalog__pagination-last')).text.strip())#             print(f'Найдено {page_count} страниц!')#             tasks = []#             # for page in range(1, page_count + 1):#             for page in range(1, 3):#                 await asyncio.sleep(0.1)#                 task = asyncio.create_task(get_page_data(session, page, gender))#                 tasks.append(task)#             await asyncio.gather(*tasks)#         except:#             print(f'Ссылки на ТОВАРЫ с пагинации НЕ собраны!')#             return### def get_product_links(link, gender):#     asyncio.run(gather_data(link, gender))#     print('Ссылки на товары собраны за', f'{get_time(round(time.time() - start_time))}')#     links = product_links.copy()#     product_links.clear()#     return {#         'product_links': links,#         'status': f'Ссылки на товары собраны через {get_time(round(time.time() - start_time))} от начала'#     }

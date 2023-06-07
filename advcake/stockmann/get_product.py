@@ -86,5 +86,5 @@ def get_product(html, link):
         return
 
 
-# res = requests.get('https://stockmann.ru/product/5122489-bryuki-s-karmanami-boss/')
+# res = requests.get('https://stockmann.ru/product/5187316-dzhinsy-mavi/?oid=ctl2etk3u&utm_source=partners&utm_medium=cpa&utm_campaign=335&utm_content=gc9g7&wid=gc9g7&statid=351_77bda930feaa5ad5&sub5=48832&clickId=77bda930feaa5ad53146a5d7e2dfdaeb&sub1=77bda930feaa5ad5&sub2=3146a5d7e2dfdaeb&sub=77bda930feaa5ad5')
 # print(get_product(res.text, 'link'))

@@ -1,88 +1,93 @@
-import re
 import random
-from bs4 import BeautifulSoup
-from get_brand import get_brand
-from get_sizes import get_sizes
-from get_images import get_images
-from get_categories import get_categories
 from get_transliterate import get_transliterate
-from get_info_color_structure_country import get_info_color_structure_country
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
+import undetected_chromedriver
 
 
-def get_product(html, link, gender):
+def get_product(link, gender, idx):
+    global category
     try:
-        soup = BeautifulSoup(html, 'html.parser')
-        if gender == 'men':
-            gender = 'Мужской'
-        else:
-            gender = 'Женский'
-        # получаю крошки для распаршивания категорий и имени
-        name_cat_subcat = get_categories(soup)
-        if name_cat_subcat:
-            name = name_cat_subcat['name']
-            category = name_cat_subcat['category']
-            subcategory = name_cat_subcat['subcategory']
-        else:
-            return
-        # получаю цены
+        option = Options()
+        option.headless = True
+        option.add_argument("--headless=new")
+        driver = undetected_chromedriver.Chrome(options=option)
+        driver.get(link)
         try:
-            scriptData = soup.find_all('script', attrs={ 'data-skip-moving': True })
-            scriptDataArr = scriptData[1].text.split(',')
-            price = int(soup.find('div', class_=re.compile('card__info-price-text--new')).get('content').replace(' ', ''))
-            oldprice = int([s for s in scriptDataArr if 'metric3' in s][0].replace('"metric3":', ''))
-            sale = int([s for s in scriptDataArr if 'coupon' in s][0].replace('"coupon":"', '').replace('%"', ''))
-        except:
-            print('Проблема при получении цены у товара', link)
+            if gender != 'women': gender = 'Мужской'
+            else: gender = 'Женский'
+            name = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'breadcrumbs-last-item'))).get_attribute('textContent')
+            price = int(driver.find_element(By.CLASS_NAME, 'card__info-price-text--new').get_attribute('content'))
+            oldprice = int(driver.find_element(By.CLASS_NAME, 'card__info-price-text--old').get_attribute('textContent')
+                           .replace('\n', '').replace('\t', '').replace('\xa0', ' ').replace(' ', '').replace('₽', ''))
+            sale = int(driver.find_element(By.CLASS_NAME, 'card__info-price-text--percent').get_attribute('textContent').replace('%', ''))
+            brand = driver.find_element(By.CLASS_NAME, 'card__info-link').text.upper()
+            category = driver.find_elements(By.CLASS_NAME, 'breadcrumbs__item')[2].get_attribute('textContent').strip()
+            subcategory = driver.find_elements(By.CLASS_NAME, 'breadcrumbs__item')[4].get_attribute('textContent').strip()
+            color = driver.find_element(By.CLASS_NAME, 'card__color-value').get_attribute('textContent').lower().replace('ё', 'е').replace('в наличии: онлайн, офлайн', '').replace('в наличии: онлайн', '')
+            if color == '': color = False
+            brand_country = False
+            country = False
+            season = False
+            style = False
+            structure = False
+            keys = driver.find_elements(By.CLASS_NAME, 'card__info-list-item-key')
+            values = driver.find_elements(By.CLASS_NAME, 'card__info-list-item-val')
+            info = {}
+            for idx, key in enumerate(keys):
+                key_txt = key.get_attribute('textContent').replace(':', '')
+                val_txt = values[idx].get_attribute('textContent')
+                if key_txt == 'Состав': structure = val_txt
+                if key_txt == 'Страна производства': country = val_txt
+                if key_txt == 'Страна бренда': brand_country = val_txt
+                if key_txt == 'Сезон': season = val_txt
+                if key_txt == 'Стиль': style = val_txt
+                info[key_txt] = val_txt
+            sizes = []
+            for size in driver.find_elements(By.CLASS_NAME, 'select__drop-list-text--right'):
+                sizes.append(size.get_attribute('textContent'))
+            images = []
+            for img in driver.find_elements(By.CLASS_NAME, 'card__slider-img'):
+                images.append(img.get_attribute('src'))
+            print(idx, 'PRODUCT - DONE!!!')
+        except Exception as ex:
+            print(ex)
             return
-        # # получаю инфо, цвет, состав и страну
-        try:
-            info_data = get_info_color_structure_country(soup)
-            info = info_data['info']
-            brand_country = info_data['brand_country']
-            color = info_data['color']
-            country = info_data['country']
-            season = info_data['season']
-            structure = info_data['structure']
-            style = info_data['style']
-        except:
-            print('Проблема при получении информации у товара', link)
-            return
-        # получаю бренд
-        brand = get_brand(soup)
-        # получаю размеры в наличии
-        if category == 'Аксессуары': sizes = ['one size']
-        else: sizes = get_sizes(soup, category)
-        # получаю пикчи
-        images = get_images(soup)
-        if len(sizes) == 0 or len(sizes) == 0: return
-        if category == 'Верхняя одежда ': category = 'Одежда'
+        finally: driver.quit()
         return {
             'id': round(random.uniform(1000000000, 9999999999)),
             'age': 'Взрослый',
             'benefit': oldprice - price,
             'brand': brand,
             'brandCountry': brand_country,
+            'brandCountry_t': get_transliterate(brand_country) if brand_country else False,
             'category': category,
             'category_t': get_transliterate(category),
             'color': color,
+            'color_t': get_transliterate(color) if color else False,
             'country': country,
+            'country_t': get_transliterate(country) if country else False,
             'delivery': ['ru'],
             'deliveryPrice': False,
-            'description': False,
             'gender': gender,
             'name': name,
             'info': info,
             'installment': False,
             'images': images,
+            'like': 0,
             'link': link,
             'oldprice': oldprice,
             'pp': 'advcake',
             'price': price,
             'sale': sale,
-            'season': season,
+            "season": season,
+            'season_t': get_transliterate(season) if season else False,
             'shop': 'lgcity',
             'sizes': sizes,
-            'style': style,
+            "style": style,
+            'style_t': get_transliterate(style) if style else False,
             'structure': structure,
             'subcategory': subcategory,
             'subcategory_t': get_transliterate(subcategory)
@@ -90,3 +95,8 @@ def get_product(html, link, gender):
     except:
         print(f'{link} НЕ собран!')
         return
+
+
+# print(get_product(
+#     'https://lgcity.ru/product/bryuki_3887.html',
+#     'Женский', 1))

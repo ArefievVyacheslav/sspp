@@ -22,5 +22,5 @@ def get_categories(soup):
         'brand': brand,
         'name': name,
         'category': category,
-        'subcategory': subcategory.replace(' ', '')
+        'subcategory': subcategory.strip()
     }

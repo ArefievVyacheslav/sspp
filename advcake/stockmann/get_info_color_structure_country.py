@@ -17,6 +17,7 @@ def get_info_color_structure_country(soup):
     if 'Цвет' in info: country = info['Цвет'].split(', ')[0]
     if 'Страна' in info: country = info['Страна'].title()
     if 'Сезон' in info: season = info['Сезон']
+    if 'демисезон' in season: season = 'демисезон'
     if 'Состав' in info:
         if ' - ' in info['Состав']: structure = info['Состав'].split(' - ')
         elif ', ' in info['Состав']: structure = info['Состав'].split(', ')

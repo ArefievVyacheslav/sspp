@@ -98,5 +98,5 @@ def get_product(html, link, gender):
         return
 
 
-res = requests.get('https://elyts.ru/product/olimpijka-liu-jo-845108-colorful/?utm_source=admitad&utm_medium=admitad&admitad_uid=d046ba50bb6a1573c93f0fbc44156ed6&tagtag_uid=d046ba50bb6a1573c93f0fbc44156ed6')
+res = requests.get('https://elyts.ru/product/kurtka-brioni-612058-blue/')
 print(get_product(res.text, 'link', 'gender'))

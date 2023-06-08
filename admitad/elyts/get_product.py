@@ -98,5 +98,5 @@ def get_product(html, link, gender):
         return
 
 
-res = requests.get('https://elyts.ru/product/kurtka-brioni-612058-blue/')
-print(get_product(res.text, 'link', 'gender'))
+# res = requests.get('https://elyts.ru/product/kurtka-brioni-612058-blue/')
+# print(get_product(res.text, 'link', 'gender'))

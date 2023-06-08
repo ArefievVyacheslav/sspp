@@ -107,6 +107,6 @@ def get_product(link, gender, idx):
         return
 
 
-print(get_product(
-    'https://lgcity.ru/product/bryuki_3887.html',
-    'Женский', 1))
+# print(get_product(
+#     'https://lgcity.ru/product/bryuki_3887.html',
+#     'Женский', 1))

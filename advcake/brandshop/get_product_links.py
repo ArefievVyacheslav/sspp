@@ -22,8 +22,10 @@ def get_product_links(link):
         driver.close()
         driver.quit()
         print('Ссылки на товары собраны за', f'{get_time(round(time.time() - start_time))}')
+        links = product_links.copy()
+        product_links.clear()
         return {
-            'product_links': product_links,
+            'product_links': links,
             'status': f'Ссылки на товары собраны через {get_time(round(time.time() - start_time))} от начала'
         }
     except Exception as ex:

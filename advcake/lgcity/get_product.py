@@ -5,9 +5,11 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 import undetected_chromedriver
+import time
 
 
 def get_product(link, gender, idx):
+    if idx % 100 == 0: time.sleep(600)
     global category
     try:
         option = Options()
@@ -18,7 +20,7 @@ def get_product(link, gender, idx):
         try:
             if gender != 'women': gender = 'Мужской'
             else: gender = 'Женский'
-            try: name = WebDriverWait(driver, 100).until(EC.presence_of_element_located((By.ID, 'breadcrumbs-last-item'))).get_attribute('textContent')
+            try: name = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, 'breadcrumbs-last-item'))).get_attribute('textContent')
             except: return
             try: price = int(driver.find_element(By.CLASS_NAME, 'card__info-price-text--new').get_attribute('content'))
             except: return
@@ -61,11 +63,10 @@ def get_product(link, gender, idx):
             images = []
             for img in driver.find_elements(By.CLASS_NAME, 'zoomImg'):
                 images.append(img.get_attribute('src'))
-            print(idx, 'PRODUCT - DONE!!!')
+            print('PRODUCT - DONE!!!')
         except Exception as ex:
             print(ex)
             return
-        finally: driver.quit()
         return {
             'id': round(random.uniform(1000000000, 9999999999)),
             'age': 'Взрослый',

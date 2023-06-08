@@ -38,9 +38,9 @@ def get_product(html, link, gender):
         for crumb in breadcrumbs_proto:
             breadcrumbs.append(crumb.text)
         category = ''
-        if 'одежда' in breadcrumbs[2]: category = 'Одежда'
+        if 'одежда' in breadcrumbs[2].lower(): category = 'Одежда'
         else:
-            if 'обувь' in breadcrumbs[2]: category = 'Обувь'
+            if 'обувь' in breadcrumbs[2].lower(): category = 'Обувь'
         if category == '': category = 'Аксессуары'
         subcategory = breadcrumbs[3]\
             .replace(' мужская', '').replace('Мужская ', '').replace(' мужские', '').replace('Мужские', '')\
@@ -87,5 +87,5 @@ def get_product(html, link, gender):
         print(f'{link} НЕ собран!')
         return
 
-# res = requests.get('https://aflink.ru/g/tadpngrs9f41237c4d2c72ac4011c4/?erid=5jtCeReNwxHpfQTEQcrs9PS&ulp=https%3A%2F%2Fwww.brd.ru%2Fproduct%2Ferjjk03401-sje1-zhenskaya-kurtka-roxy-ellie-printed')
-# print(get_product(res.text, 'link', 'gender'))
+res = requests.get('https://www.brd.ru/product/adjs100138-204-kedy-striker-black-gold')
+print(get_product(res.text, 'link', 'gender'))

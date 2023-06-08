@@ -87,5 +87,5 @@ def get_product(html, link, gender):
         print(f'{link} НЕ собран!')
         return
 
-res = requests.get('https://www.brd.ru/product/adjs100138-204-kedy-striker-black-gold')
-print(get_product(res.text, 'link', 'gender'))
+# res = requests.get('https://www.brd.ru/product/adjs100138-204-kedy-striker-black-gold')
+# print(get_product(res.text, 'link', 'gender'))

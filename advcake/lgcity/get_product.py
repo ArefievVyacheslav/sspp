@@ -67,6 +67,7 @@ def get_product(link, gender, idx):
         except Exception as ex:
             print(ex)
             return
+        finally: driver.quit()
         return {
             'id': round(random.uniform(1000000000, 9999999999)),
             'age': 'Взрослый',

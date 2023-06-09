@@ -88,5 +88,5 @@ def get_product(html, link, gender):
         print(f'{link} НЕ собран!')
         return
 
-res = requests.get('https://www.brd.ru/product/adyo200039-gqm0-snoubordicheskie-botinki-dc-tucknee')
-print(get_product(res.text, 'link', 'gender'))
+# res = requests.get('https://www.brd.ru/product/adyo200039-gqm0-snoubordicheskie-botinki-dc-tucknee')
+# print(get_product(res.text, 'link', 'gender'))

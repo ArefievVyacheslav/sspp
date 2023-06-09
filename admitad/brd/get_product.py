@@ -44,8 +44,8 @@ def get_product(html, link, gender):
             if 'обувь' in breadcrumbs[2].lower(): category = 'Обувь'
         if category == '': category = 'Аксессуары'
         subcategory = breadcrumbs[3]\
-            .replace(' мужская', '').replace('Мужская ', '').replace(' мужские', '').replace('Мужские', '')\
-            .replace('Женские ', '').replace('Женская ', '').replace(' женская', '').replace(' женские', '').capitalize()
+            .replace(' мужская', '').replace('Мужская ', '').replace(' мужские', '').replace('Мужские', '').replace('Женские ', '')\
+            .replace('Женская ', '').replace(' женская', '').replace(' женские', '').strip().capitalize()
         return {
             'id': round(random.uniform(1000000000, 9999999999)),
             'age': 'Взрослый',
@@ -81,12 +81,12 @@ def get_product(html, link, gender):
             'style_t': False,
             'structure': False,
             'subcategory': subcategory,
-            'subcategory_t': get_transliterate(subcategory)
+            'subcategory_t': get_transliterate(subcategory).replace(' ', '-').lower()
         }
     except Exception as ex:
         print(ex)
         print(f'{link} НЕ собран!')
         return
 
-# res = requests.get('https://www.brd.ru/product/adjs100138-204-kedy-striker-black-gold')
-# print(get_product(res.text, 'link', 'gender'))
+res = requests.get('https://www.brd.ru/product/adyo200039-gqm0-snoubordicheskie-botinki-dc-tucknee')
+print(get_product(res.text, 'link', 'gender'))

@@ -1,4 +1,5 @@
 import re
+import math
 import random
 import requests
 from bs4 import BeautifulSoup
@@ -26,13 +27,13 @@ def get_product(html, link, gender):
             return
         # получаю цены
         try:
-            price = int(soup.find('div', class_=re.compile('product__price')).find('ins').text.replace(' ', '').replace('₽', ''))
-            oldprice = int(soup.find('div', class_=re.compile('product__price')).find('del').text.replace(' ', '').replace('₽', ''))
-            sale = int(soup.find('div', class_=re.compile('card-product__sale')).text.replace('-', '').replace('%', '').strip())
+            price = int(soup.find('div', class_=re.compile('product__card--price-actual')).text.replace(' ', '').replace('₽', ''))
+            oldprice = int(soup.find('div', class_=re.compile('product__card--price-old')).text.replace(' ', '').replace('₽', ''))
+            sale = math.ceil(price / (oldprice / 100))
         except:
             print('Проблема при получении цены у товара', link)
             return
-        # # получаю инфо, цвет, состав и страну
+        # получаю инфо, цвет, состав и страну
         try:
             info_data = get_info(soup)
             info = info_data['info']

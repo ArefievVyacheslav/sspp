@@ -19,6 +19,7 @@ def get_product(html, link, gender):
         for size in sizes_proto:
             if 'disabled' not in size.get('class'): sizes.append(size.find('span').text.strip())
         if len(sizes) == 0: return
+        if sizes[0] == '': return
         name = soup.find('h1').text
         price = int(soup.find('span', { 'itemprop': 'price' }).text)
         oldprice = int(soup.find('span', class_='price_obsolete').text.replace(' Р', ''))

@@ -9,7 +9,8 @@ import time
 
 
 def get_product(link, gender, idx):
-    if idx % 100 == 0: time.sleep(600)
+    print(idx, 'product')
+    time.sleep(3)
     global category
     try:
         option = Options()
@@ -63,7 +64,6 @@ def get_product(link, gender, idx):
             images = []
             for img in driver.find_elements(By.CLASS_NAME, 'zoomImg'):
                 images.append(img.get_attribute('src'))
-            print('PRODUCT - DONE!!!')
         except Exception as ex:
             print(ex)
             return

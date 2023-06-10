@@ -27,16 +27,16 @@ const menOptions = [
       'sec-fetch-site': 'same-origin',
       'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
       'x-sm-accept-language': 'ru-RU',
-      'x-sm-request-id': '2388ced4-bf39',
-      'x-sm-tracing-id': '3b5de532-10923164'
+      'x-sm-request-id': 'f6f50632-4729',
+      'x-sm-tracing-id': 'baea722f-9171885'
     }
   }
 ]
 const womenOptions = [
   'https://www.sportmaster.ru/web-api/v1/catalog/',
   {
-    'url': '/catalog/sale_/?f-availability=delivery_wo_exp,exp_delivery&f-cat=cat_aksessuary,cat_obuv,cat_odezhda&f-age_gender=age_gender_zhenschiny&f-brand=134913850299,134921380299,134922180299,134923980299,134934380299,134943420299,134953520299,134957800299,134961460299,134963300299,44692390299,4526360002,4526390002,4526420002,4526530002,4526600002,45882690299,46255830299,47785340299,4930740002,4930770002,4931390002,4931400002,4931840002,4932590002,60052010299',
-    'page': 1
+    'url': '/catalog/sale_/?f-availability=delivery_wo_exp,exp_delivery&f-cat=cat_aksessuary,cat_obuv,cat_odezhda&f-age_gender=age_gender_zhenschiny&f-brand=134913850299,134921380299,134922180299,134923980299,134934380299,134943420299,134953520299,134957800299,134961460299,134963300299,44692390299,4526360002,4526390002,4526420002,4526530002,4526600002,45882690299,46255830299,47785340299,4930740002,4930770002,4931390002,4931400002,4931840002,4932590002,60052010299&watched=1&page=2',
+    'page': 3
   },
   {
     headers: {
@@ -45,7 +45,7 @@ const womenOptions = [
       'cookie': 'UDID=3a5ba8db-2639-456f-a358-e9e7dd516168; SMID=eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJlMDVhZjI3OC1hMWVhLTQ2ZWEtYTEzNS0zMWJjZmFhYzk0ZmUiLCJpc3MiOiJTTTMwIiwiaWF0IjoxNjgyODYwNTE4LCJhdWQiOiJzcG9ydG1hc3RlciIsImFuVCI6IjU0ZTI5YjI2LTJkYTMtNGJkNi1hNGI3LTYwMzFmMDAzYzlmNiIsImFuUCI6ImVmN2ZkNDZjLWQwZTctNDRlOC04MzU5LTkwNzgwNTJhODQwZiIsImFuVSI6IjEwMDAwMDAwNjAzMTM3Nzc4MyIsImNhblAiOiJBSUFXaWdQeGNrMGh6WU9LWXNxY2hTRHZIeTE2eWtPcFV6RTlzOXVaV0h1elRlRWViWGJLeEpmS01QREtKa1hac2paa3FXUTdIOFlqdmRNNnBrT0VoT3lMK3o3Q3Y4QWZlNHVhZG04eHNsUDQ3RnRMVjJCaGoxS0EvbER5QTlDVkJrV0FldjJjbjl0WTRndkRsNWhPbmxNall1Njg0ek9wUVNGRW9GT1ZvQU84bUtWQkw5T0RCUVova0xOcGpiejVINjFxdmFiS3BmSjEvcHpnUmlSRGtnTlBpcEtJRG5CcTdrYzQ5UzRHeSsyWTQraXVGbEhFNWZjMGJ0anBHZk1zVVAwPSIsImNhblQiOiJBSUNXUTNGaGI2em81bmlmbHJ2OHY0VmVNT0Qva1pFcjFicG9wQlpHTjJmWUVOSkRvZlVVN3NiSFNXY3J5R1lLVXZ3dW5obFdrR05zWFA5cE0yWThVUFFNR2Q1NDRtaTRyQnduUUFWRDNmeDN6cHJ3NmptUkVucXR3SXhPdmttc0M5dHVMTWpDNHZ4M1hmOXlwQ0RlU2o2NzJjNmhtdFFCZUxaWkFQbS9VR3JYVE5qRDV5ZXYxU1AxenBQK2RxVS95R2JTbjR4T2NlNHNoa1ZoY1FtTU9COUwvQWV5VzNNUEZFN3FKQnZ0RmNaa3VZV1gyZ2RVRHlvU3FvZUd4YVJKMk1FPSIsInYiOiJWMiJ9.BwW0N_Ze3OgHZk7ny5tCJR-EUyX7yHgWYNNmKH03qNN92Tq8pUWMne80Q2s3dTB1mX-jPPHAc_HbgMyRB0NB6XKLj91pwtSxGmpyVKKfHZ895ckbEEqo4TOvDA24c6-FJ1E1GtHhbKWYJzTiakGkG5A5bM_DSkatHH82Mw5ScS2PQG6AIONr7gNEtoKtu3t8ReEUO6eiOaCAyLioAReKFTyOefld_rqIjHSbtgRGr6SkGN8sdbS2iWS5_4EEOVOpnBtYHw72jn5yohNKBV6CHtj7SWozg-6ikn68kRcK_fZaEIyLaqQpC3rh0LkWhv_CTAqxKJATYWal1PCyGH5jgw; SMAUTH=eyJpZCI6IjE5ZTMxYTc5LWMwYTMtNGM2MC05MzYzLTFlNDkyNWE3ODA0OCIsInN0IjoiUkVUVVJORUQiLCJ0bSI6MTY4Mjg2MDUxOH0=; srv_id=9c935903a1a5983603abc5cf9e24b037; qrator_jsid=1686408584.930.AHhfZrw3zYIjnP6l-up8l3vaja0e44ea90m1oeiqmbcpajnto',
       'dnt': '1',
       'origin': 'https://www.sportmaster.ru',
-      'referer': 'https://www.sportmaster.ru/catalog/sale_/?f-availability=delivery_wo_exp,exp_delivery&f-cat=cat_aksessuary,cat_obuv,cat_odezhda&f-age_gender=age_gender_zhenschiny&f-brand=134913850299,134921380299,134922180299,134923980299,134934380299,134943420299,134953520299,134957800299,134961460299,134963300299,44692390299,4526360002,4526390002,4526420002,4526530002,4526600002,45882690299,46255830299,47785340299,4930740002,4930770002,4931390002,4931400002,4931840002,4932590002,60052010299',
+      'referer': 'https://www.sportmaster.ru/catalog/sale_/?f-availability=delivery_wo_exp,exp_delivery&f-cat=cat_aksessuary,cat_obuv,cat_odezhda&f-age_gender=age_gender_zhenschiny&f-brand=134913850299,134921380299,134922180299,134923980299,134934380299,134943420299,134953520299,134957800299,134961460299,134963300299,44692390299,4526360002,4526390002,4526420002,4526530002,4526600002,45882690299,46255830299,47785340299,4930740002,4930770002,4931390002,4931400002,4931840002,4932590002,60052010299&page=2&watched=1',
       'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
       'sec-ch-ua-mobile': '?0',
       'sec-ch-ua-platform': '"Linux"',
@@ -54,8 +54,8 @@ const womenOptions = [
       'sec-fetch-site': 'same-origin',
       'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
       'x-sm-accept-language': 'ru-RU',
-      'x-sm-request-id': '9e63b4bc-be6d',
-      'x-sm-tracing-id': 'f536dcdf-10933396'
+      'x-sm-request-id': '632188df-2770',
+      'x-sm-tracing-id': 'b8e86394-11546289'
     }
   }
 ]
@@ -86,17 +86,14 @@ module.exports = async function getProducts (gender) {
     // получаю данные по товару
     // + productProto.productId
     const { data } = await axios.get(
-      'https://www.sportmaster.ru/ga-api/v1/product-view/' + productProto.productId,
-      {
+      'https://www.sportmaster.ru/ga-api/v1/product-view/' + productProto.productId, {
         headers: {
           'authority': 'www.sportmaster.ru',
           'accept': 'application/json, text/plain, */*',
           'accept-language': 'en-US,en;q=0.9,ru-RU;q=0.8,ru;q=0.7',
-          'cache-control': 'no-cache',
           'cookie': 'UDID=3a5ba8db-2639-456f-a358-e9e7dd516168; SMID=eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJlMDVhZjI3OC1hMWVhLTQ2ZWEtYTEzNS0zMWJjZmFhYzk0ZmUiLCJpc3MiOiJTTTMwIiwiaWF0IjoxNjgyODYwNTE4LCJhdWQiOiJzcG9ydG1hc3RlciIsImFuVCI6IjU0ZTI5YjI2LTJkYTMtNGJkNi1hNGI3LTYwMzFmMDAzYzlmNiIsImFuUCI6ImVmN2ZkNDZjLWQwZTctNDRlOC04MzU5LTkwNzgwNTJhODQwZiIsImFuVSI6IjEwMDAwMDAwNjAzMTM3Nzc4MyIsImNhblAiOiJBSUFXaWdQeGNrMGh6WU9LWXNxY2hTRHZIeTE2eWtPcFV6RTlzOXVaV0h1elRlRWViWGJLeEpmS01QREtKa1hac2paa3FXUTdIOFlqdmRNNnBrT0VoT3lMK3o3Q3Y4QWZlNHVhZG04eHNsUDQ3RnRMVjJCaGoxS0EvbER5QTlDVkJrV0FldjJjbjl0WTRndkRsNWhPbmxNall1Njg0ek9wUVNGRW9GT1ZvQU84bUtWQkw5T0RCUVova0xOcGpiejVINjFxdmFiS3BmSjEvcHpnUmlSRGtnTlBpcEtJRG5CcTdrYzQ5UzRHeSsyWTQraXVGbEhFNWZjMGJ0anBHZk1zVVAwPSIsImNhblQiOiJBSUNXUTNGaGI2em81bmlmbHJ2OHY0VmVNT0Qva1pFcjFicG9wQlpHTjJmWUVOSkRvZlVVN3NiSFNXY3J5R1lLVXZ3dW5obFdrR05zWFA5cE0yWThVUFFNR2Q1NDRtaTRyQnduUUFWRDNmeDN6cHJ3NmptUkVucXR3SXhPdmttc0M5dHVMTWpDNHZ4M1hmOXlwQ0RlU2o2NzJjNmhtdFFCZUxaWkFQbS9VR3JYVE5qRDV5ZXYxU1AxenBQK2RxVS95R2JTbjR4T2NlNHNoa1ZoY1FtTU9COUwvQWV5VzNNUEZFN3FKQnZ0RmNaa3VZV1gyZ2RVRHlvU3FvZUd4YVJKMk1FPSIsInYiOiJWMiJ9.BwW0N_Ze3OgHZk7ny5tCJR-EUyX7yHgWYNNmKH03qNN92Tq8pUWMne80Q2s3dTB1mX-jPPHAc_HbgMyRB0NB6XKLj91pwtSxGmpyVKKfHZ895ckbEEqo4TOvDA24c6-FJ1E1GtHhbKWYJzTiakGkG5A5bM_DSkatHH82Mw5ScS2PQG6AIONr7gNEtoKtu3t8ReEUO6eiOaCAyLioAReKFTyOefld_rqIjHSbtgRGr6SkGN8sdbS2iWS5_4EEOVOpnBtYHw72jn5yohNKBV6CHtj7SWozg-6ikn68kRcK_fZaEIyLaqQpC3rh0LkWhv_CTAqxKJATYWal1PCyGH5jgw; SMAUTH=eyJpZCI6IjE5ZTMxYTc5LWMwYTMtNGM2MC05MzYzLTFlNDkyNWE3ODA0OCIsInN0IjoiUkVUVVJORUQiLCJ0bSI6MTY4Mjg2MDUxOH0=; srv_id=9c935903a1a5983603abc5cf9e24b037; qrator_jsid=1686408584.930.AHhfZrw3zYIjnP6l-up8l3vaja0e44ea90m1oeiqmbcpajnto',
           'dnt': '1',
-          'pragma': 'no-cache',
-          'referer': 'https://www.sportmaster.ru/product/' + productProto.productId,
+          'referer': 'https://www.sportmaster.ru/product/' + productProto.productId + '/',
           'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
           'sec-ch-ua-mobile': '?0',
           'sec-ch-ua-platform': '"Linux"',
@@ -105,8 +102,8 @@ module.exports = async function getProducts (gender) {
           'sec-fetch-site': 'same-origin',
           'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
           'x-sm-accept-language': 'ru-RU',
-          'x-sm-request-id': 'af1a7606-2e8a',
-          'x-sm-tracing-id': 'e064e906-8454613'
+          'x-sm-request-id': 'fff045fd-ce57',
+          'x-sm-tracing-id': '065c3fc9-5879289'
         }
       }
     )
@@ -146,17 +143,14 @@ module.exports = async function getProducts (gender) {
       // получаю данные по товару
       // + productProto.productId
       const { data } = await axios.get(
-        'https://www.sportmaster.ru/ga-api/v1/product-view/' + productProto.productId,
-        {
+        'https://www.sportmaster.ru/ga-api/v1/product-view/' + productProto.productId, {
           headers: {
             'authority': 'www.sportmaster.ru',
             'accept': 'application/json, text/plain, */*',
             'accept-language': 'en-US,en;q=0.9,ru-RU;q=0.8,ru;q=0.7',
-            'cache-control': 'no-cache',
             'cookie': 'UDID=3a5ba8db-2639-456f-a358-e9e7dd516168; SMID=eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJlMDVhZjI3OC1hMWVhLTQ2ZWEtYTEzNS0zMWJjZmFhYzk0ZmUiLCJpc3MiOiJTTTMwIiwiaWF0IjoxNjgyODYwNTE4LCJhdWQiOiJzcG9ydG1hc3RlciIsImFuVCI6IjU0ZTI5YjI2LTJkYTMtNGJkNi1hNGI3LTYwMzFmMDAzYzlmNiIsImFuUCI6ImVmN2ZkNDZjLWQwZTctNDRlOC04MzU5LTkwNzgwNTJhODQwZiIsImFuVSI6IjEwMDAwMDAwNjAzMTM3Nzc4MyIsImNhblAiOiJBSUFXaWdQeGNrMGh6WU9LWXNxY2hTRHZIeTE2eWtPcFV6RTlzOXVaV0h1elRlRWViWGJLeEpmS01QREtKa1hac2paa3FXUTdIOFlqdmRNNnBrT0VoT3lMK3o3Q3Y4QWZlNHVhZG04eHNsUDQ3RnRMVjJCaGoxS0EvbER5QTlDVkJrV0FldjJjbjl0WTRndkRsNWhPbmxNall1Njg0ek9wUVNGRW9GT1ZvQU84bUtWQkw5T0RCUVova0xOcGpiejVINjFxdmFiS3BmSjEvcHpnUmlSRGtnTlBpcEtJRG5CcTdrYzQ5UzRHeSsyWTQraXVGbEhFNWZjMGJ0anBHZk1zVVAwPSIsImNhblQiOiJBSUNXUTNGaGI2em81bmlmbHJ2OHY0VmVNT0Qva1pFcjFicG9wQlpHTjJmWUVOSkRvZlVVN3NiSFNXY3J5R1lLVXZ3dW5obFdrR05zWFA5cE0yWThVUFFNR2Q1NDRtaTRyQnduUUFWRDNmeDN6cHJ3NmptUkVucXR3SXhPdmttc0M5dHVMTWpDNHZ4M1hmOXlwQ0RlU2o2NzJjNmhtdFFCZUxaWkFQbS9VR3JYVE5qRDV5ZXYxU1AxenBQK2RxVS95R2JTbjR4T2NlNHNoa1ZoY1FtTU9COUwvQWV5VzNNUEZFN3FKQnZ0RmNaa3VZV1gyZ2RVRHlvU3FvZUd4YVJKMk1FPSIsInYiOiJWMiJ9.BwW0N_Ze3OgHZk7ny5tCJR-EUyX7yHgWYNNmKH03qNN92Tq8pUWMne80Q2s3dTB1mX-jPPHAc_HbgMyRB0NB6XKLj91pwtSxGmpyVKKfHZ895ckbEEqo4TOvDA24c6-FJ1E1GtHhbKWYJzTiakGkG5A5bM_DSkatHH82Mw5ScS2PQG6AIONr7gNEtoKtu3t8ReEUO6eiOaCAyLioAReKFTyOefld_rqIjHSbtgRGr6SkGN8sdbS2iWS5_4EEOVOpnBtYHw72jn5yohNKBV6CHtj7SWozg-6ikn68kRcK_fZaEIyLaqQpC3rh0LkWhv_CTAqxKJATYWal1PCyGH5jgw; SMAUTH=eyJpZCI6IjE5ZTMxYTc5LWMwYTMtNGM2MC05MzYzLTFlNDkyNWE3ODA0OCIsInN0IjoiUkVUVVJORUQiLCJ0bSI6MTY4Mjg2MDUxOH0=; srv_id=9c935903a1a5983603abc5cf9e24b037; qrator_jsid=1686408584.930.AHhfZrw3zYIjnP6l-up8l3vaja0e44ea90m1oeiqmbcpajnto',
             'dnt': '1',
-            'pragma': 'no-cache',
-            'referer': 'https://www.sportmaster.ru/product/' + productProto.productId,
+            'referer': 'https://www.sportmaster.ru/product/' + productProto.productId + '/',
             'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
             'sec-ch-ua-mobile': '?0',
             'sec-ch-ua-platform': '"Linux"',
@@ -165,8 +159,8 @@ module.exports = async function getProducts (gender) {
             'sec-fetch-site': 'same-origin',
             'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
             'x-sm-accept-language': 'ru-RU',
-            'x-sm-request-id': 'af1a7606-2e8a',
-            'x-sm-tracing-id': 'e064e906-8454613'
+            'x-sm-request-id': 'fff045fd-ce57',
+            'x-sm-tracing-id': '065c3fc9-5879289'
           }
         }
       )

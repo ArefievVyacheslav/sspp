@@ -49,7 +49,7 @@ def get_product(html, link, idx):
                         and 'SAFE_SRC' not in param\
                         and 'NO_PHOTO' not in param\
                         and 'DEFAULT_PICTURE' not in param: images.append('https://sohoshop.ru' + param.replace("SRC':'", '').replace("'", ''))
-        images = set(images)
+        images = list(set(images))
         return {
             'id': round(random.uniform(1000000000, 9999999999)),
             'age': 'Взрослый',
@@ -92,5 +92,5 @@ def get_product(html, link, idx):
         return
 
 
-# res = requests.get('https://sohoshop.ru/product/22207082-4611365?oid=4616942&utm_source=admitad&utm_medium=cpc&utm_campaign=1392094&admitad_uid=5cc9ac23fb9ff58945a31ae07627db24')
-# print(get_product(res.text, 'link', 1))
+res = requests.get('https://sohoshop.ru/product/22207082-4611365?oid=4616942&utm_source=admitad&utm_medium=cpc&utm_campaign=1392094&admitad_uid=5cc9ac23fb9ff58945a31ae07627db24')
+print(get_product(res.text, 'link', 1))

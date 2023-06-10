@@ -1,4 +1,5 @@
 import requests
+import time
 
 cookies = {
     'PHPSESSID': 'e9SZWhUVhjtppeXdAzPhOu5IqpRAHp3l',
@@ -123,6 +124,7 @@ def get_product_links_2 (gender):
         if brand in brands: links.append('https://vipavenue.ru' + url.get('url'))
 
     for page in range(1, page_count):
+        time.sleep(2)
     # for page in range(1, 2):
         json_data['page'] = str(page + 1)
         res_other = requests.post('https://catalog.vipavenue.ru/api/products/get-list', cookies=cookies,
@@ -132,5 +134,7 @@ def get_product_links_2 (gender):
         for url in data_other:
             brand_other = url.get('brand').get('name')
             if brand_other in brands: links.append('https://vipavenue.ru' + url.get('url'))
+
+        print('page', page, 'links', len(links))
 
     return links

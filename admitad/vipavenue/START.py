@@ -19,17 +19,18 @@ def start():
     catalog_data = [
         {
             'gender': 'men',
-            'link': 'https://vipavenue.ru/sale/mens/?brand=632397,37,68,69,1174146,97,122,133,594271,608081,151,261,267,275,291,356,247491,388,489,497,501,619,631,641,2028,247493,696,709,720,723,737,755,782,908,934,951,986'
+            'link': 'https://vipavenue.ru/sale/mens/'
         },
         {
             'gender': 'women',
-            'link': 'https://vipavenue.ru/sale/womens/?brand=37,901997,87,97,133,594271,608081,151,162,261,265,267,275,356,247491,364,388,2022,481,489,497,501,507,1036101,618,619,631,641,2028,247493,709,720,723,730,737,755,774,908,931,934,935,951,40061'
+            'link': 'https://vipavenue.ru/sale/womens/'
         }
     ]
     products_count = 0
     for option in catalog_data:
         product_links_data = get_product_links(option['link'], option['gender'])
         product_links = product_links_data['product_links']
+        print(product_links)
         if option['gender'] == 'women': db_write('status', [ 'second', product_links_data['status'] ], 'update')
         products_data = get_products(product_links, option['gender'])
         products = products_data['products']

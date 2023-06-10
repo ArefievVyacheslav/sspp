@@ -122,7 +122,7 @@ def get_product_links_2 (gender):
         brand = url.get('brand').get('name')
         if brand in brands: links.append('https://vipavenue.ru' + url.get('url'))
 
-    for page in range(1, page_count):
+    for page in range(1, page_count + 1):
     # for page in range(1, 2):
         json_data['page'] = str(page + 1)
         res_other = requests.post('https://catalog.vipavenue.ru/api/products/get-list', cookies=cookies,

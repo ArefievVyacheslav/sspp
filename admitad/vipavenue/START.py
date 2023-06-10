@@ -1,7 +1,7 @@
 import time
 import datetime
 import requests
-from get_product_links import get_product_links
+from get_product_links_2 import get_product_links_2
 from get_deeplinks import get_deeplinks
 from get_products import get_products
 from db_write import db_write
@@ -28,10 +28,9 @@ def start():
     ]
     products_count = 0
     for option in catalog_data:
-        product_links_data = get_product_links(option['link'], option['gender'])
-        product_links = product_links_data['product_links']
-        if option['gender'] == 'women': db_write('status', [ 'second', product_links_data['status'] ], 'update')
-        products_data = get_products(product_links, option['gender'])
+        product_links = get_product_links_2(option['gender'])
+        if option['gender'] == 'women': db_write('status', [ 'second', product_links ], 'update')
+        products_data = get_products(product_links[1:7], option['gender'])
         products = products_data['products']
         if option['gender'] == 'women': db_write('status', [ 'third', products_data['status'] ], 'update')
         print(len(products), 'ТОВАРОВ СОБРАНО!!!')

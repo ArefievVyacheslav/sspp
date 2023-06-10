@@ -30,7 +30,7 @@ def start():
     for option in catalog_data:
         product_links = get_product_links_2(option['gender'])
         if option['gender'] == 'women': db_write('status', [ 'second', product_links ], 'update')
-        products_data = get_products(product_links[1:7], option['gender'])
+        products_data = get_products(product_links, option['gender'])
         products = products_data['products']
         if option['gender'] == 'women': db_write('status', [ 'third', products_data['status'] ], 'update')
         print(len(products), 'ТОВАРОВ СОБРАНО!!!')

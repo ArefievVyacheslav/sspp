@@ -29,9 +29,9 @@ async def gather_data():
             page_count = int(page_count.find_all('a', class_='dark_link')[-1].text)
             print(f'Найдено {page_count} страниц')
             tasks = []
-            # for page in range(1, page_count + 1):
-            for page in range(1, 2):
-                await asyncio.sleep(0.1)
+            for page in range(1, page_count + 1):
+            # for page in range(1, 2):
+                await asyncio.sleep(1)
                 task = asyncio.create_task(get_page_data(session, page))
                 tasks.append(task)
             await asyncio.gather(*tasks)

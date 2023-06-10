@@ -16,38 +16,41 @@ def get_product(html, link, idx):
     print(idx, 'product')
     try:
         soup = BeautifulSoup(html, 'lxml')
-        # получаю крошки для распаршивания категорий, возраста и пола
-        age_cat_subcat = get_categories(soup)
-        if age_cat_subcat:
-            age = age_cat_subcat['age']
-            category = age_cat_subcat['category']
-            gender = age_cat_subcat['gender']
-            subcategory = age_cat_subcat['subcategory']
-        else: return
-        # получаю цены
-        price = get_prices(soup.find('li', class_=re.compile('prices_discount__')))
-        oldprice = get_prices(soup.find('li', class_=re.compile('prices_price__')))
-        sale = get_sale(soup)
-        # получаю инфо, цвет, состав и страну & season
-        info_color_structure_country = get_info_color_structure_country(soup)
-        info = info_color_structure_country['info']
-        color = info_color_structure_country['color']
-        country = info_color_structure_country['country']
-        season = info_color_structure_country['season']
-        structure = info_color_structure_country['structure']
-        # получаю бренд
-        brand = get_brand(soup)['brand']
-        name = get_brand(soup)['name']
-        # получаю размеры в наличии
-        if category == 'Аксессуары': sizes = ['one size']
-        else: sizes = get_sizes(soup, brand, category)
-        # получаю пикчи
-        images = get_images(soup)
-        if len(sizes) == 0 or len(sizes) == 0: return
-        if category == 'Верхняя одежда ': category = 'Одежда'
+        price = int(soup.find('span', class_='clrtype1').text.replace(' руб', '').replace(' ', ''))
+        oldprice = int(soup.find('span', class_='clrtype3').text.replace(' руб', '').replace(' ', ''))
+        sale = int(soup.find('div', class_='clrtype4').text.split(':')[1].replace('%', '').strip())
+        try: color = soup.find('div', class_='supcolor').text.replace('Цвет: ', '').lower().strip()
+        except: color = soup.find('h1').get('title').split('цвет ')[1].split(' Модель')[0]
+        if 'Женс' in soup.find('h1').text: gender = 'Женский'
+        else: gender = 'Мужской'
+        name = soup.find('h1').text.split(',')[0].replace('Женские ', '').replace('Мужские ', '').capitalize()
+        name = name + soup.find('div', class_='sub').text.strip().replace('Модель:', '').replace(', арт:', '')
+        desc = soup.find('div', { 'itemprop': 'description' }).text.strip()
+        sizes = []
+        for size in soup.find_all('span', class_='cnt'):
+            sizes.append(size.text.strip())
+        info = {}
+        info_keys = soup.find_all('td', class_='char_name')
+        info_values = soup.find_all('td', class_='char_value')
+        for idx, key in enumerate(info_keys):
+            info[key.find('span', { 'itemprop': 'name' }).text.strip()] = info_values[idx].find('span', { 'itemprop': 'value' }).text
+        brand = info['Бренд'].replace(' Обувь ', '').strip()
+        category = 'Обувь'
+        subcategory = info['Вид обуви'].strip().capitalize()
+        images = []
+        scripts = soup.find_all('script')
+        for script in scripts:
+            if '/*получение размеров + добавление в корзину*/' in str(script):
+                for param in str(script).split(','):
+                    if 'SRC' in param\
+                        and 'UNSAFE_SRC' not in param\
+                        and 'DETAIL_PICTURE' not in param\
+                        and 'SAFE_SRC' not in param\
+                        and 'NO_PHOTO' not in param\
+                        and 'DEFAULT_PICTURE' not in param: images.append('https://sohoshop.ru' + param.replace("SRC':'", '').replace("'", ''))
         return {
             'id': round(random.uniform(1000000000, 9999999999)),
-            'age': age,
+            'age': 'Взрослый',
             'benefit': oldprice - price,
             'brand': brand,
             "brandCountry": False,
@@ -56,11 +59,11 @@ def get_product(html, link, idx):
             'category_t': get_transliterate(category),
             'color': color,
             'color_t': get_transliterate(color) if color else color,
-            'country': country,
-            'country_t': get_transliterate(country) if country else country,
+            'country': False,
+            'country_t': False,
             'delivery': ['ru'],
             'deliveryPrice': 199,
-            'description': False,
+            'description': desc,
             'gender': gender,
             'name': name,
             'info': info,
@@ -68,17 +71,17 @@ def get_product(html, link, idx):
             'images': images,
             'like': 0,
             'link': link,
-            'oldprice': int(oldprice),
-            'pp': 'advcake',
-            'price': int(price),
-            'sale': int(sale),
-            'season': season,
-            'season_t': get_transliterate(season) if season else season,
-            'shop': 'stockmann',
+            'oldprice': oldprice,
+            'pp': 'admitad',
+            'price': price,
+            'sale': sale,
+            'season': False,
+            'season_t': False,
+            'shop': 'intermodann',
             'sizes': sizes,
             "style": False,
             'style_t': False,
-            'structure': structure,
+            'structure': False,
             'subcategory': subcategory,
             'subcategory_t': get_transliterate(subcategory)
         }
@@ -87,5 +90,5 @@ def get_product(html, link, idx):
         return
 
 
-# res = requests.get('https://stockmann.ru/product/5187316-dzhinsy-mavi/?oid=ctl2etk3u&utm_source=partners&utm_medium=cpa&utm_campaign=335&utm_content=gc9g7&wid=gc9g7&statid=351_77bda930feaa5ad5&sub5=48832&clickId=77bda930feaa5ad53146a5d7e2dfdaeb&sub1=77bda930feaa5ad5&sub2=3146a5d7e2dfdaeb&sub=77bda930feaa5ad5')
-# print(get_product(res.text, 'link'))
+# res = requests.get('https://sohoshop.ru/product/london_w_soft_pls31315-4459817?oid=4463551')
+# print(get_product(res.text, 'link', 1))

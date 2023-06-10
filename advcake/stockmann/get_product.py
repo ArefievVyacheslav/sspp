@@ -70,7 +70,7 @@ def get_product(html, link):
             'oldprice': int(oldprice),
             'pp': 'advcake',
             'price': int(price),
-            'sale': sale,
+            'sale': int(sale),
             'season': season,
             'season_t': get_transliterate(season) if season else season,
             'shop': 'stockmann',

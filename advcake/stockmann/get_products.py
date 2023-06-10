@@ -22,7 +22,7 @@ async def gather_data(links_arr):
         try:
             tasks = []
             for idx, link in enumerate(links_arr):
-                await asyncio.sleep(0.1)
+                await asyncio.sleep(1)
                 task = asyncio.create_task(get_page_data(session, link, idx))
                 tasks.append(task)
             await asyncio.gather(*tasks)

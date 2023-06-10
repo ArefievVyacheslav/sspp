@@ -36,7 +36,7 @@ const womenOptions = [
   'https://www.sportmaster.ru/web-api/v1/catalog/',
   {
     'url': '/catalog/sale_/?f-availability=delivery_wo_exp,exp_delivery&f-cat=cat_aksessuary,cat_obuv,cat_odezhda&f-age_gender=age_gender_zhenschiny&f-brand=134913850299,134921380299,134922180299,134923980299,134934380299,134943420299,134953520299,134957800299,134961460299,134963300299,44692390299,4526360002,4526390002,4526420002,4526530002,4526600002,45882690299,46255830299,47785340299,4930740002,4930770002,4931390002,4931400002,4931840002,4932590002,60052010299&watched=1&page=2',
-    'page': 3
+    'page': 1
   },
   {
     headers: {
@@ -61,7 +61,7 @@ const womenOptions = [
 ]
 
 
-const products = []
+let products = []
 
 
 module.exports = async function getProducts (gender) {
@@ -78,10 +78,7 @@ module.exports = async function getProducts (gender) {
   console.log('1 page')
 
   // прохожусь по товарам первой страницы
-  for (let productProto of productsOnePage) {
-
-    // информирую о кол-ве собранных товаров
-    console.log(products.length, ' products')
+  for (let productProto of productsOnePage.slice(0,1)) {
 
     // получаю данные по товару
     // + productProto.productId
@@ -120,11 +117,14 @@ module.exports = async function getProducts (gender) {
       subcategory_t: getTransliterate(data.productGroup)
     })
 
+    // информирую о кол-ве собранных товаров
+    console.log(products.length, ' products')
+
     await sleep(1000)
   }
 
   // прохожусь по остальным страницам пагинации
-  for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2)) {
+  for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2).slice(0,1)) {
 
     // информирую на какой странице
     console.log(page + ' page')
@@ -135,10 +135,7 @@ module.exports = async function getProducts (gender) {
     const productsOtherPage = resSecond.data.products
 
     // прохожусь по товарам страницы
-    for (let productProto of productsOtherPage) {
-
-      // информирую о кол-ве собранных товаров
-      console.log(products.length, ' products')
+    for (let productProto of productsOtherPage.slice(0,1)) {
 
       // получаю данные по товару
       // + productProto.productId
@@ -177,14 +174,18 @@ module.exports = async function getProducts (gender) {
         subcategory_t: getTransliterate(data.productGroup)
       })
       await sleep(1000)
+
+      // информирую о кол-ве собранных товаров
+      console.log(products.length, ' products')
     }
   }
 
   // записываю товары с партнёрскими ссылками в базу
-  console.log('получаю диплинки для мужских товаров')
+  console.log('получаю диплинки для товаров')
   const productsTotal = await getDeeplinks(products)
   console.log('записываю в базу мужские товары')
   await dbWrite(productsTotal)
+  products = []
 }
 
 

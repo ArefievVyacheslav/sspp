@@ -18,7 +18,7 @@ module.exports = async function getDeeplinks (products) {
 
     product.link = res.data
 
-    await sleep(1000)
+    await sleep(100)
 
     console.log(counter, 'deeplink')
 

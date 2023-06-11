@@ -35,11 +35,11 @@ module.exports = async function getProducts (gender) {
       name: productProto.name, shop: 'sportmaster', sizes: productProto.sizes.map(sizeObj => sizeObj?.sizeEur || sizeObj.sizeRus),
       oldprice: productProto.price.catalog, pp: 'admitad', price: productProto.price.retail, sale: productProto.price.discountRate,
       color: productProto.color, color_t: getTransliterate(productProto.color), installment: true, images: productProto.media.photoUrls,
-      like: 0, link: 'https://www.sportmaster.ru/product/' + productProto.productId + '/', brand: data.productBrand, gender: data.productGender,
+      like: 0, link: 'https://www.sportmaster.ru/product/' + productProto.productId + '/', brand: data.productBrand.toUpperCase(), gender: data.productGender,
       brandCountry: false, brandCountry_t: false, category: data.productType, category_t: getTransliterate(data.productType), country: false,
       country_t: false, delivery: ['ru', 'rb', 'kz', 'am', 'kg'], deliveryPrice: false, description: false, info: false, season: false, season_t: false,
       style: 'Спортивный стиль', style_t: getTransliterate('Спортивный стиль'), structure: false, subcategory: data.productGroup,
-      subcategory_t: getTransliterate(data.productGroup)
+      subcategory_t: getTransliterate(data.productGroup).replaceAll(' ', '-')
     })
 
     // информирую о кол-ве собранных товаров
@@ -74,11 +74,11 @@ module.exports = async function getProducts (gender) {
         name: productProto.name, shop: 'sportmaster', sizes: productProto.sizes.map(sizeObj => sizeObj?.sizeEur || sizeObj.sizeRus),
         oldprice: productProto.price.catalog, pp: 'admitad', price: productProto.price.retail, sale: productProto.price.discountRate,
         color: productProto.color, color_t: getTransliterate(productProto.color), installment: true, images: productProto.media.photoUrls,
-        like: 0, link: 'https://www.sportmaster.ru/product/' + productProto.productId + '/', brand: data.productBrand, gender: data.productGender,
+        like: 0, link: 'https://www.sportmaster.ru/product/' + productProto.productId + '/', brand: data.productBrand.toUpperCase(), gender: data.productGender,
         brandCountry: false, brandCountry_t: false, category: data.productType, category_t: getTransliterate(data.productType), country: false,
         country_t: false, delivery: ['ru', 'rb', 'kz', 'am', 'kg'], deliveryPrice: false, description: false, info: false, season: false, season_t: false,
         style: 'Спортивный стиль', style_t: getTransliterate('Спортивный стиль'), structure: false, subcategory: data.productGroup,
-        subcategory_t: getTransliterate(data.productGroup)
+        subcategory_t: getTransliterate(data.productGroup).replaceAll(' ', '-')
       })
       await sleep(300)
 

@@ -9,9 +9,9 @@ const getProducts = require('./getProducts');
   console.log('Начало парсинга в ', startDate.getHours() + ':' + startDate.getMinutes() + ':' + startDate.getSeconds())
 
   // мужские продукты
-  // await getProducts('men')
+  await getProducts('men')
   // женские продукты
-  await getProducts('women')
+  // await getProducts('women')
 
   // дата завершения парсинга товаров
   const endDate = new Date()

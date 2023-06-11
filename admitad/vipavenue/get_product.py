@@ -29,7 +29,7 @@ def get_product(html, link, gender):
         try:
             price = int(soup.find('div', class_=re.compile('product__card--price-actual')).text.replace(' ', '').replace('₽', ''))
             oldprice = int(soup.find('div', class_=re.compile('product__card--price-old')).text.replace(' ', '').replace('₽', ''))
-            sale = math.ceil(price / (oldprice / 100))
+            sale = 100 - math.ceil(price / (oldprice / 100))
         except:
             print('Проблема при получении цены у товара', link)
             return
@@ -93,5 +93,5 @@ def get_product(html, link, gender):
         print(f'{link} НЕ собран!')
         return
 
-# res = requests.get('https://vipavenue.ru/product/558123-byustgalyter-s-printom-dsquared2/')
+# res = requests.get('https://vipavenue.ru/product/618716-lynyanaya-rubashka-v-polosku-brunello-cucinelli/')
 # print(get_product(res.text, 'link', 'gender'))

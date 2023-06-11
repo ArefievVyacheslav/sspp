@@ -17,7 +17,10 @@ def get_product(html, link, gender):
         sizes_proto = soup.find_all('label', class_=re.compile('options-item'))
         sizes = []
         for size in sizes_proto:
-            if 'disabled' not in size.get('class'): sizes.append(size.find('span').text.strip())
+            if 'disabled' not in size.get('class'):
+                result = size.find('span').text.strip()
+                if len(result) == 4 and 'XX' not in result: result = result[0:2] + '/' + result[2:4]
+                sizes.append(result)
         if len(sizes) == 0: return
         if sizes[0] == '': return
         name = soup.find('h1').text
@@ -88,5 +91,5 @@ def get_product(html, link, gender):
         print(f'{link} НЕ собран!')
         return
 
-# res = requests.get('https://www.brd.ru/product/adyo200039-gqm0-snoubordicheskie-botinki-dc-tucknee')
+# res = requests.get('https://www.brd.ru/product/adynp03076-rsd0-bryuki-chinos-worker-relaxed?utm_source=admitad&utm_medium=cpa&utm_campaign=1392094&admitad_uid=229c2a1d13d123204eee52432ec96c73&tagtag_uid=229c2a1d13d123204eee52432ec96c73')
 # print(get_product(res.text, 'link', 'gender'))

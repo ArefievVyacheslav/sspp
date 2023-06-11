@@ -93,5 +93,5 @@ def get_product(html, link, gender):
         print(f'{link} НЕ собран!')
         return
 
-# res = requests.get('https://vipavenue.ru/product/1114272-rubashka-regular-fit-hlopkovaya-stile-latino/')
-# print(get_product(res.text, 'link', 'gender'))
+res = requests.get('https://vipavenue.ru/product/558123-byustgalyter-s-printom-dsquared2/')
+print(get_product(res.text, 'link', 'gender'))

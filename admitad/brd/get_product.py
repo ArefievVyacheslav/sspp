@@ -20,7 +20,7 @@ def get_product(html, link, gender):
             if 'disabled' not in size.get('class'):
                 result = size.find('span').text.strip()
                 if len(result) == 4 and 'XX' not in result: result = result[0:2] + '/' + result[2:4]
-                sizes.append(result)
+                sizes.append(result.replace(',', '.'))
         if len(sizes) == 0: return
         if sizes[0] == '': return
         name = soup.find('h1').text

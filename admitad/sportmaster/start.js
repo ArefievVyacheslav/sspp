@@ -11,7 +11,7 @@ const getProducts = require('./getProducts');
   // мужские продукты
   await getProducts('men')
   // женские продукты
-  // await getProducts('women')
+  await getProducts('women')
 
   // дата завершения парсинга товаров
   const endDate = new Date()

@@ -15,15 +15,10 @@ module.exports = async function getDeeplinks (products) {
       'pp': 'admitad',
       'offerId': 14647
     })
-
     product.link = res.data
 
-    await sleep(100)
-
     console.log(counter, 'deeplink')
-
+    await sleep(100)
   }
-
   return products
-
 }

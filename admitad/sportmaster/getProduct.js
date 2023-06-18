@@ -9,7 +9,7 @@ module.exports = async function getProduct (productProto) {
   const productOptions = getOptions(null, productProto.productId)
   const { data } = await axios.get( ...productOptions )
 
-  return {
+  const product = {
     id: Math.floor(Math.random() * 9e9) + 1e9,
     age: 'Взрослый',
     benefit: productProto.price.discountAmount,
@@ -43,14 +43,22 @@ module.exports = async function getProduct (productProto) {
     sale: productProto.price.discountRate,
     season: false,
     season_t: false,
-    sizes: productProto.sizes.map(sizeObj =>
-      data.productType === 'Одежда'
-        ? sizeObj?.sizeEur
-        : sizeObj.sizeRus),
+    sizes: productProto.sizes
+      .map(sizeObj =>
+        data.productType === 'Одежда'
+          ? sizeObj?.sizeEur || sizeObj.sizeRus
+          : sizeObj.sizeRus)
+      .filter(size => !!size !== false)
+      .map(size => size.toString().trim()
+        .replace('XX', '2X')
+        .replace('XXX', '3X')
+        .replace('XXXX', '4X')),
     style: 'Спортивный стиль',
     style_t: getTransliterate('Спортивный стиль'),
     structure: false,
     subcategory: data.productGroup,
     subcategory_t: getTransliterate(data.productGroup).replaceAll(' ', '-')
   }
+  if (product.sizes.length === 0) product.sizes.push('one size')
+  return product
 }

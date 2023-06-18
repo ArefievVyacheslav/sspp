@@ -8,8 +8,8 @@ const getProducts = require('./getProducts');
   const startDate = new Date()
   console.log('Начало парсинга в ', startDate.getHours() + ':' + startDate.getMinutes() + ':' + startDate.getSeconds())
 
-  // мужские продукты
-  await getProducts('men')
+  // // мужские продукты
+  // await getProducts('men')
   // женские продукты
   await getProducts('women')
 
@@ -19,6 +19,10 @@ const getProducts = require('./getProducts');
 
   // обновление продуктов
   await axios.post('http://localhost:3005/update-products', { shop: 'sportmaster' })
+
+  // сброс кэша
+  // await axios.get('https://api.do-2000.store/clear-cache')
+  await axios.get('http://localhost:3004/clear-cache')
 })()
 
 

@@ -91,5 +91,5 @@ def get_product(html, link, gender):
         print(f'{link} НЕ собран!')
         return
 
-# res = requests.get('https://www.brd.ru/product/adynp03076-rsd0-bryuki-chinos-worker-relaxed?utm_source=admitad&utm_medium=cpa&utm_campaign=1392094&admitad_uid=229c2a1d13d123204eee52432ec96c73&tagtag_uid=229c2a1d13d123204eee52432ec96c73')
+# res = requests.get('https://www.brd.ru/product/adynp03076-rsd0-bryuki-chinos-worker-relaxed?utm_source=admitad&utm_medium=cpa&utm_campaign=1392094&admitad_uid=3911ed74823043c1eec359d596ce0bc9&tagtag_uid=3911ed74823043c1eec359d596ce0bc9')
 # print(get_product(res.text, 'link', 'gender'))

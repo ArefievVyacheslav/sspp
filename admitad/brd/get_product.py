@@ -53,7 +53,7 @@ def get_product(html, link, gender):
             'id': round(random.uniform(1000000000, 9999999999)),
             'age': 'Взрослый',
             'benefit': oldprice - price,
-            'brand': brand,
+            'brand': brand.upper(),
             'brandCountry': False,
             'brandCountry_t': False,
             'category': category,

@@ -44,10 +44,11 @@ module.exports = async function getProduct (productProto) {
     season: false,
     season_t: false,
     sizes: productProto.sizes
+      .filter(sizeObj => sizeObj.isAvailableOnline)
       .map(sizeObj =>
-        data.productType === 'Одежда'
-          ? sizeObj?.sizeEur || sizeObj.sizeRus
-          : sizeObj.sizeRus)
+        data?.productType === 'Одежда'
+          ? sizeObj?.sizeEur || sizeObj?.sizeRus
+          : sizeObj?.sizeRus)
       .filter(size => !!size !== false)
       .map(size => size.toString().trim()
         .replace('XX', '2X')
@@ -59,6 +60,6 @@ module.exports = async function getProduct (productProto) {
     subcategory: data.productGroup,
     subcategory_t: getTransliterate(data.productGroup).replaceAll(' ', '-')
   }
-  if (product.sizes.length === 0) product.sizes.push('one size')
+  if (product.sizes.length === 0) return
   return product
 }

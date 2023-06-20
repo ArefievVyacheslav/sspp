@@ -11,12 +11,12 @@ module.exports = async function getDeeplinks (products) {
     try {
       counter += 1
 
-      const res = await axios.post('http://localhost:3005/deeplink', {
+      const {data} = await axios.post('http://localhost:3005/deeplink', {
         'deeplink': product.link,
         'pp': 'admitad',
         'offerId': 14647
       })
-      product.link = res.data
+      product.link = data
 
       console.log(counter, 'deeplink')
       await sleep(100)

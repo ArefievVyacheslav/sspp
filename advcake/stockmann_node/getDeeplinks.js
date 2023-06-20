@@ -8,16 +8,21 @@ module.exports = async function getDeeplinks (products) {
 
   for (let product of products) {
 
-    counter += 1
+    try {
+      counter += 1
 
-    const res = await axios.post('http://localhost:3005/deeplink', {
-      'deeplink': product.link,
-      'pp': 'advcake',
-    })
-    product.link = res.data
+      const {data} = await axios.post('http://localhost:3005/deeplink', {
+        'deeplink': product.link,
+        'pp': 'advcake',
+      })
+      product.link = data
 
-    console.log(counter, 'deeplink')
-    await sleep(100)
+      console.log(counter, 'deeplink')
+      await sleep(100)
+    } catch (e) {
+      console.log('Петушиный диплинк не пришёл')
+      products = products.filter(productNew => productNew.link !== product.link)
+    }
   }
   return products
 }

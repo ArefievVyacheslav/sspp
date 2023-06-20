@@ -9,44 +9,26 @@ module.exports = async function getProduct (productProto) {
   const productOptions = getOptions(null, productProto.link)
   const { data } = await axios.get( ...productOptions )
 
-  let colorValue = false
-  let imagesArray = []
-  let infoArray = []
-  let seasonValue = false
-  let sizesArray = []
-  let styleValue = false
+  productProto.colors.forEach(productColor => colorValue = productColor.xmlId === productProto.xmlId && productColor.name != "" ? productColor.name : false)
+  data.payload.properties.forEach(productSeason => seasonValue = productSeason.name === 'Сезон' ? productSeason.value : false)
+  data.payload.properties.forEach(productStyle => styleValue = productStyle.name === 'Стиль' ? productStyle.value : false)
+  
+  const sizesArray = []
+  data.payload.sizes.forEach(productSize => productSize.online === true
+    ? productSize.second !== ''
+      ? sizesArray.push(productSize.second.split(/[\/-]+/))
+      : sizesArray.push(productSize.main.split(/[\/-]+/))
+    : false)
 
-  for (let productColors of productProto.colors) {
-    if (productColors.xmlId === productProto.xmlId && productColors.name != "") {
-        colorValue = productColors.name;
-      }
-  }
+  const notUniqueSizes = []
+  sizesArray.forEach(size => {
+    notUniqueSizes.push(...size)
+  })
 
-  for (let image of productProto.images) {
-    imagesArray.push(image.default.webp.src2x)
-  }
-
-  if (data.payload.properties.length >= 3) {
-    for (let property of data.payload.properties.slice(2)) {
-      infoArray.push(property.name + ': ' + property.value)
-    }
-  }
-
-  for (let productSeason of data.payload.properties) {
-    if (productSeason.name === 'Сезон') {
-        seasonValue = productSeason.value
-    }
-  }
-
-  for (let productSizes of data.payload.sizes) {
-    sizesArray.push(productSizes.main.split('/')[0])
-  }
-
-  for (let productStyle of data.payload.properties) {
-    if (productStyle.name === 'Стиль') {
-        styleValue = productStyle.value
-    }
-  }
+  const uniqueSizes = [ ...new Set(notUniqueSizes)]
+  uniqueSizes.forEach(function (size, ind) {
+    uniqueSizes[ind] = size.replaceAll('XXXXL', '4XL').replaceAll('XXXL', '3XL').replaceAll('XXL', '2XL')
+  })
 
   return {
     id: Math.floor(Math.random() * 9e9) + 1e9,
@@ -73,14 +55,14 @@ module.exports = async function getProduct (productProto) {
       ? 'Мужской'
       : 'Женский',
     installment: false,
-    images: imagesArray,
+    images: productProto.images.map(image => image.default.webp.src2x),
     like: 0,
     link: 'https://stockmann.ru' + productProto.link,
     name: productProto.name + ', ' + productProto.brand,
     shop: 'stockmann',
-    info: infoArray.length === 0
-      ? false
-      : infoArray,
+    info: data.payload.properties.length >= 3
+      ? data.payload.properties.slice(2).map(property => property.name + ': ' + property.value)
+      : false,
     oldprice: productProto.price,
     pp: 'advcake',
     price: productProto.priceDiscount,
@@ -89,9 +71,9 @@ module.exports = async function getProduct (productProto) {
     season_t: seasonValue
       ? getTransliterate(seasonValue)
       : false,
-    sizes: sizesArray[0] === 'один размер'
+    sizes: uniqueSizes[0] === 'один размер'
       ? ['one size']
-      : sizesArray,
+      : uniqueSizes,
     style: styleValue,
     style_t: styleValue
       ? getTransliterate(styleValue)

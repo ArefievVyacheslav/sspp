@@ -21,7 +21,7 @@ const getProducts = require('./getProducts');
     console.log('Завершение парсинга в ', endDate.getHours() + ':' + endDate.getMinutes() + ':' + endDate.getSeconds())
 
     // обновление продуктов
-    // await axios.post('http://localhost:3005/update-products', { shop: 'stockmann' })
+    await axios.post('http://localhost:3005/update-products', { shop: 'stockmann' })
 
     // сброс кэша
     // await axios.get('https://api.do-2000.store/clear-cache')

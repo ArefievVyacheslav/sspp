@@ -8,7 +8,7 @@ module.exports = async function getProduct (productProto) {
   // получаю данные по товару
   const productOptions = getOptions(null, productProto.link)
   const { data } = await axios.get( ...productOptions )
-
+  if (!data || !data.payload) return
   productProto.colors.forEach(productColor => colorValue = productColor.xmlId === productProto.xmlId && productColor.name !== '' ? productColor.name : false)
   data.payload.properties.forEach(productSeason => seasonValue = productSeason.name === 'Сезон' ? productSeason.value : false)
   data.payload.properties.forEach(productStyle => styleValue = productStyle.name === 'Стиль' ? productStyle.value : false)

@@ -34,7 +34,7 @@ module.exports = async function getProduct (productProto) {
       id: Math.floor(Math.random() * 9e9) + 1e9,
       age: 'Взрослый',
       benefit: productProto.price - productProto.priceDiscount,
-      brand: productProto.brand,
+      brand: productProto.brand.toUpperCase(),
       brandCountry: false,
       brandCountry_t: false,
       category: data.payload.breadcrumbs[2].name,
@@ -58,7 +58,7 @@ module.exports = async function getProduct (productProto) {
       images: productProto.images.map(image => image.default.webp.src2x),
       like: 0,
       link: 'https://stockmann.ru' + productProto.link,
-      name: productProto.name + ', ' + productProto.brand,
+      name: productProto.name + ', ' + productProto.brand.toUpperCase(),
       shop: 'stockmann',
       info: data.payload.properties.length >= 3
         ? data.payload.properties.slice(2).map(property => property.name + ': ' + property.value)

@@ -3,14 +3,14 @@
 // product https://vipavenue.ru/product/1350598-pulover-kashemirovyy-brunello-cucinelli/
 
 module.exports = function getOptions(gender, productCode) {
-  const menGender = [36360, 52366];
+  const menGender = [36360];
   const menBrands = [
     632397, 37, 68, 69, 1174146, 90, 118, 122, 133, 594271, 608081, 151, 156,
     1194532, 221, 250, 261, 267, 275, 291, 328, 356, 247491, 1036095, 388, 2022,
     448, 489, 497, 501, 507, 619, 631, 641, 2028, 247493, 696, 709, 720, 723,
     737, 755, 782, 908, 934, 951, 956, 986, 991, 730,
   ];
-  const womenGender = [36361, 52366];
+  const womenGender = [36361];
   const womenBrands = [
     632397, 37, 68, 69, 90, 118, 122, 133, 594271, 608081, 151, 156, 250, 261,
     267, 275, 291, 356, 247491, 1036095, 388, 2022, 448, 489, 497, 501, 507,
@@ -47,7 +47,7 @@ module.exports = function getOptions(gender, productCode) {
         "brand",
         "contractor",
       ],
-      page: "2",
+      page: "1",
       order_by: "merchandising",
       cache_tll: 600,
       platform_type: "desktop_site",
@@ -74,7 +74,6 @@ module.exports = function getOptions(gender, productCode) {
       },
     },
   ];
-  genderOptions[1].page = 1;
 
   const productOptions = [
     "https://catalog.vipavenue.ru/api/products/get",

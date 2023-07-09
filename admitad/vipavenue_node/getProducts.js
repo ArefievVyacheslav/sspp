@@ -11,32 +11,30 @@ module.exports = async function getProducts (gender) {
   // получаю опшнсы в зависимости от пола
   const options = getOptions(gender, null)
   const { data } = await axios.post( ...options )
-//   console.log(data)
   // получаю количество страниц и товары первой страницы
   const pagesCount = data.pagination.total_pages
   const productsOnePage = data.data
-//   console.log(productsOnePage)
   // информирую что на первой странице
   console.log('1 page', gender)
   // прохожусь по товарам первой страницы
-//   for (let productProto of productsOnePage.slice(0,2)) {
+  // for (let productProto of productsOnePage.slice(0,2)) {
   for (let productProto of productsOnePage) {
     // получаю продукт, вношу в общий массив
     products.push(await getProduct(productProto))
     // информирую о кол-ве собранных товаров
     console.log(products.length, ' products', gender)
     // пауза, чтоб незалочили
-    await sleep(300)
+    await sleep(500)
   }
   // прохожусь по остальным страницам пагинации
-//   for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2).slice(0,1)) {
+  // for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2).slice(0,5)) {
   for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2)) {
     // информирую на какой странице
     console.log(page + ' page', gender)
     // получаю продукты на странице
     options[1].page = page
-    const resSecond = await axios.post( ...options )
-    const productsOtherPage = resSecond.data.products
+    const { data } = await axios.post( ...options )
+    const productsOtherPage = data.data
     // прохожусь по товарам страницы
     // for (let productProto of productsOtherPage.slice(0,2)) {
     for (let productProto of productsOtherPage) {
@@ -45,7 +43,7 @@ module.exports = async function getProducts (gender) {
       // информирую о кол-ве собранных товаров
       console.log(products.length, ' products', gender)
       // пауза, чтоб незалочили
-      await sleep(300)
+      await sleep(500)
     }
   }
   // записываю товары с партнёрскими ссылками в базу

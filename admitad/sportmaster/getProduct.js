@@ -18,12 +18,14 @@ module.exports = async function getProduct (productProto) {
     brandCountry_t: false,
     category: data.productType,
     category_t: getTransliterate(data.productType),
-    color: productProto.color.includes('/')
+    color: productProto.color && productProto.color.includes('/')
       ? productProto.color.split('/')[0]
-      : productProto.color,
-    color_t: getTransliterate(productProto.color.includes('/')
-      ? productProto.color.split('/')[0]
-      : productProto.color).replaceAll(' ', '-'),
+      : productProto.color || false,
+    color_t: productProto.color && productProto.color.includes('/')
+      ? getTransliterate(productProto.color.split('/')[0] || '')
+      : productProto.color
+        ? getTransliterate(productProto.color.replaceAll(' ', '-'))
+        : false,
     country: false,
     country_t: false,
     create: new Date,
@@ -53,12 +55,20 @@ module.exports = async function getProduct (productProto) {
       .map(size => size.toString().trim()
         .replace('XX', '2X')
         .replace('XXX', '3X')
-        .replace('XXXX', '4X')),
+        .replace('XXXX', '4X')
+        .replace('Б/р', 'one size')
+        .replace('/', '-')
+      ),
     style: 'Спортивный стиль',
     style_t: getTransliterate('Спортивный стиль'),
     structure: false,
     subcategory: data.productGroup,
     subcategory_t: getTransliterate(data.productGroup).replaceAll(' ', '-')
+  }
+  if (product.subcategory === 'Сумки'
+    || product.subcategory === 'Рюкзаки') {
+    product.category = 'Аксессуары'
+    product.category_t = getTransliterate(product.category)
   }
   if (product.sizes.length === 0) return
   return product

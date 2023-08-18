@@ -79,7 +79,7 @@ def get_product(html, link, idx):
             'sale': sale,
             'season': False,
             'season_t': False,
-            'shop': 'intermodann',
+            'shop': 'sohoshop',
             'sizes': sizes,
             "style": False,
             'style_t': False,

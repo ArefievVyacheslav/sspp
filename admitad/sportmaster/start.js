@@ -25,7 +25,7 @@ const getProducts = require('./getProducts');
 
     // сброс кэша
     // await axios.get('https://api.do-2000.store/clear-cache')
-    // await axios.get('http://localhost:3004/clear-cache')
+    await axios.get('http://localhost:3004/clear-cache')
   } catch (e) {
     console.log(e)
     console.log('В ходе парсинга произошла ошибка!')

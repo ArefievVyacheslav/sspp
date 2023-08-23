@@ -19,7 +19,7 @@ module.exports = async function getDeeplinks (products) {
       product.link = res.data
 
       console.log(counter, 'deeplink')
-      await sleep(100)
+      await sleep(500)
     } catch (e) {
       console.log('Петушиный диплинк не пришёл')
       products = products.filter(productNew => productNew.link !== product.link)

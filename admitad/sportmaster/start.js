@@ -21,7 +21,11 @@ const getProducts = require('./getProducts');
     console.log('Завершение парсинга в ', endDate.getHours() + ':' + endDate.getMinutes() + ':' + endDate.getSeconds())
 
     // обновление продуктов
-    await axios.post('http://localhost:3005/update-products', { shop: 'sportmaster' })
+    try {
+      await axios.post('http://localhost:3005/update-products', { shop: 'sportmaster' })
+    } catch (e) {
+      console.log('ОБНОВЛЕНИЕ ТОВАРОВ НЕ ПОЛУЧИЛОСЬ, ПОВТОРИ ЗАПРОС НА ОБНОВЛЕНИЕ')
+    }
 
     // сброс кэша
     // await axios.get('https://api.do-2000.store/clear-cache')

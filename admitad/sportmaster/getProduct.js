@@ -85,6 +85,10 @@ module.exports = async function getProduct (productProto) {
       product.category = 'Обувь'
       product.category_t = getTransliterate(product.category)
     }
+    if (product.category === 'Инвентарь') {
+      product.category = 'Обувь'
+      product.category_t = getTransliterate(product.category)
+    }
     if (product.subcategory === 'Весенние' || product.subcategory === 'Классические' || product.subcategory === 'Аксессуары'
       || product.subcategory === 'Мужчинам' || product.subcategory === 'Одежда') return
     if (product.sizes.length === 0) return

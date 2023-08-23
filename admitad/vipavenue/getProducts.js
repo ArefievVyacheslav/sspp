@@ -12,12 +12,12 @@ module.exports = async function getProducts (gender) {
   const options = getOptions(gender)
   const res = await axios.post( ...options )
   // получаю количество страниц и товары первой страницы
-  const pagesCount = res.data.payload.pagination.total
-  const productsOnePage = res.data.payload.products
+  const pagesCount = res.data.pagination.total_pages
+  const productsOnePage = res.data.data
   // информирую что на первой странице
   console.log('1 page', gender)
   // прохожусь по товарам первой страницы
-  // for (let productProto of productsOnePage.slice(0,1)) {
+  // for (let productProto of productsOnePage.slice(0,2)) {
   for (let productProto of productsOnePage) {
     // получаю продукт, вношу в общий массив
     const product = await getProduct(productProto)
@@ -28,7 +28,7 @@ module.exports = async function getProducts (gender) {
     await sleep(1500)
   }
   // прохожусь по остальным страницам пагинации
-  // for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2).slice(0,1)) {
+  // for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2).slice(0,2)) {
   for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2)) {
     try {
       // информирую на какой странице
@@ -36,9 +36,9 @@ module.exports = async function getProducts (gender) {
       // получаю продукты на странице
       options[1].page = page
       const resSecond = await axios.post( ...options )
-      const productsOtherPage = resSecond.data.payload.products
+      const productsOtherPage = resSecond.data.data
       // прохожусь по товарам страницы
-      // for (let productProto of productsOtherPage.slice(0,1)) {
+      // for (let productProto of productsOtherPage.slice(0,2)) {
       for (let productProto of productsOtherPage) {
         // получаю продукт, вношу в общий массив
         const product = await getProduct(productProto)
@@ -56,5 +56,10 @@ module.exports = async function getProducts (gender) {
   console.log('получаю диплинки для ' + gender.toUpperCase() + ' товаров')
   const productsTotal = await getDeeplinks(products.filter(product => product))
   console.log('записываю в базу ' + gender.toUpperCase() + ' товары')
-  await dbWrite(productsTotal)
+  const chunkSize = 500
+  const result = []
+  for (let i = 0; i < productsTotal.length; i += chunkSize) {
+    result.push(productsTotal.slice(i, i + chunkSize))
+  }
+  for (const part of result) await dbWrite(part)
 }

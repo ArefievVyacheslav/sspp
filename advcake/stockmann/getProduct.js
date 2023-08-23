@@ -43,6 +43,7 @@ module.exports = async function getProduct (productProto) {
     uniqueSizes.forEach(function (size, ind) {
       uniqueSizes[ind] = size.replaceAll('XXXXL', '4XL').replaceAll('XXXL', '3XL').replaceAll('XXL', '2XL')
     })
+
     const product = {
       id: Math.floor(Math.random() * 9e9) + 1e9,
       age: 'Взрослый',
@@ -50,8 +51,12 @@ module.exports = async function getProduct (productProto) {
       brand: productProto.brand.toUpperCase(),
       brandCountry: false,
       brandCountry_t: false,
-      category: data.payload.breadcrumbs[2].name,
-      category_t: getTransliterate(data.payload.breadcrumbs[2].name),
+      category: data.payload.breadcrumbs[2].name === 'Инвентарь'
+        ? 'Аксессуары'
+        : data.payload.breadcrumbs[2].name,
+      category_t: data.payload.breadcrumbs[2].name === 'Инвентарь'
+        ? 'Аксессуары'
+        : getTransliterate(data.payload.breadcrumbs[2].name),
       color: colorValue && !colorValue.includes(' ')
       ? colorValue.replaceAll('ё', 'е').replaceAll(';', '-')
       : false,
@@ -109,6 +114,10 @@ module.exports = async function getProduct (productProto) {
       || product.subcategory === 'Мужчинам' || product.subcategory === 'Женщинам' || product.subcategory === 'Одежда'
       || product.subcategory === 'Обувь') return
     if (product.sizes.length === 0) return
+    if (product.category.length > 20) return
+    if (product.category.includes('чин') || product.category.includes('щин') || product.category.includes('г')
+      || product.category.includes('л') || product.category.includes('нн')
+      || product.category.includes('з') || product.category.includes('до')) return
     return product
   } catch (e) {
     console.log('Товар', 'https://stockmann.ru' + productProto.link, 'не удалось собрать!')

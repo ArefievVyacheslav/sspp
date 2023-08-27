@@ -18,11 +18,16 @@ module.exports = async function getProduct (productProto) {
     let subcategory = productProto.section_path[productProto.section_path.length - 1].name
     if (subcategory.includes('ые') || subcategory.includes('ие'))
       subcategory = productProto.section_path[productProto.section_path.length - 2].name
+    if (subcategory === 'Высокая посадка') subcategory = 'Джинсы с высокой посадкой'
+    if (subcategory === 'Леггинсы') subcategory = 'Легинсы'
+    if (subcategory === 'Аксессуары') return null
+    let brand = productProto.brand.name === 'BOGNER FIRE + ICE' ? 'BOGNER' : productProto.brand.name
+    if (brand === 'P.A.R.O.S.H.') brand = 'PAROSH'
     return {
       id: Math.floor(Math.random() * 9e9) + 1e9,
       age: 'Взрослый',
       benefit: productProto.price_not_discount - productProto.price,
-      brand: productProto.brand.name,
+      brand,
       brandCountry: false,
       brandCountry_t: false,
       category,

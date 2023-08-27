@@ -20,12 +20,12 @@ const getProducts = require('./getProducts');
     const endDate = new Date()
     console.log('Завершение парсинга в ', endDate.getHours() + ':' + endDate.getMinutes() + ':' + endDate.getSeconds())
 
-    // // обновление продуктов
-    // try {
-    //   await axios.post('http://localhost:3005/update-products', { shop: 'vipavenue' })
-    // } catch (e) {
-    //   console.log('ОБНОВЛЕНИЕ ТОВАРОВ НЕ ПОЛУЧИЛОСЬ, ПОВТОРИ ЗАПРОС НА ОБНОВЛЕНИЕ')
-    // }
+    // обновление продуктов
+    try {
+      await axios.post('http://localhost:3005/update-products', { shop: 'vipavenue' })
+    } catch (e) {
+      console.log('ОБНОВЛЕНИЕ ТОВАРОВ НЕ ПОЛУЧИЛОСЬ, ПОВТОРИ ЗАПРОС НА ОБНОВЛЕНИЕ')
+    }
 
     // // сброс кэша
     // await axios.get('https://api.do-2000.store/clear-cache')

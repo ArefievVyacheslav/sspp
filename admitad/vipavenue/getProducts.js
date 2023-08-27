@@ -61,5 +61,5 @@ module.exports = async function getProducts (gender) {
   for (let i = 0; i < productsTotal.length; i += chunkSize) {
     result.push(productsTotal.slice(i, i + chunkSize))
   }
-  for (const part of result) await dbWrite(part)
+  for (const part of result) await dbWrite(part, gender)
 }

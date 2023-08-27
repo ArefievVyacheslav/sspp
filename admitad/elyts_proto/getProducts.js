@@ -24,7 +24,7 @@ module.exports = async function getProducts (gender) {
   for (let productLink of productsLinksOnePage.slice(0,13)) {
   // for (let productProto of productsOnePage) {
     // получаю продукт, вношу в общий массив
-    const product = await getProduct(gender, productLink)
+    const product = await getProduct(productLink)
     if (product) products.push(product)
     // информирую о кол-ве собранных товаров
     console.log(products.length, ' products', gender)

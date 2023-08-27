@@ -4,7 +4,7 @@ const getOptions = require('./getOptions')
 const getTransliterate = require('./getTransliterate')
 
 
-module.exports = async function getProduct (gender, productLink) {
+module.exports = async function getProduct (productLink) {
   try {
     // получаю данные по товару
     const productOptions = getOptions(null, productLink)

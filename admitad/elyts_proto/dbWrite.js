@@ -6,15 +6,15 @@ module.exports = async function dbWrite (products) {
   try {
     await client.connect()
     const db = await client.db('ss')
-    const collection = await db.collection('temp_products').findOne({ shop: 'sportmaster' })
+    const collection = await db.collection('temp_products').findOne({ shop: 'elyts' })
     if (collection) {
       products.forEach(product => {
         collection.products.push(product)
       })
-      await db.collection('temp_products').replaceOne({ shop: 'sportmaster' }, collection)
+      await db.collection('temp_products').replaceOne({ shop: 'elyts' }, collection)
     } else {
       await db.collection('temp_products').insertOne({
-        shop: 'sportmaster',
+        shop: 'elyts',
         products: products
       })
     }

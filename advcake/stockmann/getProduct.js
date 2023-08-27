@@ -82,7 +82,7 @@ module.exports = async function getProduct (productProto) {
       name: productProto.name + ' ' + productProto.brand,
       shop: 'stockmann',
       info: data.payload.properties.length >= 3
-        ? data.payload.properties.slice(2).map(property => property.name + ': ' + property.value)
+        ? data.payload.properties.slice(2).reduce((acc, property) => acc[property.name.replace(':', '')] = property.value, {})
         : false,
       oldprice: productProto.price,
       pp: 'advcake',

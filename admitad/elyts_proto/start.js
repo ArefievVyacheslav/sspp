@@ -22,14 +22,14 @@ const getProducts = require('./getProducts');
 
     // обновление продуктов
     try {
-      await axios.post('http://localhost:3005/update-products', { shop: 'vipavenue' })
+      await axios.post('http://localhost:3005/update-products', { shop: 'elyts' })
     } catch (e) {
       console.log('ОБНОВЛЕНИЕ ТОВАРОВ НЕ ПОЛУЧИЛОСЬ, ПОВТОРИ ЗАПРОС НА ОБНОВЛЕНИЕ')
     }
 
-    // // сброс кэша
+    // сброс кэша
     // await axios.get('https://api.do-2000.store/clear-cache')
-    // // await axios.get('http://localhost:3004/clear-cache')
+    await axios.get('http://localhost:3004/clear-cache')
   } catch (e) {
     console.log(e)
     console.log('В ходе парсинга произошла ошибка!')

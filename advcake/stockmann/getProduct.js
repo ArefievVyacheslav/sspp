@@ -43,7 +43,10 @@ module.exports = async function getProduct (productProto) {
     uniqueSizes.forEach(function (size, ind) {
       uniqueSizes[ind] = size.replaceAll('XXXXL', '4XL').replaceAll('XXXL', '3XL').replaceAll('XXL', '2XL')
     })
-
+    const removeTrailingSpace = str => str.endsWith(" ") ? str.slice(0, -1) : str;
+    let subcategory = removeTrailingSpace(data.payload.breadcrumbs[data.payload.breadcrumbs.length - 3].name)
+    if (subcategory === 'Кеды и кроссовки')
+      subcategory = data.payload.breadcrumbs[data.payload.breadcrumbs.length - 2].name
     const product = {
       id: Math.floor(Math.random() * 9e9) + 1e9,
       age: 'Взрослый',
@@ -97,8 +100,8 @@ module.exports = async function getProduct (productProto) {
         ? getTransliterate(styleValue)
         : false,
       structure: data.payload.properties[1].value.replaceAll(';', ',').split(','),
-      subcategory: data.payload.breadcrumbs[data.payload.breadcrumbs.length - 3].name,
-      subcategory_t: getTransliterate(data.payload.breadcrumbs[data.payload.breadcrumbs.length - 3].name).replaceAll(' ', '-')
+      subcategory,
+      subcategory_t: getTransliterate(subcategory).replaceAll(' ', '-')
     }
     if (product.subcategory === 'Сумки' || product.subcategory === 'Рюкзаки'
       || product.subcategory === 'Бейсболки' || product.subcategory === 'Гетры'

@@ -21,7 +21,7 @@ module.exports = async function getProducts (gender) {
   // информирую что на первой странице
   console.log('1 page', gender)
   // прохожусь по товарам первой страницы
-  for (let productLink of productsLinksOnePage.slice(0,12)) {
+  for (let productLink of productsLinksOnePage.slice(0,13)) {
   // for (let productProto of productsOnePage) {
     // получаю продукт, вношу в общий массив
     const product = await getProduct(gender, productLink)
@@ -32,19 +32,20 @@ module.exports = async function getProducts (gender) {
     await sleep(1000)
   }
   // прохожусь по остальным страницам пагинации
-  for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2).slice(0,12)) {
+  for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2).slice(0,13)) {
   // for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2)) {
     try {
       // информирую на какой странице
       console.log(page + ' page', gender)
       // получаю продукты на странице
-      options[1].page = page
+      const optionsArr = options[0].split('=')
+      options[0] = optionsArr[0] + '=' + page.toString()
       const resSecond = await axios.post( ...options )
       const dom = new JSDOM(resSecond.data).window.document
       const productsLinksOtherPage = Array.from(dom.querySelectorAll('.product__images'))
         .map(link => 'https://elyts.ru' + link.getAttribute('href'))
       // прохожусь по товарам страницы
-      for (let productLink of productsLinksOtherPage.slice(0,12)) {
+      for (let productLink of productsLinksOtherPage.slice(0,13)) {
       // for (let productLink of productsLinksOtherPage) {
         // получаю продукт, вношу в общий массив
         const product = await getProduct(gender, productLink)

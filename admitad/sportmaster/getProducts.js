@@ -52,11 +52,11 @@ module.exports = async function getProducts (gender) {
       console.log(page + ' СТРАНИЦА НЕ СОБРАНА', gender)
     }
   }
-  // записываю товары с партнёрскими ссылками в базу
-  console.log('получаю диплинки для ' + gender.toUpperCase() + ' товаров')
-  const productsTotal = await getDeeplinks(products.filter(product => product))
+  // // записываю товары с партнёрскими ссылками в базу
+  // console.log('получаю диплинки для ' + gender.toUpperCase() + ' товаров')
+  // const productsTotal = await getDeeplinks(products.filter(product => product))
   console.log('записываю в базу ' + gender.toUpperCase() + ' товары')
-  await dbWrite(productsTotal)
+  await dbWrite(products)
 }
 
 

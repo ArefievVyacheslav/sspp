@@ -67,6 +67,7 @@ module.exports = async function getProduct (productProto) {
           .replace('Без размера', 'one size')
           .replace('/', '-')
           .replace(' 7"', '')
+          .replace('М', 'M')
         )
       )].filter(size => size !== '2X' || size !== '1X'),
       style: 'спортивный',
@@ -93,7 +94,7 @@ module.exports = async function getProduct (productProto) {
       product.category = 'Обувь'
       product.category_t = getTransliterate(product.category)
     }
-    if (product.subcategory === 'Очки') product.category === 'Одежда'
+    if (product.subcategory === 'Очки') product.category = 'Аксессуары'
     if (product.subcategory === 'Весенние' || product.subcategory === 'Классические' || product.subcategory === 'Аксессуары'
       || product.subcategory === 'Мужчинам' || product.subcategory === 'Одежда') return
     if (product.sizes.length === 0) return

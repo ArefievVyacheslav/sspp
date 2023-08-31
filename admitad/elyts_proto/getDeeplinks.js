@@ -14,7 +14,7 @@ module.exports = async function getDeeplinks (products) {
       const {data} = await axios.post('http://localhost:3005/deeplink', {
         'deeplink': product.link,
         'pp': 'admitad',
-        'offerId': 14647
+        'offerId': 14482
       })
       product.link = data
 

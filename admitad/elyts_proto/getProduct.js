@@ -10,82 +10,85 @@ module.exports = async function getProduct (productLink) {
     const productOptions = getOptions(null, productLink)
     const { data } = await axios.get( ...productOptions )
     const dom = new JSDOM(data).window.document
-
+    const article = dom.querySelector('span[itemprop="mpn"]').textContent
+    let available = +dom.querySelector('.goods-remainder').textContent.split(' ')[0]
+    if (isNaN(available)) available = 1
+    let brand = dom.querySelector('span[itemprop="brand"]').textContent
+    if (brand === 'P.A.R.O.S.H.') brand = 'PAROSH'
     const breadCrumbs = Array.from(dom.querySelectorAll('span[property="name"]'))
       .map(crumb => crumb.textContent)
     const category = breadCrumbs[0]
-    const subcategory = breadCrumbs[breadCrumbs.length - 1]
+    let subcategory = breadCrumbs[breadCrumbs.length - 1]
+    if (subcategory.includes('ые') || subcategory.includes('сс'))
+      subcategory = breadCrumbs[breadCrumbs.length - 2]
 
+    const color = dom.querySelector('.b-product__color__value').textContent.replaceAll('ё', 'е').toLowerCase()
+    let description
+    try { description = dom.querySelector('#goods_description').textContent }
+    catch (e) { description = false }
+    const cashback = +dom.querySelector('.b-cashback').querySelector('span').textContent.replace(' ', '').replace('руб.', '')
     const oldprice = +dom.querySelector('.price-item').querySelector('del').textContent.trim().replaceAll(' ', '').replace('руб.', '')
     const price = +dom.querySelector('.final-price').textContent.trim().replace(' ', '').replace('руб.', '')
-    const cashback = +dom.querySelector('.b-cashback').querySelector('span').textContent.replace(' ', '').replace('руб.', '')
-    console.log(cashback)
+    const sale = +dom.querySelector('.discount-percent').textContent.replace('(-', '').replace('%)', '')
+    let name = dom.querySelector('h1[itemprop="name"]').textContent
+    name = name.includes(', ') ? name.split(', ')[0] : name
+    const images = Array.from(dom.querySelectorAll('.picture-item img')).map(img => img.getAttribute('data-original'))
+    const sizes = Array.from(
+      Array.from(dom.querySelectorAll('.b-size-select__pane')
+      )[0].querySelectorAll('option')).map(size => size.textContent
+      .replace(' (в резерве)', '').replace(' / ', '-').replace(' INT', ''))
 
-    const product = {
-      // id: Math.floor(Math.random() * 9e9) + 1e9,
-      // age: 'Взрослый',
+    const info = {}
+    let country = false
+    let structure = false
+    const params = Array.from(dom.querySelectorAll('.b-title')).map(tag => tag.textContent.trim())
+    const values = Array.from(dom.querySelectorAll('.b-value')).map(tag => tag.textContent.trim())
+    params.forEach((param, idx) => info[param.replace(':', '')] = values[idx])
+    if ('Страна производитель' in info) country = info['Страна производитель']; delete info['Страна производитель']
+    if ('Состав' in info) structure = info['Состав']; delete info['Состав']
+    return {
+      id: Math.floor(Math.random() * 9e9) + 1e9,
+      age: 'Взрослый',
+      article,
+      available,
       benefit: oldprice - price,
-      brand: dom.querySelector('span[itemprop="brand"]').textContent,
-      // brandCountry: false,
-      // brandCountry_t: false,
+      bonus: { cashback },
+      brand,
+      brandCountry: false,
+      brandCountry_t: false,
       category,
-      // category_t: getTransliterate(category),
-      // color: productProto.color && productProto.color.includes(' ')
-      //   ? false
-      //   : productProto.color && productProto.color.includes('/')
-      //     ? productProto.color.split('/')[0].replaceAll('ё', 'е')
-      //     : productProto.color && productProto.color.replaceAll('ё', 'е') || false,
-      // color_t: productProto.color && productProto.color.includes('/')
-      //   ? getTransliterate(productProto.color.split('/')[0] || '')
-      //   : productProto.color
-      //     ? getTransliterate(productProto.color.replaceAll(' ', '-'))
-      //     : false,
-      // country: false,
-      // country_t: false,
-      // create: new Date,
-      // delivery: ['ru', 'rb', 'kz', 'am', 'kg'],
-      // deliveryPrice: false,
-      // description: false,
-      // gender: data.productGender === 'Унисекс' ? 'Мужской' : data.productGender,
-      // installment: true,
-      // images: productProto.media.photoUrls,
-      // like: 0,
-      // link: 'https://www.sportmaster.ru/product/' + productProto.productId + '/',
-      // name: productProto.name,
-      // shop: 'sportmaster',
-      // info: false,
+      category_t: getTransliterate(category),
+      color,
+      color_t: color ? getTransliterate(color) : color,
+      country,
+      country_t: country ? getTransliterate(country) : country,
+      create: new Date,
+      delivery: [ 'ru', 'kz' ],
+      deliveryPrice: 500,
+      description,
+      gender,
+      installment: false,
+      images,
+      like: 0,
+      link: productLink,
+      name,
+      shop: 'elyts',
+      info,
       oldprice,
-      // pp: 'admitad',
+      pp: 'admitad',
       price,
-      sale: +dom.querySelector('.discount-percent').textContent.replace('(-', '').replace('%)', ''),
-      // season: false,
-      // season_t: false,
-      // sizes: [...new Set(productProto.sizes
-      //   .filter(sizeObj => sizeObj.isAvailableOnline)
-      //   .map(sizeObj =>
-      //     data?.productType === 'Одежда'
-      //       ? sizeObj?.sizeEur || sizeObj?.sizeRus
-      //       : sizeObj?.sizeRus)
-      //   .filter(size => !!size !== false)
-      //   .map(size => size.toString().trim()
-      //     .replace('2XS', 'XXS')
-      //     .replace('XX', '2X')
-      //     .replace('XXX', '3X')
-      //     .replace('XXXX', '4X')
-      //     .replace('Б/р', 'one size')
-      //     .replace('Без размера', 'one size')
-      //     .replace('/', '-')
-      //     .replace(' 7"', '')
-      //   )
-      // )].filter(size => size !== '2X' || size !== '1X'),
-      // style: 'спортивный',
-      // style_t: getTransliterate('спортивный'),
-      // structure: false,
+      sale,
+      season: false,
+      season_t: false,
+      sizes,
+      style: false,
+      style_t: false,
+      structure,
       subcategory,
-      // subcategory_t: getTransliterate(subcategory).replaceAll(' ', '-')
+      subcategory_t: getTransliterate(subcategory).replaceAll(' ', '-')
     }
-    return product
   } catch (e) {
+    console.log(e)
     console.log('Товар', productLink, 'не собран')
     return null
   }

@@ -17,7 +17,7 @@ module.exports = async function getProducts (gender) {
   // информирую что на первой странице
   console.log('1 page', gender)
   // прохожусь по товарам первой страницы
-  // for (let productProto of productsOnePage.slice(0,2)) {
+  // for (let productProto of productsOnePage.slice(0,1)) {
   for (let productProto of productsOnePage) {
     // получаю продукт, вношу в общий массив
     const product = await getProduct(productProto)
@@ -28,7 +28,7 @@ module.exports = async function getProducts (gender) {
     await sleep(1500)
   }
   // прохожусь по остальным страницам пагинации
-  // for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2).slice(0,2)) {
+  // for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2).slice(0,1)) {
   for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2)) {
     try {
       // информирую на какой странице
@@ -38,7 +38,7 @@ module.exports = async function getProducts (gender) {
       const resSecond = await axios.post( ...options )
       const productsOtherPage = resSecond.data.payload.products
       // прохожусь по товарам страницы
-      // for (let productProto of productsOtherPage.slice(0,2)) {
+      // for (let productProto of productsOtherPage.slice(0,1)) {
       for (let productProto of productsOtherPage) {
         // получаю продукт, вношу в общий массив
         const product = await getProduct(productProto)

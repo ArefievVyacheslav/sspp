@@ -2,7 +2,7 @@
 // women https://elyts.ru/catalog/man/sale/filter/brand-is-alpha%20industries-or-armani%20jeans-or-billionaire-or-brioni-or-carhartt%20wip-or-clarks%20originals-or-converse-or-corneliani-or-diesel-or-dr.%20martens-or-dsquared2-or-ea7-or-emporio%20armani-or-emporio%20armani%20underwear-or-frankie%20morello-or-fred%20perry-or-geox-or-gianfranco%20ferre-or-giorgio%20armani-or-ice%20play-or-just%20cavalli-or-napapijri-or-off-white-or-palm%20angels-or-paul%20smith-or-philippe%20model-or-puma-or-ray%20ban-or-replay-or-roberto%20cavalli-or-saint%20laurent-or-stone%20island-or-strellson-or-the%20north%20face-or-tommy%20hilfiger-or-tommy%20jeans-or-versace-or-versace%20collection-or-versace%20jeans%20couture/?PAGEN_1=2
 // product https://elyts.ru/product/pidjak-strellson-859279-pink/
 
-module.exports = function getOptions (gender, page, productLink) {
+module.exports = function getOptions (gender, productLink) {
 
     gender === 'men'
       ? gender = 2
@@ -33,7 +33,7 @@ module.exports = function getOptions (gender, page, productLink) {
   },
   {responseType: "arraybuffer"}
     ]
-//   genderOptions[1]['page'] = 1
+  genderOptions[1]['page'] = 1
 
   const productOptions = ['https://www.brd.ru/product/eqytj03272-kvj0-muzhskaya-snoubordicheskaya-kurtka-in-the-hood', {
     headers: {

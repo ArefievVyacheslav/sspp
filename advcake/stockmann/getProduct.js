@@ -43,6 +43,10 @@ module.exports = async function getProduct (productProto) {
     uniqueSizes.forEach(function (size, ind) {
       uniqueSizes[ind] = size.replaceAll('XXXXL', '4XL').replaceAll('XXXL', '3XL').replaceAll('XXL', '2XL')
     })
+    const removeTrailingSpace = str => str.endsWith(" ") ? str.slice(0, -1) : str;
+    let subcategory = removeTrailingSpace(data.payload.breadcrumbs[data.payload.breadcrumbs.length - 3].name)
+    if (subcategory === 'Кеды и кроссовки')
+      subcategory = data.payload.breadcrumbs[data.payload.breadcrumbs.length - 2].name
     const product = {
       id: Math.floor(Math.random() * 9e9) + 1e9,
       age: 'Взрослый',
@@ -50,8 +54,12 @@ module.exports = async function getProduct (productProto) {
       brand: productProto.brand.toUpperCase(),
       brandCountry: false,
       brandCountry_t: false,
-      category: data.payload.breadcrumbs[2].name,
-      category_t: getTransliterate(data.payload.breadcrumbs[2].name),
+      category: data.payload.breadcrumbs[2].name === 'Инвентарь'
+        ? 'Аксессуары'
+        : data.payload.breadcrumbs[2].name,
+      category_t: data.payload.breadcrumbs[2].name === 'Инвентарь'
+        ? 'Аксессуары'
+        : getTransliterate(data.payload.breadcrumbs[2].name),
       color: colorValue && !colorValue.includes(' ')
       ? colorValue.replaceAll('ё', 'е').replaceAll(';', '-')
       : false,
@@ -74,7 +82,7 @@ module.exports = async function getProduct (productProto) {
       name: productProto.name + ' ' + productProto.brand,
       shop: 'stockmann',
       info: data.payload.properties.length >= 3
-        ? data.payload.properties.slice(2).map(property => property.name + ': ' + property.value)
+        ? data.payload.properties.slice(2).reduce((acc, property) => acc[property.name.replace(':', '')] = property.value, {})
         : false,
       oldprice: productProto.price,
       pp: 'advcake',
@@ -92,8 +100,8 @@ module.exports = async function getProduct (productProto) {
         ? getTransliterate(styleValue)
         : false,
       structure: data.payload.properties[1].value.replaceAll(';', ',').split(','),
-      subcategory: data.payload.breadcrumbs[data.payload.breadcrumbs.length - 3].name,
-      subcategory_t: getTransliterate(data.payload.breadcrumbs[data.payload.breadcrumbs.length - 3].name).replaceAll(' ', '-')
+      subcategory,
+      subcategory_t: getTransliterate(subcategory).replaceAll(' ', '-')
     }
     if (product.subcategory === 'Сумки' || product.subcategory === 'Рюкзаки'
       || product.subcategory === 'Бейсболки' || product.subcategory === 'Гетры'
@@ -109,6 +117,10 @@ module.exports = async function getProduct (productProto) {
       || product.subcategory === 'Мужчинам' || product.subcategory === 'Женщинам' || product.subcategory === 'Одежда'
       || product.subcategory === 'Обувь') return
     if (product.sizes.length === 0) return
+    if (product.category.length > 20) return
+    if (product.category.includes('чин') || product.category.includes('щин') || product.category.includes('г')
+      || product.category.includes('л') || product.category.includes('нн')
+      || product.category.includes('з') || product.category.includes('до')) return
     return product
   } catch (e) {
     console.log('Товар', 'https://stockmann.ru' + productProto.link, 'не удалось собрать!')

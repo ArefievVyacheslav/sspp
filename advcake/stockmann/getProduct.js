@@ -1,6 +1,7 @@
 const axios = require('axios')
 const getOptions = require('./getOptions')
 const getTransliterate = require('./getTransliterate')
+const convertSizes = require('./getSizes')
 
 
 module.exports = async function getProduct (productProto) {
@@ -41,12 +42,30 @@ module.exports = async function getProduct (productProto) {
 
     const uniqueSizes = [ ...new Set(notUniqueSizes)].map(convertSize).map(replaceOneSize)
     uniqueSizes.forEach(function (size, ind) {
-      uniqueSizes[ind] = size.replaceAll('XXXXL', '4XL').replaceAll('XXXL', '3XL').replaceAll('XXL', '2XL')
+      uniqueSizes[ind] = size.trim().replaceAll('XXXXL', '4XL').replaceAll('XXXL', '3XL').replaceAll('М', 'M')
+        .replaceAll('XXL', '2XL').replaceAll('XXS', '2XS').replaceAll('XXS', '2XS')
     })
     const removeTrailingSpace = str => str.endsWith(" ") ? str.slice(0, -1) : str;
     let subcategory = removeTrailingSpace(data.payload.breadcrumbs[data.payload.breadcrumbs.length - 3].name)
-    if (subcategory === 'Кеды и кроссовки')
+    if (subcategory !== 'Сорочки и рубашки' && subcategory.includes(' и '))
       subcategory = data.payload.breadcrumbs[data.payload.breadcrumbs.length - 2].name
+    const gender = data.payload.breadcrumbs[1].name === "Мужчинам"
+      ? 'Мужской'
+      : 'Женский'
+    const nextPurchase = data.payload.bonusAddicted || false
+
+    const category = data.payload.breadcrumbs[2].name === 'Инвентарь'
+      ? 'Аксессуары'
+      : data.payload.breadcrumbs[2].name
+
+    let sizes = uniqueSizes[0] === 'один размер'
+      || (category === 'Аксессуары' && !uniqueSizes.some(size => size.includes('X')
+        || size.includes('S') || size.includes('M') || size.includes('L')))
+          ? ['one size']
+          : convertSizes({ sizes: uniqueSizes.filter(size => size !== 'R' && !size.includes('R')), subcategory, gender })
+    if (category === 'Одежда' && !sizes.some(size => size.includes('X') || size.includes('S')
+      || size.includes('M') || size.includes('L'))) return null
+
     const product = {
       id: Math.floor(Math.random() * 9e9) + 1e9,
       age: 'Взрослый',
@@ -54,12 +73,9 @@ module.exports = async function getProduct (productProto) {
       brand: productProto.brand.toUpperCase(),
       brandCountry: false,
       brandCountry_t: false,
-      category: data.payload.breadcrumbs[2].name === 'Инвентарь'
-        ? 'Аксессуары'
-        : data.payload.breadcrumbs[2].name,
-      category_t: data.payload.breadcrumbs[2].name === 'Инвентарь'
-        ? 'Аксессуары'
-        : getTransliterate(data.payload.breadcrumbs[2].name),
+      bonus: { nextPurchase },
+      category,
+      category_t: getTransliterate(category),
       color: colorValue && !colorValue.includes(' ')
       ? colorValue.replaceAll('ё', 'е').replaceAll(';', '-')
       : false,
@@ -72,9 +88,7 @@ module.exports = async function getProduct (productProto) {
       delivery: ['ru'],
       deliveryPrice: 199,
       description: data.payload.description,
-      gender: data.payload.breadcrumbs[1].name === "Мужчинам"
-        ? 'Мужской'
-        : 'Женский',
+      gender,
       installment: false,
       images: productProto.images.map(image => image.default.webp.src2x),
       like: 0,
@@ -92,9 +106,7 @@ module.exports = async function getProduct (productProto) {
       season_t: seasonValue
         ? getTransliterate(seasonValue)
         : false,
-      sizes: uniqueSizes[0] === 'один размер'
-        ? ['one size']
-        : uniqueSizes,
+      sizes,
       style: styleValue,
       style_t: styleValue
         ? getTransliterate(styleValue)

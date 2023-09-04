@@ -1,7 +1,7 @@
 const axios = require('axios')
 const getOptions = require('./getOptions')
 const getTransliterate = require('./getTransliterate')
-const convertSizes = require('./getSizes')
+const convertSizes = require('../../utils/getSizes')
 
 
 module.exports = async function getProduct (productProto) {

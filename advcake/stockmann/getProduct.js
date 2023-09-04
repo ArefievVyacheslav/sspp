@@ -64,7 +64,7 @@ module.exports = async function getProduct (productProto) {
           ? ['one size']
           : convertSizes({ sizes: uniqueSizes.filter(size => size !== 'R' && !size.includes('R')), subcategory, gender })
     if (category === 'Одежда' && !sizes.some(size => size.includes('X') || size.includes('S')
-      || size.includes('M') || size.includes('L'))) return null
+      || size.includes('M') || size.includes('L') || !size.includes('STCK'))) return null
 
     const product = {
       id: Math.floor(Math.random() * 9e9) + 1e9,

@@ -63,7 +63,6 @@ module.exports = async function getProduct (productLink, gender) {
     const price = parseInt(dom.querySelector('div.prices').querySelector('span[itemprop="price"]').textContent)
 
     let structure = dom.querySelector('div.composition-info')
-    // if (structure) structure = structure.textContent.split('/')
     if (structure) {
         structure = structure.textContent.split('/');
         structure[0] = structure[0].split(':')[1];
@@ -73,10 +72,6 @@ module.exports = async function getProduct (productLink, gender) {
       } else {
         structure = false;
       }
-    // structure[0] = structure[0].split(':')[1]
-    // for (let num in structure) {
-    //     structure[num] = structure[num].trim();
-    //   }
 
     const product = {
       id: Math.floor(Math.random() * 9e9) + 1e9,
@@ -86,7 +81,7 @@ module.exports = async function getProduct (productLink, gender) {
       brandCountry: false,
       brandCountry_t: false,
       category,
-    //   category_t: getTransliterate(category),
+      category_t: getTransliterate(category),
       color: colors[colors.length - 1].textContent,
       color_t: getTransliterate(colors[colors.length - 1].textContent),
       country: false,

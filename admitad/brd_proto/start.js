@@ -10,7 +10,7 @@ const getProducts = require('./getProducts');
 
   // получаю продукты
   const getMenProductsPromise = getProducts('men')
-  const getWomenProductsPromise = getProducts('women')
+//   const getWomenProductsPromise = getProducts('women')
 
   try {
     // Дожидаюсь выполнения обеих функций

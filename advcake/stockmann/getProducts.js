@@ -25,7 +25,7 @@ module.exports = async function getProducts (gender) {
     // информирую о кол-ве собранных товаров
     console.log(products.length, ' products', gender)
     // пауза, чтоб незалочили
-    await sleep(1500)
+    await sleep(1000)
   }
   // прохожусь по остальным страницам пагинации
   // for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2).slice(0,1)) {
@@ -46,7 +46,7 @@ module.exports = async function getProducts (gender) {
         // информирую о кол-ве собранных товаров
         console.log(products.length, ' products', gender)
         // пауза, чтоб незалочили
-        await sleep(1500)
+        await sleep(1000)
       }
     } catch (e) {
       console.log(page + ' СТРАНИЦА НЕ СОБРАНА', gender)

@@ -98,7 +98,7 @@ module.exports = async function getProduct (productProto) {
     if (product.subcategory === 'Весенние' || product.subcategory === 'Классические' || product.subcategory === 'Аксессуары'
       || product.subcategory === 'Мужчинам' || product.subcategory === 'Одежда') return
     if (product.sizes.length === 0) return
-    product.sizes = convertSizes({ sizes, subcategory,gender } = product)
+    product.sizes = convertSizes({ sizes, subcategory, gender } = product)
     return product
   } catch (e) {
     console.log(e)

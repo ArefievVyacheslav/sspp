@@ -21,11 +21,11 @@ const getProducts = require('./getProducts');
     console.log('Завершение парсинга в ', endDate.getHours() + ':' + endDate.getMinutes() + ':' + endDate.getSeconds())
 
     // // обновление продуктов
-    // await axios.post('http://localhost:3005/update-products', { shop: 'sportmaster' })
+    await axios.post('http://localhost:3005/update-products', { shop: 'sportmaster' })
     //
     // // сброс кэша
     // // await axios.get('https://api.do-2000.store/clear-cache')
-    // await axios.get('http://localhost:3004/clear-cache')
+    await axios.get('http://localhost:3004/clear-cache')
   } catch (e) {
     console.log(e)
     console.log('В ходе парсинга произошла ошибка!')

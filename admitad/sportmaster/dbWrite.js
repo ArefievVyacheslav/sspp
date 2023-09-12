@@ -2,7 +2,6 @@ const { MongoClient } = require('mongodb')
 const client = new MongoClient('mongodb://localhost:27017')
 let counter = 0
 
-
 module.exports = async function dbWrite (products) {
   counter += 1
   try {

@@ -5,7 +5,6 @@ const getProduct = require('./getProduct')
 const getDeeplinks = require('./getDeeplinks')
 const getOptions = require('./getOptions')
 const dbWrite = require('./dbWrite')
-const fs = require('fs');
 
 
 module.exports = async function getProducts (gender) {
@@ -60,9 +59,8 @@ module.exports = async function getProducts (gender) {
     }
   }
     // записываю товары с партнёрскими ссылками в базу
-    // console.log('получаю диплинки для ' + gender.toUpperCase() + ' товаров')
-    // const productsTotal = await getDeeplinks(products.filter(product => product))
-    // console.log('записываю в базу ' + gender.toUpperCase() + ' товары')
-    // await dbWrite(productsTotal)
-  fs.writeFileSync(`${gender}.json`, JSON.stringify(products, null, 4), 'utf-8');
+    console.log('получаю диплинки для ' + gender.toUpperCase() + ' товаров')
+    const productsTotal = await getDeeplinks(products.filter(product => product))
+    console.log('записываю в базу ' + gender.toUpperCase() + ' товары')
+    await dbWrite(productsTotal)
   }

@@ -25,6 +25,7 @@ module.exports = async function getProduct (productProto) {
       subcategory = productProto.section_path[productProto.section_path.length - 2].name
     if (subcategory === 'Высокая посадка') subcategory = 'Джинсы с высокой посадкой'
     if (subcategory === 'Леггинсы') subcategory = 'Легинсы'
+    if (subcategory === 'Брюки-карго') subcategory = 'Брюки карго'
     if (subcategory === 'Аксессуары') return null
     let brand = productProto.brand.name === 'BOGNER FIRE + ICE' ? 'BOGNER' : productProto.brand.name
     if (brand === 'P.A.R.O.S.H.') brand = 'PAROSH'

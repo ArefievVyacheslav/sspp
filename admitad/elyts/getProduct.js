@@ -5,7 +5,7 @@ const getTransliterate = require('./getTransliterate')
 
 
 // async function getProduct (productLink, gender, sizes) {
-module.exports = async function getProduct (productLink, gender, sizes) {
+module.exports = async function getProduct (productLink, gender, sizes, imageCatalog) {
   if (!sizes) return null
   try {
     // получаю данные по товару
@@ -16,14 +16,18 @@ module.exports = async function getProduct (productLink, gender, sizes) {
     const productGender = gender === 'men' ? 'Мужской' : 'Женский'
     let available = +dom.querySelector('.goods-remainder').textContent.split(' ')[0]
     if (isNaN(available)) available = 1
-    let brand = dom.querySelector('span[itemprop="brand"]').textContent
+    let brand = dom.querySelector('span[itemprop="brand"]').textContent.toUpperCase()
     if (brand === 'P.A.R.O.S.H.') brand = 'PAROSH'
+    if (brand === 'Dr. MARTENS') brand = 'DR MARTENS'
     const breadCrumbs = Array.from(dom.querySelectorAll('span[property="name"]'))
       .map(crumb => crumb.textContent)
     let category = breadCrumbs[0]
     if (category === 'Sale' || category === 'Plus size') category = breadCrumbs[1]
-    let subcategory = breadCrumbs[breadCrumbs.length - 1]
+    let subcategory = breadCrumbs[breadCrumbs.length - 1].trim()
     if (subcategory.includes('ые') || subcategory.includes('ие') || subcategory.includes('сс'))
+      subcategory = breadCrumbs[breadCrumbs.length - 2]
+    if (subcategory === 'Дубленки') subcategory = 'Дублёнки'
+    if (subcategory === 'Плащи и тренчи') subcategory = 'Тренчи и плащи'
       subcategory = breadCrumbs[breadCrumbs.length - 2]
     if (category === 'Сумки') {
       category = 'Аксессуары'
@@ -64,8 +68,20 @@ module.exports = async function getProduct (productLink, gender, sizes) {
     if (category === 'Одежда')
       sizes = sizes.filter(size => size.includes('X') || size.includes('S') || size.includes('M') || size.includes('L'))
     if (category === 'Обувь')
-      sizes = sizes.filter(size => !size.includes('X') || !size.includes('S') || !size.includes('M') || !size.includes('L') || +size < 52)
+      sizes = sizes.filter(size => !size.includes('X') && !size.includes('S') && !size.includes('M') && !size.includes('L') && +size < 52)
 
+    const reviews = {}
+    if (dom.querySelector('.b-reviews-list.mb-4')) {
+      reviews.rating = dom.querySelector('span[itemprop="ratingValue"]').getAttribute('content')
+      reviews.reviews = Array.from(dom.querySelectorAll('.b-reviews-item.row'))
+        .filter(tag => tag.querySelector('.b-reviews-item__content'))
+        .map(review => ({
+          rating : review.querySelector('[itemprop="ratingValue"]').getAttribute('content'),
+          author : review.querySelector('.b-reviews-item__content').textContent,
+          text : review.querySelector('.review-author.mr-1').textContent,
+          date : review.querySelector('.review-date').textContent.replace('(','').replace(')','')
+        }))
+    }
     return {
       id: Math.floor(Math.random() * 9e9) + 1e9,
       age: 'Взрослый',
@@ -88,6 +104,7 @@ module.exports = async function getProduct (productLink, gender, sizes) {
       gender: productGender,
       installment: false,
       images,
+      imageCatalog,
       like: 0,
       link: productLink,
       name,
@@ -96,6 +113,7 @@ module.exports = async function getProduct (productLink, gender, sizes) {
       oldprice,
       pp: 'admitad',
       price,
+      reviews,
       sale,
       season: false,
       season_t: false,
@@ -115,6 +133,6 @@ module.exports = async function getProduct (productLink, gender, sizes) {
 
 
 // (async function (){
-//   // console.log(await getProduct('https://elyts.ru/product/bryuki-liu-jo-864989-grey/', 'Мужской'))
-//   console.log(await getProduct('https://elyts.ru/product/pidjak-liu-jo-865129-pink/', 'Мужской', [ 'XS', 'S', 'M' ]))
+//   await getProduct('https://elyts.ru/product/kurtka-liu-jo-875021-blue/', 'Мужской', [ 'XS', 'S', 'M' ])
+//   // console.log(await getProduct('https://elyts.ru/product/pidjak-liu-jo-865129-pink/', 'Мужской', [ 'XS', 'S', 'M' ]))
 // })()

@@ -6,14 +6,14 @@ const convertSizes = require('../../utils/getSizesBrd');
 const iconv = require('iconv-lite');
 
 
-module.exports = async function getProduct (productLink, gender) {
+module.exports = async function getProduct (productLink, gender, imageCatalog) {
   try {
     // получаю данные по товару
     const productOptions = getOptions(null, null, productLink)
     const productRes = await axios.post( ...productOptions )
     const ruHtmlProduct = iconv.decode(productRes.data, "win1251")
     const dom = new JSDOM(ruHtmlProduct).window.document
-    if (dom.querySelector('div.last-item-list') === null && dom.querySelector('span.last-item-text').textContent == 'Нет в наличии.') throw new Error('Во время парсинга товар перестал быть в наличии');
+    if (dom.querySelector('div.last-item-list') === null && dom.querySelector('span.last-item-text').textContent === 'Нет в наличии.') throw new Error('Во время парсинга товар перестал быть в наличии');
 
     const breadCrumbs = Array.from(dom.querySelector('nav[class="breadcrumbs"]').querySelectorAll('span[itemprop="name"]'))
       .map(crumb => crumb.textContent.toLowerCase())
@@ -23,14 +23,10 @@ module.exports = async function getProduct (productLink, gender) {
 
     const fullNameArr = dom.querySelector('header h1[itemprop="name"]').textContent.split(' ')
     // функция выбирает из массива слова на кириллице и без символа "-"
-    function checkArr(fullName) {
-      let nameArr = [];
-      for (let word of fullName) {
-        if (/^[А-ЯЁ-]+$/i.test(word)) nameArr.push(word);
-      }
-      return nameArr
-    }
-    let nameArrayCyrillic = checkArr(fullNameArr)
+    let nameArrayCyrillic = fullNameArr.reduce((acc, word) => {
+      if (/^[А-ЯЁ-]+$/i.test(word)) acc.push(word)
+      return acc
+    }, [])
 
     let category;
     let subcategory;
@@ -49,6 +45,27 @@ module.exports = async function getProduct (productLink, gender) {
         .replaceAll('женский', '').replaceAll('женская', '').replaceAll('женские', '').trim()
       subcategory = subcategory[0].toUpperCase() + subcategory.slice(1)
     }
+    subcategory = subcategory.replaceAll('  ', ' ').trim()
+    if (subcategory === 'Ботинки сноуборд') subcategory = 'Ботинки для сноуборда'
+    if (subcategory === 'Ботинки для сноуборда') category = 'Обувь'
+    if (subcategory === 'Головные уборы для сноубординга') category = 'Аксессуары'
+    if (subcategory === 'Леггинсы') subcategory = 'Легинсы'
+    if (subcategory === 'Спортивные леггинсы') subcategory = 'Легинсы'
+    if (subcategory === 'Спортивные шорты') subcategory = 'Шорты'
+    if (subcategory === 'Сноубордические перчатки') subcategory = 'Сноубордические перчатки и варежки'
+    if (subcategory === 'Сноубордические перчатки и варежки') category = 'Аксессуары'
+    if (subcategory === 'Флисовая толстовка на молнии') subcategory = 'Флисовые толстовки'
+    if (subcategory === 'Флисовая толстовка') subcategory = 'Флисовые толстовки'
+    if (subcategory === 'Толстовки, худи, свитшоты') subcategory = 'Толстовки'
+    if (subcategory === 'Шлепанцы (сланцы)') subcategory = 'Сланцы'
+    if (subcategory === 'Рашгарды для серфинга и плавания') subcategory = 'Рашгарды для плавания и серфинга'
+    if (subcategory === 'Бордшорты (шорты для плавания)') subcategory = 'Бордшорты'
+    if (subcategory === 'Бордшорты') category = 'Одежда'
+    if (subcategory === 'Гидрокостюмы') category = 'Одежда'
+    if (subcategory === 'Носки') category = 'Одежда'
+    if (subcategory === 'Плавательные шорты') category = 'Одежда'
+    if (subcategory === 'Гидрообувь') category = 'Обувь'
+
 
     let brand = dom.querySelector('meta[itemprop=brand]').getAttribute('content').toUpperCase()
     nameArrayCyrillic.push(brand)
@@ -57,15 +74,13 @@ module.exports = async function getProduct (productLink, gender) {
       .map(infoElement => infoElement.trim())
 
     let sale = parseInt(dom.querySelector('div.product-card__label.product-card__label--sale').textContent)
-    if (sale < 0) {
-      sale = sale * -1;
-    }
+    if (sale < 0) sale = sale * -1
 
     let sizes = [];
     const options = dom.querySelector('div.option.text')
     let labels = Array.from(options.querySelectorAll('.options-item.js-ab-prinfo-add-popup-size-hover'));
     for (let label of labels) {
-      if (label.getAttribute('class') == 'options-item js-ab-prinfo-add-popup-size-hover ') sizes.push(label);
+      if (label.getAttribute('class') === 'options-item js-ab-prinfo-add-popup-size-hover ') sizes.push(label);
     }
     sizes = Array.from(sizes).map(size => size.querySelector('span').textContent.replaceAll('W', '').replaceAll('/', '-').replaceAll(' ', '').replace(/\u00A0/g, "").replaceAll('-L', '-'));
 
@@ -76,25 +91,20 @@ module.exports = async function getProduct (productLink, gender) {
     if (structure) {
       structure = structure.textContent.split('/');
       structure[0] = structure[0].split(':')[1];
-      for (let num in structure) {
-        structure[num] = structure[num].trim();
-      };
-    } else {
-      structure = false;
-    }
-    if (sizes[0] == '') {
-      sizes = [ 'one size' ]
-    }
+      structure.forEach(num => structure[num] = structure[num] ? structure[num].trim() : 'Неизвестно')
+    } else structure = false
+
+    if (sizes[0] === '') sizes = [ 'one size' ]
     for (let sizeNum in  sizes) {
-      if (sizes[sizeNum] == 'OneSize' || sizes[sizeNum] == '1SZ' || sizes[sizeNum] == 'U') sizes = [ 'one size' ];
-      if ((category == 'Обувь') && (sizes[sizeNum].indexOf('H') !== -1 || sizes[sizeNum].indexOf('Н') !== -1)) {
+      if (sizes[sizeNum] === 'OneSize' || sizes[sizeNum] === '1SZ' || sizes[sizeNum] === 'U') sizes = [ 'one size' ];
+      if ((category === 'Обувь') && (sizes[sizeNum].indexOf('H') !== -1 || sizes[sizeNum].indexOf('Н') !== -1)) {
         sizes[sizeNum] = sizes[sizeNum].replaceAll('H', '').replaceAll('Н', '').split('-');
         sizes[sizeNum] = Math.max(...sizes[sizeNum]).toString();
       }
-      if ((brand == 'DC SHOES' && subcategory == "Брюки") && (sizes[sizeNum].indexOf('-') !== -1)) sizes[sizeNum] = sizes[sizeNum].split('-')[0];
-      if (subcategory == 'Платья') sizes[sizeNum] = sizes[sizeNum].split('-')[0];
-      if (brand == 'ELEMENT' && subcategory == "Футболки, поло, лонгсливы") sizes[sizeNum] = sizes[sizeNum].split('-')[0];
-      if (category == 'Одежда') sizes[sizeNum] = sizes[sizeNum].replaceAll('XXXX', '4X').replaceAll('XXX', '3X').replaceAll('XX', '2X');
+      if ((brand === 'DC SHOES' && subcategory === "Брюки") && (sizes[sizeNum].indexOf('-') !== -1)) sizes[sizeNum] = sizes[sizeNum].split('-')[0];
+      if (subcategory === 'Платья') sizes[sizeNum] = sizes[sizeNum].split('-')[0];
+      if (brand === 'ELEMENT' && subcategory === "Футболки, поло, лонгсливы") sizes[sizeNum] = sizes[sizeNum].split('-')[0];
+      if (category === 'Одежда') sizes[sizeNum] = sizes[sizeNum].replaceAll('XXXX', '4X').replaceAll('XXX', '3X').replaceAll('XX', '2X');
       // skip products with invalid sizes
       if ((parseInt(sizes[sizeNum]) && parseInt(sizes[sizeNum]) > 100)) return
       if (!(/\w+$/i.test(sizes[sizeNum]))) return
@@ -132,14 +142,14 @@ module.exports = async function getProduct (productLink, gender) {
       country: false,
       country_t: false,
       create: new Date,
-      delivery: ['ru'],
+      delivery: ['ru','rb','kz','kg','am'],
       deliveryPrice: false,
       description: false,
       gender: gender === 'men'
         ? 'Мужской'
         : 'Женский',
       installment: true,
-      imageCatalog : imageLinksArray[0],
+      imageCatalog,
       images: imageLinksArray,
       like: 0,
       link: productLink,
@@ -172,7 +182,8 @@ module.exports = async function getProduct (productLink, gender) {
         : false
     }
     product.sizes = convertSizes({ sizes, brand, subcategory, gender } = product)
-    if (product.imageCatalog == '') return
+      .map(size => size.replaceAll(',', '.').replaceAll('XXL', '2XL'))
+    if (product.imageCatalog === '') return
     return product
   } catch (e) {
     console.log('Товар', productLink, 'не собран', e)

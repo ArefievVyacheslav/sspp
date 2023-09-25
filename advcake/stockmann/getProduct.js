@@ -130,6 +130,7 @@ module.exports = async function getProduct (productProto) {
       || product.subcategory === 'Обувь') return
     if (product.sizes.length === 0) return
     if (product.category.length > 20) return
+    if (product.brand === 'LAUREN RALPH LAUREN') product.brand = 'RALPH LAUREN'
     if (product.category.includes('чин') || product.category.includes('щин') || product.category.includes('г')
       || product.category.includes('л') || product.category.includes('нн')
       || product.category.includes('з') || product.category.includes('до')) return

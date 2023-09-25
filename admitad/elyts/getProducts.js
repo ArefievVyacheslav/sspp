@@ -20,15 +20,17 @@ module.exports = async function getProducts (gender) {
     .map(tag => Array.from(tag.querySelectorAll('.size-item')).filter(size => !size.className.includes('rezerve')).map(sizeTag => sizeTag.textContent))
   const productsLinksOnePage = Array.from(dom.querySelectorAll('.product__images'))
     .map(link => 'https://elyts.ru' + link.getAttribute('href'))
+  const imagesOnePage = Array.from(dom.querySelectorAll('.product-item-image-slide.item.active'))
+    .map(tag => tag.querySelector('img').getAttribute('src'))
   // информирую что на первой странице
   console.log('1 page', gender)
   // прохожусь по товарам первой страницы
-  // for (let productLink of productsLinksOnePage.slice(0,5)) {
-  for (let productLink of productsLinksOnePage) {
+  // for (let [idx, productLink] of productsLinksOnePage.slice(0,2).entries()) {
+  for (let [idx, productLink] of productsLinksOnePage.entries()) {
     // получаю продукт, вношу в общий массив
-    let sizes = sizeWrap[ productsLinksOnePage.indexOf(productLink) ]
+    let sizes = sizeWrap[idx]
     if (sizes && sizes.some(size => size.includes(' / '))) sizes = sizes.map(size => size.split(' / ')[0])
-    const product = await getProduct(productLink, gender, sizes)
+    const product = await getProduct(productLink, gender, sizes, imagesOnePage[idx])
     if (product) products.push(product)
     // информирую о кол-ве собранных товаров
     console.log(products.length, ' products', gender)
@@ -36,7 +38,7 @@ module.exports = async function getProducts (gender) {
     await sleep(1500)
   }
   // прохожусь по остальным страницам пагинации
-  // for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2).slice(0,5)) {
+  // for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2).slice(0,2)) {
   for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2)) {
     try {
       // информирую на какой странице
@@ -50,13 +52,15 @@ module.exports = async function getProducts (gender) {
         .map(tag => Array.from(tag.querySelectorAll('.size-item')).filter(size => !size.className.includes('rezerve')).map(sizeTag => sizeTag.textContent))
       const productsLinksOtherPage = Array.from(domSecond.querySelectorAll('.product__images'))
         .map(link => 'https://elyts.ru' + link.getAttribute('href'))
+      const imagesOtherPage = Array.from(domSecond.querySelectorAll('.product-item-image-slide.item.active'))
+        .map(tag => tag.querySelector('img').getAttribute('src'))
       // прохожусь по товарам страницы
-      // for (let productLink of productsLinksOtherPage.slice(0,5)) {
-      for (let productLink of productsLinksOtherPage) {
+      // for (let [idx, productLink] of productsLinksOtherPage.slice(0,2).entries()) {
+      for (let [idx, productLink] of productsLinksOtherPage.entries()) {
         // получаю продукт, вношу в общий массив
         let sizes = sizeOtherWrap[ productsLinksOtherPage.indexOf(productLink) ]
         if (sizes && sizes.some(size => size.includes(' / '))) sizes = sizes.map(size => size.split(' / ')[0])
-        const product = await getProduct(productLink, gender, sizes)
+        const product = await getProduct(productLink, gender, sizes, imagesOtherPage[idx])
         if (product) products.push(product)
         // информирую о кол-ве собранных товаров
         console.log(products.length, ' products', gender)

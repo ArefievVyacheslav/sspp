@@ -20,7 +20,6 @@ module.exports = async function dbWrite (products) {
         products: products
       })
     }
-    console.log('закончил запись мужских товаров в базу')
     await client.close()
   } catch (e) {
     console.log(e)

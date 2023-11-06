@@ -18,7 +18,9 @@ module.exports = async function getProduct (productLink, gender, sizes, imageCat
     if (isNaN(available)) available = 1
     let brand = dom.querySelector('span[itemprop="brand"]').textContent.toUpperCase()
     if (brand === 'P.A.R.O.S.H.') brand = 'PAROSH'
+    if (brand === 'DOLCE&GABBANA') brand = 'DOLCE & GABBANA'
     if (brand === 'Dr. MARTENS') brand = 'DR MARTENS'
+    if (brand === 'DR. MARTENS') brand = 'DR MARTENS'
     const breadCrumbs = Array.from(dom.querySelectorAll('span[property="name"]'))
       .map(crumb => crumb.textContent)
     let category = breadCrumbs[0]

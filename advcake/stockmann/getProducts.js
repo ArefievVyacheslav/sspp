@@ -15,46 +15,47 @@ module.exports = async function getProducts (gender) {
   const pagesCount = res.data.payload.pagination.total
   const productsOnePage = res.data.payload.products
   // информирую что на первой странице
+  console.log(pagesCount, productsOnePage)
   console.log('1 page', gender)
-  // прохожусь по товарам первой страницы
-  // for (let productProto of productsOnePage.slice(0,1)) {
-  for (let productProto of productsOnePage) {
-    // получаю продукт, вношу в общий массив
-    const product = await getProduct(productProto)
-    if (product) products.push(product)
-    // информирую о кол-ве собранных товаров
-    console.log(products.length, ' products', gender)
-    // пауза, чтоб незалочили
-    await sleep(1000)
-  }
-  // прохожусь по остальным страницам пагинации
-  // for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2).slice(0,1)) {
-  for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2)) {
-    try {
-      // информирую на какой странице
-      console.log(page + ' page', gender)
-      // получаю продукты на странице
-      options[1].page = page
-      const resSecond = await axios.post( ...options )
-      const productsOtherPage = resSecond.data.payload.products
-      // прохожусь по товарам страницы
-      // for (let productProto of productsOtherPage.slice(0,1)) {
-      for (let productProto of productsOtherPage) {
-        // получаю продукт, вношу в общий массив
-        const product = await getProduct(productProto)
-        if (product) products.push(product)
-        // информирую о кол-ве собранных товаров
-        console.log(products.length, ' products', gender)
-        // пауза, чтоб незалочили
-        await sleep(1000)
-      }
-    } catch (e) {
-      console.log(page + ' СТРАНИЦА НЕ СОБРАНА', gender)
-    }
-  }
-  // записываю товары с партнёрскими ссылками в базу
-  console.log('получаю диплинки для ' + gender.toUpperCase() + ' товаров')
-  const productsTotal = await getDeeplinks(products.filter(product => product))
-  console.log('записываю в базу ' + gender.toUpperCase() + ' товары')
-  await dbWrite(productsTotal)
+  // // прохожусь по товарам первой страницы
+  // // for (let productProto of productsOnePage.slice(0,1)) {
+  // for (let productProto of productsOnePage) {
+  //   // получаю продукт, вношу в общий массив
+  //   const product = await getProduct(productProto)
+  //   if (product) products.push(product)
+  //   // информирую о кол-ве собранных товаров
+  //   console.log(products.length, ' products', gender)
+  //   // пауза, чтоб незалочили
+  //   await sleep(1000)
+  // }
+  // // прохожусь по остальным страницам пагинации
+  // // for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2).slice(0,1)) {
+  // for (let page of Array.from({ length: pagesCount - 1 }, (_, index) => index + 2)) {
+  //   try {
+  //     // информирую на какой странице
+  //     console.log(page + ' page', gender)
+  //     // получаю продукты на странице
+  //     options[1].page = page
+  //     const resSecond = await axios.post( ...options )
+  //     const productsOtherPage = resSecond.data.payload.products
+  //     // прохожусь по товарам страницы
+  //     // for (let productProto of productsOtherPage.slice(0,1)) {
+  //     for (let productProto of productsOtherPage) {
+  //       // получаю продукт, вношу в общий массив
+  //       const product = await getProduct(productProto)
+  //       if (product) products.push(product)
+  //       // информирую о кол-ве собранных товаров
+  //       console.log(products.length, ' products', gender)
+  //       // пауза, чтоб незалочили
+  //       await sleep(1000)
+  //     }
+  //   } catch (e) {
+  //     console.log(page + ' СТРАНИЦА НЕ СОБРАНА', gender)
+  //   }
+  // }
+  // // записываю товары с партнёрскими ссылками в базу
+  // console.log('получаю диплинки для ' + gender.toUpperCase() + ' товаров')
+  // const productsTotal = await getDeeplinks(products.filter(product => product))
+  // console.log('записываю в базу ' + gender.toUpperCase() + ' товары')
+  // await dbWrite(productsTotal)
 }

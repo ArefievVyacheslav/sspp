@@ -25,11 +25,19 @@ module.exports = async function getProduct (productProto) {
       subcategory = productProto.section_path[productProto.section_path.length - 2].name
     if (subcategory === 'Высокая посадка') subcategory = 'Джинсы с высокой посадкой'
     if (subcategory === 'Леггинсы') subcategory = 'Легинсы'
+    if (subcategory === 'Миди') subcategory = 'Юбки миди'
+    if (subcategory === 'Мини') subcategory = 'Юбки мини'
     if (subcategory === 'Брюки-карго') subcategory = 'Брюки карго'
     if (subcategory === 'Аксессуары') return null
     let brand = productProto.brand.name === 'BOGNER FIRE + ICE' ? 'BOGNER' : productProto.brand.name
     if (brand === 'P.A.R.O.S.H.') brand = 'PAROSH'
+    if (brand === 'DOLCE&GABBANA') brand = 'DOLCE & GABBANA'
+    if (brand === 'ADIDAS&PARLEY') brand = 'ADIDAS & PARLEY'
+    if (brand === 'VASSA&CO') brand = 'VASSA & CO'
+    if (brand === 'VASSA&CO PIN CODE') brand = 'VASSA & CO'
     if (brand === 'MICHAEL MICHAEL KORS') brand = 'MICHAEL KORS'
+    if (brand === 'STELLA MCCARTNEY SPORT') brand = 'STELLA MCCARTNEY'
+    if (brand === 'UGG AUSTRALIA') brand = 'UGG'
     return {
       id: Math.floor(Math.random() * 9e9) + 1e9,
       age: 'Взрослый',

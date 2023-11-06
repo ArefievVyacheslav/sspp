@@ -131,6 +131,10 @@ module.exports = async function getProduct (productProto) {
     if (product.sizes.length === 0) return
     if (product.category.length > 20) return
     if (product.brand === 'LAUREN RALPH LAUREN') product.brand = 'RALPH LAUREN'
+    if (product.brand === 'GERRY WEBER CASUAL') product.brand = 'GERRY WEBER'
+    if (product.brand === 'GERRY WEBER EDITION') product.brand = 'GERRY WEBER'
+    if (product.brand === 'MICHAEL MICHAEL KORS') product.brand = 'MICHAEL KORS'
+    if (product.brand === 'MARC O\'POLO DENIM') product.brand = 'MARC O\'POLO'
     if (product.category.includes('чин') || product.category.includes('щин') || product.category.includes('г')
       || product.category.includes('л') || product.category.includes('нн')
       || product.category.includes('з') || product.category.includes('до')) return

@@ -16,20 +16,20 @@ const getProducts = require('./getProducts');
     // Дожидаюсь выполнения обеих функций
     const [menProducts, womenProducts] = await Promise.all([getMenProductsPromise, getWomenProductsPromise])
 
-    // дата завершения парсинга товаров
-    const endDate = new Date()
-    console.log('Завершение парсинга в ', endDate.getHours() + ':' + endDate.getMinutes() + ':' + endDate.getSeconds())
-
-    // обновление продуктов
-    try {
-      await axios.post('http://localhost:3005/update-products', { shop: 'stockmann' })
-    } catch (e) {
-      console.log('ОБНОВЛЕНИЕ ТОВАРОВ НЕ ПОЛУЧИЛОСЬ, ПОВТОРИ ЗАПРОС НА ОБНОВЛЕНИЕ')
-    }
-
-    // сброс кэша
-    // await axios.get('https://api.do-2000.store/clear-cache')
-    await axios.get('http://localhost:3004/clear-cache')
+    // // дата завершения парсинга товаров
+    // const endDate = new Date()
+    // console.log('Завершение парсинга в ', endDate.getHours() + ':' + endDate.getMinutes() + ':' + endDate.getSeconds())
+    //
+    // // обновление продуктов
+    // try {
+    //   await axios.post('http://localhost:3005/update-products', { shop: 'stockmann' })
+    // } catch (e) {
+    //   console.log('ОБНОВЛЕНИЕ ТОВАРОВ НЕ ПОЛУЧИЛОСЬ, ПОВТОРИ ЗАПРОС НА ОБНОВЛЕНИЕ')
+    // }
+    //
+    // // сброс кэша
+    // // await axios.get('https://api.do-2000.store/clear-cache')
+    // await axios.get('http://localhost:3004/clear-cache')
   } catch (e) {
     console.log(e)
     console.log('В ходе парсинга произошла ошибка!')

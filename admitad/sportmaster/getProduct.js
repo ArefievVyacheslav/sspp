@@ -86,6 +86,7 @@ module.exports = async function getProduct (productProto) {
       product.category = 'Аксессуары'
       product.category_t = getTransliterate(product.category)
     }
+    if (product.subcategory === 'Плавки') product.category = 'Аксессуары'
     if (product.subcategory === 'Джемперы') product.subcategory = ''
     if (product.subcategory === 'Ботинки для сноуборда') {
       product.category = 'Обувь'
